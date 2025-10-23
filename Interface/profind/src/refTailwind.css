@@ -1,0 +1,46 @@
+@import "tailwindcss";
+body {
+  background-color: #161616;
+  color: white;
+}
+.bg-banner {
+  background-color: #303032;
+}
+.bg-def {
+  background-color: #0a0a0c;
+}
+.bg-focus {
+  background-color: #0f0f11;
+}
+/* .prim-bg {
+ background-color: #12151C;
+}
+.secon-bg {
+   background-color: #3A7BDB;
+
+}
+.third-bg {
+ background-color: #E6EBF0;
+
+}
+.forth-bg {
+ background-color: #12151C;
+  
+} */
+.warning-bg {
+  background-color: #e74c3c;
+}
+.secsess-bg{
+  background-color: #2ECC71;
+}
+.warning-bg{
+  background-color: #F39C12
+}
+@media screen and (max-width: 48rem) {
+  #social-image {
+    display: none; /* Hides the element */
+  }
+  #landing-text-with-image {
+    display: block;
+  }
+}
