@@ -1,17 +1,19 @@
 @import "tailwindcss";
 body {
-  background-color: #161616;
-  color: white;
+   background-color: #161616;
+   color: #E6EBF0;
 }
 .bg-banner {
-  background-color: #303032;
+   background-color: #2C313A;
 }
 .bg-def {
-  background-color: #0a0a0c;
+   background-color: #0a0a0c;
 }
 .bg-focus {
-  background-color: #0f0f11;
+   background-color: #0f0f11;
 }
+
+
 /* .prim-bg {
  background-color: #12151C;
 }
@@ -28,19 +30,39 @@ body {
   
 } */
 .warning-bg {
-  background-color: #e74c3c;
+   background-color: #e74c3c;
 }
-.secsess-bg{
-  background-color: #2ECC71;
+.secsess-bg {
+   background-color: #2ecc71;
 }
-.warning-bg{
-  background-color: #F39C12
+.warning-bg {
+   background-color: #d6890c;
+}
+.warning-border{
+  border: #f39c12 solid 1px;
+}
+#Container{
+  @apply py-5 px-5  border rounded-lg  shadow-md hover:shadow-lg shadow-white/2 transition-shadow duration-300;
+  border-color: rgb(204, 216, 255);
+  background-color: #0f0f11;
+}
+#OverflowText{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: 'hallow';
+}
+#OverflowText:hover{
+  overflow: visible;
+  white-space: wrap;
+}
+#MoreButton{
+  @apply px-8 inline-flex shrink-0 items-center justify-center gap-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ease-in-out outline-none focus:shadow-lg  active:shadow disabled:pointer-events-none disabled:opacity-50   rounded-md  border  shadow-xs    h-12 ;
 }
 @media screen and (max-width: 48rem) {
-  #social-image {
-    display: none; /* Hides the element */
-  }
-  #landing-text-with-image {
-    display: block;
-  }
+   #graduation-image {
+      display: none; /* Hides the element */
+   }
+   #landing-text-with-image {
+      display: block;
+   }
 }

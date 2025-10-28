@@ -40,5 +40,5 @@
     ".next/types/**/*.ts",
     "eslint.config.js",
     "reset.d.ts"
-  ],
+, "src/components/CallOutWarning.js"  ],
 }

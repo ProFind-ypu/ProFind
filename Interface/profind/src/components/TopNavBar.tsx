@@ -1,4 +1,3 @@
-import { Button } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 
 const TopNavBar = () => {
@@ -30,18 +29,14 @@ const TopNavBar = () => {
           {/* Sign Up Button */}
           <div className=" flex  gap-2 ">
             <Link to="">
-              <Button>
                 <button className="px-3 py-1 border-2  border-indigo-600 bg-transparent hover:border-transparent hover:bg-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 focus:ring-offset-gray-900 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-indigo-500/25">
                   Sign Up
                 </button>
-              </Button>
             </Link>
             <Link to="/login">
-              <Button>
                 <button className="px-3 py-1 border-2 border-transparent bg-indigo-600 hover:bg-indigo-500 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 focus:ring-offset-gray-900 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-indigo-500/25">
                   Login
                 </button>
-              </Button>
             </Link>
           </div>
         </div>
