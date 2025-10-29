@@ -8,9 +8,10 @@ const TopNavBar = () => {
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <span className="font-bold text-xl text-white tracking-wide">
+            <Link to="/"
+             className="font-bold text-xl text-white tracking-wide">
               ProFind
-            </span>
+            </Link>
           </div>
           {/* Navigation Links */}
           {/* <div className="md:flex space-x-4">

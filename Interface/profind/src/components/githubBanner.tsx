@@ -1,8 +1,7 @@
-import { Box } from "@radix-ui/themes";
 
 export default function GithubBanner() {
     return (
-        <Box className="bg-white/20 w-fit items-center rounded-lg ">
+        <div className="bg-white/20 w-fit items-center rounded-lg ">
 
             <a href="#" className="inline-flex  px-3 py-1 text-smfont-semibold text-primary"   >
                 <div className="flex items-center gap-1"><span>Relivator Next.js Template</span>
@@ -13,7 +12,7 @@ export default function GithubBanner() {
                     </svg>
                 </div>
             </a>
-        </Box>
+        </div>
     )
 
 }

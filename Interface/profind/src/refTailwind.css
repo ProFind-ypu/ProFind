@@ -29,11 +29,11 @@ body {
  background-color: #12151C;
   
 } */
-.warning-bg {
-   background-color: #e74c3c;
+.error-bg {
+   background-color: #d42d1a;
 }
 .secsess-bg {
-   background-color: #2ecc71;
+   background-color: #018a3a;
 }
 .warning-bg {
    background-color: #d6890c;
@@ -47,11 +47,9 @@ body {
   background-color: #0f0f11;
 }
 #OverflowText{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: 'hallow';
+  overflow-wrap: normal;
 }
-#OverflowText:hover{
+#OverflowTex:hover{
   overflow: visible;
   white-space: wrap;
 }

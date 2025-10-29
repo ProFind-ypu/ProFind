@@ -39,7 +39,8 @@ export default function FilterDropdown({
          {/* Dropdown Button */}
          <button
             type="button"
-            onClick={toggleDropdown}
+            // onClick={toggleDropdown}
+            onMouseDown={toggleDropdown}
             className="inline-flex justify-between items-center w-full px-4 py-2 text-sm font-medium text-white backdrop-blur-md rounded-md focus:outline-none focus:ring-1 focus:ring-white/40 transition-all duration-200">
             {selected ? selected.label : placeholder}
             <svg
