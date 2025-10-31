@@ -1,7 +1,7 @@
 // src/components/SearchBar.tsx
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { debounce } from '../helpers/_SearchHelpers';
+import { debounce } from '../../helpers/_SearchHelpers';
 
 interface SearchBarProps {
   placeholder?: string;

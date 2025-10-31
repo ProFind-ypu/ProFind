@@ -1,7 +1,7 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/home.tsx";
 import Signup from "./pages/signup.tsx";
-import TopNavBar from "./components/TopNavBar.tsx";
+import TopNavBar from "./components/Primary/TopNavBar.tsx";
 import Login from "./pages/login.tsx";
 import ProjectsListing from "./pages/ProjectListing.tsx";
 import Test from "./testing/test.tsx";
@@ -20,7 +20,7 @@ export default function App() {
         {/* pages without Navegation bar */}
         <Route element={<WithoutNavbar />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/contact" element={<Signup />} />
+          <Route path="/signup" element={<Signup />} />
         </Route>
       </Routes>
     </BrowserRouter>

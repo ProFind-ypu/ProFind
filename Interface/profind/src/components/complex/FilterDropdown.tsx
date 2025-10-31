@@ -59,20 +59,27 @@ export default function FilterDropdown({
          </button>
 
          {/* Dropdown Menu */}
-         {isOpen && (
-            <div className="absolute -left-[25%] mt-2 w-40 bg-white origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-               <div className="py-1">
-                  {options.map((option) => (
-                     <button
-                        key={option.value}
-                        onClick={() => handleSelect(option)}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
-                        {option.label}
-                     </button>
-                  ))}
-               </div>
+
+         <div
+            className={`absolute  mt-2 w-40 backdrop-blur-lg transition-all duration-300 
+         bg-black/50 z-10 rounded-md shadow-lg  focus:outline-none  
+                  ${
+                     isOpen
+                        ? "max-h-40 opacity-100"
+                        : "max-h-0  scale-0 opacity-0 pointer-events-none after:w-0"
+                  }
+                      `}>
+            <div className="py-1">
+               {options.map((option) => (
+                  <button
+                     key={option.value}
+                     onClick={() => handleSelect(option)}
+                     className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-900 hover:font-bold transition duration-100">
+                     {option.label}
+                  </button>
+               ))}
             </div>
-         )}
+         </div>
       </div>
    );
 }

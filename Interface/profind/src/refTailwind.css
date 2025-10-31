@@ -1,6 +1,6 @@
 @import "tailwindcss";
 body {
-   background-color: #161616;
+   background-color: hsl(0, 0%, 12%);
    color: #E6EBF0;
 }
 .bg-banner {

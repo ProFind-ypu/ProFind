@@ -1,6 +1,6 @@
 import graduation_img from "../assets/graduation.jpg";
-import GithubBanner from "../components/githubBanner";
-import LandingBrowseSignButtons from "../components/LandingBrowseSignButtons";
+import GithubBanner from "../components/decorator/githubBanner";
+import LandingBrowseSignButtons from "../components/complex/LandingBrowseSignButtons";
 export default function Home() {
    return (
       <>

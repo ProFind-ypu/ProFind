@@ -1,0 +1,8 @@
+Here is the component that are used in the project , its devided into primary decorator and small :
+    the primary is an importaant component like     Profiles_card and projects_Card 
+
+    the complex components are a group of component that grouped togather for the sake of cleaner code and focusing on the functionalty more than style and tree
+
+    the decorator are components like the gihub_banner in the explore page, they dont show functional info but more of theme and styles 
+
+    the small component are the component that show info but there move to a file for making a cleaner code like the tag in each project_card  

@@ -1,7 +1,6 @@
-// useLoginFormValidation.ts
 import { useState, type ChangeEvent } from 'react';
 
-interface FormState {
+export interface LoginFormState {
   email: string;
   password: string;
 }
@@ -12,10 +11,10 @@ interface ValidationErrors {
 }
 
 export const useLoginFormValidation = () => {
-  const [form, setForm] = useState<FormState>({ email: '', password: '' });
+  const [form, setForm] = useState<LoginFormState>({ email: '', password: '' });
   const [errors, setErrors] = useState<ValidationErrors>({});
 
-  const validateField = (name: keyof FormState, value: string): string | undefined => {
+  const validateField = (name: keyof LoginFormState, value: string): string | undefined => {
     // Trim email for validation (but keep original in state)
     const trimmedValue = name === 'email' ? value.trim() : value;
 
@@ -38,7 +37,7 @@ export const useLoginFormValidation = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const field = name as keyof FormState;
+    const field = name as keyof LoginFormState;
 
     // Update form state
     setForm((prev) => ({ ...prev, [field]: value }));
