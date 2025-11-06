@@ -1,18 +1,18 @@
 @import "tailwindcss";
 body {
-   background-color: hsl(0, 0%, 12%);
-   color: #E6EBF0;
-}
-.bg-banner {
-   background-color: #2C313A;
-}
-.bg-def {
-   background-color: #0a0a0c;
-}
-.bg-focus {
-   background-color: #0f0f11;
+    background-color: hsl(0, 0%, 12%);
+    color: #e6ebf0;
 }
 
+.bg-banner {
+    background-color: #2c313a;
+}
+.bg-def {
+    background-color: #0a0a0c;
+}
+.bg-focus {
+    background-color: #0f0f11;
+}
 
 /* .prim-bg {
  background-color: #12151C;
@@ -27,40 +27,40 @@ body {
 }
 .forth-bg {
  background-color: #12151C;
-  
+
 } */
 .error-bg {
-   background-color: #d42d1a;
+    background-color: #d42d1a;
 }
 .secsess-bg {
-   background-color: #018a3a;
+    background-color: #018a3a;
 }
 .warning-bg {
-   background-color: #d6890c;
+    background-color: #d6890c;
 }
-.warning-border{
-  border: #f39c12 solid 1px;
+.warning-border {
+    border: #f39c12 solid 1px;
 }
-#Container{
-  @apply py-5 px-5  border rounded-lg  shadow-md hover:shadow-lg shadow-white/2 transition-shadow duration-300;
-  border-color: rgb(204, 216, 255);
-  background-color: #0f0f11;
+#Container {
+    @apply py-5 px-5  border rounded-lg  shadow-md hover:shadow-lg shadow-white/2 transition-shadow duration-300;
+    border-color: rgb(204, 216, 255);
+    background-color: #0f0f11;
 }
-#OverflowText{
-  overflow-wrap: normal;
+#OverflowText {
+    overflow-wrap: normal;
 }
-#OverflowTex:hover{
-  overflow: visible;
-  white-space: wrap;
+#OverflowTex:hover {
+    overflow: visible;
+    white-space: wrap;
 }
-#MoreButton{
-  @apply px-8 inline-flex shrink-0 items-center justify-center gap-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ease-in-out outline-none focus:shadow-lg  active:shadow disabled:pointer-events-none disabled:opacity-50   rounded-md  border  shadow-xs    h-12 ;
+#MoreButton {
+    @apply px-8 inline-flex shrink-0 items-center justify-center gap-2 text-sm font-medium whitespace-nowrap transition-all duration-200 ease-in-out outline-none focus:shadow-lg  active:shadow disabled:pointer-events-none disabled:opacity-50   rounded-md  border  shadow-xs    h-12;
 }
 @media screen and (max-width: 48rem) {
-   #graduation-image {
-      display: none; /* Hides the element */
-   }
-   #landing-text-with-image {
-      display: block;
-   }
+    #graduation-image {
+        display: none; /* Hides the element */
+    }
+    #landing-text-with-image {
+        display: block;
+    }
 }

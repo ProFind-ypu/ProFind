@@ -26,7 +26,7 @@ export default function InputField({
    onchange,
 }: InputFieldProp) {
    return (
-      <div className="mt-2">
+      <div className="mt-2 w-full">
          <label
             //    htmlFor="name"
             className=" text-sm/6 font-medium text-gray-100">

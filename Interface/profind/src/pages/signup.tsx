@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import CallOutWarning from "../components/complex/CallOutWarning";
 import InputField from "../components/complex/InputField";
-import { useSignupFormValidation, type ValidationErrors } from "../helpers/_ValidateSignUp";
+import { useSignupFormValidation, type SignUpValidationErrors } from "../helpers/_ValidateSignUp";
 export default function Signup() {
    const { form, errors, handleChange, isValid } = useSignupFormValidation();
 
@@ -117,7 +117,7 @@ export default function Signup() {
       </main>
    );
 }
-function displayWaring(errors:ValidationErrors){
+function displayWaring(errors:SignUpValidationErrors){
     let message='';
     switch (true) {
         case errors.firstName!=undefined:

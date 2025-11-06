@@ -5,6 +5,7 @@ import TopNavBar from "./components/Primary/TopNavBar.tsx";
 import Login from "./pages/login.tsx";
 import ProjectsListing from "./pages/ProjectListing.tsx";
 import Test from "./testing/test.tsx";
+import Profile from "./pages/profile.tsx";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<ProjectsListing />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
 
         {/* pages without Navegation bar */}

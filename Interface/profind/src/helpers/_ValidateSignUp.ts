@@ -9,7 +9,7 @@ export interface SignupFormState {
   confirmPassword: string;
 }
 
-export interface ValidationErrors {
+export interface SignUpValidationErrors {
   firstName?: string;
   lastName?: string;
   universityId?: string;
@@ -27,7 +27,7 @@ export const useSignupFormValidation = () => {
     password: '',
     confirmPassword: '',
   });
-  const [errors, setErrors] = useState<ValidationErrors>({});
+  const [errors, setErrors] = useState<SignUpValidationErrors>({});
 
   const validateField = (name: keyof SignupFormState, value: string): string | undefined => {
         const trimmedValue = value.trim();

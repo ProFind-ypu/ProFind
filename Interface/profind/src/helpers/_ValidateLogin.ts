@@ -5,14 +5,14 @@ export interface LoginFormState {
   password: string;
 }
 
-interface ValidationErrors {
+export interface LoginValidationErrors {
   email?: string;
   password?: string;
 }
 
 export const useLoginFormValidation = () => {
   const [form, setForm] = useState<LoginFormState>({ email: '', password: '' });
-  const [errors, setErrors] = useState<ValidationErrors>({});
+  const [errors, setErrors] = useState<LoginValidationErrors>({});
 
   const validateField = (name: keyof LoginFormState, value: string): string | undefined => {
     // Trim email for validation (but keep original in state)
