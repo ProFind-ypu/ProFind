@@ -1,7 +1,5 @@
-// src/components/SearchBar.tsx
-
-import React, { useCallback, useMemo, useState } from 'react';
-import { debounce } from '../../helpers/_SearchHelpers';
+import React, { useCallback, useMemo, useState } from "react";
+import { debounce } from "../../helpers/_SearchHelpers";
 
 interface SearchBarProps {
   placeholder?: string;
@@ -10,26 +8,26 @@ interface SearchBarProps {
   className?: string;
 }
 
-export default function SearchBar ({
-  placeholder = 'Search...',
+export default function SearchBar({
+  placeholder = "Search...",
   onSearch,
   delay = 300,
-  className = '',
-}:SearchBarProps) {
-  const [searchTerm, setSearchTerm] = useState('');
+  className = "",
+}: SearchBarProps) {
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Memoize the callback so it doesn't change between renders
   const handleSearch = useCallback(
     (term: string) => {
       onSearch(term);
     },
-    [onSearch]
+    [onSearch],
   );
 
   // Create a debounced version of the search handler
   const debouncedSearch = useMemo(
     () => debounce(handleSearch, delay),
-    [handleSearch, delay]
+    [handleSearch, delay],
   );
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +46,4 @@ export default function SearchBar ({
       />
     </div>
   );
-};
-
-;
+}

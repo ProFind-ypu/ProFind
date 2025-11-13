@@ -1,7 +1,5 @@
-// src/components/TagFilter.tsx
-
 import { useEffect, useRef, useState } from "react";
-// import { addTag, removeTag } from "../../helpers/_TagFilterUtils";
+
 interface TagFilterProps {
   availableTags: Set<string>;
   tagFilterFunc: (tags: Set<string>) => void;

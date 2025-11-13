@@ -1,6 +1,3 @@
-// import { useState } from "react";
-// import { filterItems } from "../helpers/_SearchHelpers";
-
 export type User = {
   id: number;
   name: string;
@@ -13,8 +10,10 @@ export type ProjectInfo = {
   id: number;
   title: string;
   description: string;
-  taken: boolean;
+  status: boolean;
   tags: Set<string>;
+  requirements: string[];
+  suggestedStudentCount: number;
   supervisor: string;
   creation_time: Date;
 };
@@ -126,7 +125,14 @@ export const MOCK_projectinfo: ProjectInfo[] = [
     title: "Beautiful Landscape",
     description: "A stunning view of mountains and lakes under the sunset.",
     tags: new Set<string>(["React", "AI", "Database"]),
-    taken: true,
+    requirements: [
+      "Strong knowledge of TypeScript or Python",
+      "Experience with React or similar frontend frameworks",
+      "Familiarity with machine learning concepts (preferred)",
+      "Good communication skills and teamwork",
+    ],
+    suggestedStudentCount: 3,
+    status: true,
     supervisor: "Dr,Mazen",
     creation_time: new Date(),
   },
@@ -136,7 +142,14 @@ export const MOCK_projectinfo: ProjectInfo[] = [
     description:
       " Innovative building design blending nature and technology.Innovative building design blending nature and technology Innovative building design blending nature and technology.Innovative building design blending nature and technology",
     tags: new Set<string>(["Programming", "AI", "HTML"]),
-    taken: false,
+    requirements: [
+      "Strong knowledge of TypeScript or Python",
+      "Experience with React or similar frontend frameworks",
+      "Familiarity with machine learning concepts (preferred)",
+      "Good communication skills and teamwork",
+    ],
+    suggestedStudentCount: 3,
+    status: false,
     supervisor: "Dr,Heam",
     creation_time: new Date(),
   },
@@ -145,7 +158,14 @@ export const MOCK_projectinfo: ProjectInfo[] = [
     title: "Cozy Coffee Shop",
     description: "Warm ambiance with great coffee and books.",
     tags: new Set<string>(["CSS", "AI", "Tailwind"]),
-    taken: false,
+    requirements: [
+      "Strong knowledge of TypeScript or Python",
+      "Experience with React or similar frontend frameworks",
+      "Familiarity with machine learning concepts (preferred)",
+      "Good communication skills and teamwork",
+    ],
+    suggestedStudentCount: 3,
+    status: false,
     supervisor: "Dr,Anas",
     creation_time: new Date(),
   },
@@ -154,7 +174,14 @@ export const MOCK_projectinfo: ProjectInfo[] = [
     title: "Adventure Hiking",
     description: "Trail through forest leading to a breathtaking waterfall.",
     tags: new Set<string>(["Programming", "AI", "Database"]),
-    taken: true,
+    requirements: [
+      "Strong knowledge of TypeScript or Python",
+      "Experience with React or similar frontend frameworks",
+      "Familiarity with machine learning concepts (preferred)",
+      "Good communication skills and teamwork",
+    ],
+    suggestedStudentCount: 3,
+    status: true,
     supervisor: "Dr,Shrodinger",
     creation_time: new Date(),
   },
@@ -163,7 +190,14 @@ export const MOCK_projectinfo: ProjectInfo[] = [
     title: "Adventure Hiking",
     description: "Trail through forest leading to a breathtaking waterfall.",
     tags: new Set<string>(["Programming", "AI", "Database"]),
-    taken: true,
+    requirements: [
+      "Strong knowledge of TypeScript or Python",
+      "Experience with React or similar frontend frameworks",
+      "Familiarity with machine learning concepts (preferred)",
+      "Good communication skills and teamwork",
+    ],
+    suggestedStudentCount: 3,
+    status: true,
     supervisor: "Dr,Shrodinger",
     creation_time: new Date(),
   },
@@ -172,7 +206,14 @@ export const MOCK_projectinfo: ProjectInfo[] = [
     title: "Adventure Hiking",
     description: "Trail through forest leading to a breathtaking waterfall.",
     tags: new Set<string>(["Programming", "AI", "Database"]),
-    taken: true,
+    requirements: [
+      "Strong knowledge of TypeScript or Python",
+      "Experience with React or similar frontend frameworks",
+      "Familiarity with machine learning concepts (preferred)",
+      "Good communication skills and teamwork",
+    ],
+    suggestedStudentCount: 3,
+    status: true,
     supervisor: "Dr,Shrodinger",
     creation_time: new Date(),
   },

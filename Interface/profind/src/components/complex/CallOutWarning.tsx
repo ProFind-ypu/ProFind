@@ -6,41 +6,41 @@ interface MyComponentProps {
 export default function CallOutWarning({ text, classname }: MyComponentProps) {
   if (text)
     return (
-      <>
-        {/* TO-DO: add a transition on fading  */}
-        <div
-          className={`w-full bg-linear-to-br warning-bg to-white/1 backdrop-blur-md rounded-lg ${classname}`}
-        >
-          <div className=" text-white  h-10 px-2 flex items-center gap-1">
-            <svg
-              width="50"
-              height="50"
-              className="size-6"
-              viewBox="0 0 50 50"
-              xmlns="http://www.w3.org/2000/svg"
+      <div
+        className={`w-full warning-bg rounded-lg text-white
+            py-2 px-2 flex items-center gap-3 ${classname}`}
+      >
+        <div>
+          <svg
+            width="50"
+            height="50"
+            className="size-6"
+            viewBox="0 0 50 50"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="25"
+              cy="25"
+              r="20"
+              stroke="white"
+              strokeWidth="2"
+              fill="none"
+            />
+            <text
+              x="24.9"
+              y="35"
+              textAnchor="middle"
+              fontSize="35"
+              fontFamily=" Baskerville Times New Roman "
+              fill="white"
             >
-              <circle
-                cx="25"
-                cy="25"
-                r="20"
-                stroke="white"
-                strokeWidth="2"
-                fill="none"
-              />
-              <text
-                x="24.9"
-                y="35"
-                textAnchor="middle"
-                fontSize="35"
-                fontFamily=" Baskerville Times New Roman "
-                fill="white"
-              >
-                i
-              </text>
-            </svg>
-            <p>{text}</p>
-          </div>
+              i
+            </text>
+          </svg>
         </div>
-      </>
+        <div>
+          <p>{text}</p>
+        </div>
+      </div>
     );
 }

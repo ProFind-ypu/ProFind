@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import SortDropdownMenu from "../components/complex/SortDropdownMenu";
-import ProjectCard from "../components/Primary/ProjectCard";
+import ProjectPreviewCard from "../components/Primary/ProjectCard";
 import {
   MOCK_supervisor,
   type ProjectInfo,
@@ -116,10 +116,10 @@ export default function ProjectsListing() {
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {SearchedProducts.length !== 0
             ? SearchedProducts.map((item) => {
-                return <ProjectCard project_info={item} />;
+                return <ProjectPreviewCard project_info={item} />;
               })
             : MOCK_projectinfo.map((item) => {
-                return <ProjectCard project_info={item} />;
+                return <ProjectPreviewCard project_info={item} />;
               })}
         </div>
       </div>
