@@ -22,6 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const checkLogin = async () => {
       try {
+        // use this when the login api is ready
         const res = await axios.get<{ user: User }>("/api/auth/me", {
           withCredentials: true,
         });

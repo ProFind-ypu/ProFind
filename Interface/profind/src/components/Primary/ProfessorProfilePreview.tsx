@@ -5,10 +5,7 @@ type ProInfo = { ProInfo: User };
 export default function ProfessorProfilePreview({ ProInfo }: ProInfo) {
   return (
     <Link to="/profile">
-      <div
-        key={ProInfo.id}
-        className=" w-full flex flex-row hover:scale-[1.1] gap-4 items-center  space-y-2  transition "
-      >
+      <div className=" w-full flex flex-row hover:scale-[1.1] gap-4 items-center  space-y-2  transition ">
         <img
           src={ProInfo.avatarUrl}
           alt={ProInfo.name}

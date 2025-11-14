@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import SortDropdownMenu from "../components/complex/SortDropdownMenu";
 import ProjectPreviewCard from "../components/Primary/ProjectCard";
 import {
   MOCK_supervisor,
@@ -15,47 +13,23 @@ import SearchBar from "../components/complex/SearchBar";
 import TagFilter from "../components/complex/TagFilter";
 import CallOutWarning from "../components/complex/CallOutWarning";
 import { sortItems } from "../helpers/_SortHelper";
+import DropdownMenu from "../components/complex/DropdownMenu";
 
 export default function ProjectsListing() {
   // Sample user data for avatars
   const [SearchedProducts, setSearchedProducts] =
     useState<ProjectInfo[]>(MOCK_projectinfo);
   const [SortOption, setSortOption] = useState<string>("name");
+  const [SearchTerm, setSearchTerm] = useState<string>("");
   const [SelectedTags, setSelectedTags] = useState<Set<string>>(
     new Set<string>(),
   );
-  const [SearchTerm, setSearchTerm] = useState<string>("");
-  const handleSortSelect = (sortOption: string) => {
-    // Apply sorting logic here
-    setSortOption(sortOption);
-    handleSearch(SearchTerm, SelectedTags, sortOption);
-  };
-  function handleTagFilter(tags: Set<string>) {
-    setSelectedTags(tags);
-    //show only the projects with following tags
-    handleSearch(SearchTerm, tags, SortOption);
-  }
-  // Search items then Fitler items then sorte items
-  function handleSearch(term: string, tags?: Set<string>, sortoption?: string) {
-    setSearchTerm(term);
-    //merging searching and feltering
-    const filteredItems = filterItems(
-      MOCK_projectinfo,
-      term,
-      tags ? tags : SelectedTags,
-      ["title", "description"] /*selectedTags*/,
-    );
-    const sortedItems = sortItems(
-      filteredItems,
-      sortoption ? sortoption : SortOption,
-    );
-    setSearchedProducts(sortedItems);
-  }
+
   return (
     <main className=" px-6 py-6 flex flex-col items-center gap-5">
       {/* <h1 className="text-3xl">Explore Projects</h1> */}
       {/* Avatars Section */}
-      <div className=" flex flex-col w-full justify-center gap-5">
+      <div className=" flex flex-col w-full items-center justify-center gap-5">
         <h3 className="text-3xl md:text-4xl font-extrabold text-white text-center">
           Plan With Supervisors
         </h3>
@@ -65,11 +39,14 @@ export default function ProjectsListing() {
             <ProfessorProfilePreview ProInfo={user} />
           ))}
         </div>
-        <Link to="/test" className="flex justify-center ">
-          <button className="px-3 py-1 border-2 flex flex-row gap-1 border-white bg-banner   text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-white/10">
-            View All Supervisor
-          </button>
-        </Link>
+        {/*<Link to="/test" className="flex justify-center ">*/}
+        <button
+          className="px-3 py-1 border-2 w-fit border-white bg-banner   text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-white/10"
+          // onClick={() => console.log(user, loading)}
+        >
+          View All Supervisor
+        </button>
+        {/*</Link>*/}
       </div>
       {/* Project Content - Items Grid */}
       <div className="flex flex-col items-center pb-10 gap-7">
@@ -91,7 +68,7 @@ export default function ProjectsListing() {
               />
 
               <div className="w-full gap-3 flex justify-center sm:w-fit sm:gap-3">
-                <SortDropdownMenu
+                <DropdownMenu
                   options={SortOptions}
                   onSelect={handleSortSelect}
                   placeholder="Sort By"
@@ -125,6 +102,31 @@ export default function ProjectsListing() {
       </div>
     </main>
   );
+  function handleSortSelect(sortOption: string) {
+    setSortOption(sortOption);
+    handleSearch(SearchTerm, SelectedTags, sortOption);
+  }
+
+  function handleTagFilter(tags: Set<string>) {
+    setSelectedTags(tags);
+    handleSearch(SearchTerm, tags, SortOption);
+  }
+  // Search items then Fitler items then sorte items
+  function handleSearch(term: string, tags?: Set<string>, sortoption?: string) {
+    setSearchTerm(term);
+    //merging searching and feltering
+    const filteredItems = filterItems(
+      MOCK_projectinfo,
+      term,
+      tags ? tags : SelectedTags,
+      ["title", "description"] /*selectedTags*/,
+    );
+    const sortedItems = sortItems(
+      filteredItems,
+      sortoption ? sortoption : SortOption,
+    );
+    setSearchedProducts(sortedItems);
+  }
 }
 //desciding how many (Professors) items based on the size of the screen (big-avrage-small-phone)
 // the goal is to limite the ammount of SHOWING , the css determand the number of divesions (colm's) per row

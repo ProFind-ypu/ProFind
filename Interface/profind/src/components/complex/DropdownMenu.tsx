@@ -4,17 +4,17 @@ interface FilterOption {
   value: string;
 }
 
-interface SortDropdownMenuProps {
+interface DropdownMenuProps {
   options: FilterOption[];
   onSelect: (value: string) => void;
   placeholder?: string;
 }
 
-export default function SortDropdownMenu({
+export default function DropdownMenu({
   options,
   onSelect,
   placeholder = "Filter",
-}: SortDropdownMenuProps) {
+}: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<FilterOption | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null); // <-- Ref to track dropdown container
@@ -45,7 +45,7 @@ export default function SortDropdownMenu({
   }, []);
 
   return (
-    <div className="relative inline-block text-left" ref={dropdownRef}>
+    <div className=" flex flex-col justify-center text-left" ref={dropdownRef}>
       {/* Dropdown Button */}
       <button
         type="button"
@@ -71,9 +71,9 @@ export default function SortDropdownMenu({
       </button>
 
       {/* Dropdown Menu */}
-
-      <div
-        className={`absolute  mt-2 w-40 backdrop-blur-lg transition-all duration-300
+      <div className="flex justify-center">
+        <div
+          className={`absolute  mt-2 w-40 backdrop-blur-lg transition-all duration-300
          bg-black/50 z-10 rounded-md shadow-lg  focus:outline-none
                   ${
                     isOpen
@@ -81,17 +81,18 @@ export default function SortDropdownMenu({
                       : "max-h-0  scale-0 opacity-0 pointer-events-none after:w-0"
                   }
                       `}
-      >
-        <div className="py-1">
-          {options.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => handleSelect(option)}
-              className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-900 hover:font-bold transition duration-100"
-            >
-              {option.label}
-            </button>
-          ))}
+        >
+          <div className="py-1">
+            {options.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => handleSelect(option)}
+                className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-900 hover:font-bold transition duration-100"
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>

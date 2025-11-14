@@ -25,7 +25,6 @@ export default function App() {
             <Route path="/projectDetailes" element={<ProjectDetailes />} />
             <Route path="/ApplicationForm" element={<ApplicationForm />} />
           </Route>
-
           {/* pages without Navegation bar */}
           <Route element={<WithoutNavbar />}>
             <Route path="/login" element={<Login />} />

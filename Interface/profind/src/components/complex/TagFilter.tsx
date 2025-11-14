@@ -83,7 +83,7 @@ function TagFilter({
         </div>
       </div>
       {/* Expandable Menu */}
-      <div className=" ">
+      <div className="flex flex-col items-center ">
         <div
           className={`
                 mt-2 px-2 py-3
