@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { HiMiniChevronDown } from "react-icons/hi2";
 
 interface TagFilterProps {
   availableTags: Set<string>;
@@ -45,12 +46,12 @@ function TagFilter({
   return (
     <div ref={dropdownRef}>
       <div
-        className="px-4 py-2 w-fit backdrop-blur-lg  bg-transparent border border-white/30  rounded-md  shadow-lg   text-nowrap transition-all duration-300
+        className="px-4 py-2 min-w-fit backdrop-blur-lg  bg-transparent border border-white/30  rounded-md  shadow-lg   text-nowrap transition-all duration-300
          "
       >
         {/* Compact Header - Always Visible */}
         <div
-          className="flex flex-row max-w-full  items-center cursor-pointer"
+          className="flex flex-row max-w-full gap-1 items-center cursor-pointer"
           onClick={() => setIsExpanded((prev) => !prev)}
         >
           {/* Left Side: Selected Tags or Placeholder */}
@@ -72,14 +73,7 @@ function TagFilter({
           ) : (
             <span className="text-white ">{placeholder}</span>
           )}
-
-          {/* Right Arrow Icon */}
-          <span
-            className={`ml-2 text-gray-300 h-fit transform transition-transform duration-300
-                    ${isExpanded ? "rotate-180" : "rotate-90"}`}
-          >
-            ➜
-          </span>
+          <HiMiniChevronDown size={20} />
         </div>
       </div>
       {/* Expandable Menu */}

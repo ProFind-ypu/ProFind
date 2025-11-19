@@ -1,4 +1,3 @@
-import * as React from "react";
 import "../components/complex/FormComponent/formStyle.css";
 import uniimg from "../assets/UniLog.webp";
 import CheckBox from "../components/complex/FormComponent/CheckBox";
@@ -11,6 +10,8 @@ import InputForm from "../components/complex/FormComponent/InputForm";
 import SupervisorStackBlock from "../components/complex/FormComponent/SupervisorStackBlock";
 import CallOutWarning from "../components/complex/CallOutWarning";
 import FormPargraph from "../components/complex/FormComponent/FormPargraph";
+import { useEffect, useState } from "react";
+import ChackBoxGroup from "../components/complex/FormComponent/ChackboxGroup";
 
 function unhideStudentFields(stdAmount: number) {
   for (let index = 0; index < 5; index++) {
@@ -25,11 +26,11 @@ function unhideStudentFields(stdAmount: number) {
 }
 
 export default function ApplicationForm() {
-  const [timeDate, setTimeDate] = React.useState([
+  const [timeDate, setTimeDate] = useState([
     getTime(new Date()),
     getDate(new Date()),
   ]);
-  React.useEffect(() => {
+  useEffect(() => {
     setInterval(() => {
       SetTimeDate();
     }, 60000);
@@ -90,10 +91,15 @@ export default function ApplicationForm() {
           <FormPargraph text="نوع المشروع" />
         </DivTitle>
         <DivData className="grid grid-cols-2 grid-row-2 ">
-          <CheckBox title="تطبيقي" />
-          <CheckBox title="ماقبل التخرج" />
-          <CheckBox title="تخرج" />
-          <CheckBox title="ماقبل , ومستمر للمتابعة في مشروع تخرج" />
+          <ChackBoxGroup
+            titles={[
+              "تطبيقي",
+              "ماقبل التخرج",
+              "تخرج",
+              "ماقبل , ومستمر للمتابعة في مشروع تخرج",
+            ]}
+            name={"ss"}
+          />
         </DivData>
       </DivRow>
       <DivRow>

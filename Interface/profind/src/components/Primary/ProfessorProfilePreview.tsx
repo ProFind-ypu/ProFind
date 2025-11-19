@@ -30,7 +30,7 @@ export default function ProfessorProfilePreview({ ProInfo }: ProInfo) {
               {ProInfo.email}
             </button>
           )}
-          <div className="flex flex-wrap gap-1 ">
+          <div className="flex flex-wrap gap-1 pt-2 ">
             {ProInfo.tags.map((specialty) => (
               <TagWrapper title={specialty} />
             ))}

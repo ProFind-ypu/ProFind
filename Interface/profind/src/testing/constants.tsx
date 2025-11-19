@@ -1,3 +1,5 @@
+import { getRandomSublist } from "../helpers/_getrandomTag";
+
 export type User = {
   id: number;
   name: string;
@@ -17,104 +19,126 @@ export type ProjectInfo = {
   supervisor: string;
   creation_time: Date;
 };
+export const randTags = [
+  "Artificial Intelligence",
+  "Linux",
+  "BSD",
+  "Flutter",
+  "React",
+  "Laravel",
+  "Backend",
+  "Frontend",
+  "Desgin",
+  "Cybersecurity",
+  "Database",
+  "System Design",
+  "Mobile",
+  "Web",
+  "Desktop",
+  "Jave",
+  "Python",
+  "Networking",
+  "CellPhone Networks",
+  "Robotics",
+];
 export const MOCK_supervisor: User[] = [
   {
     id: 1,
     name: "Alice",
     avatarUrl: "https://i.pravatar.cc/150?img=1",
-    tags: ["hallow", "frendly", "idk", "hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 2,
     name: "Bob",
     avatarUrl: "https://i.pravatar.cc/150?img=2",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 3,
     name: "Charlie",
     avatarUrl: "https://i.pravatar.cc/150?img=3",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 4,
     name: "Diana",
     avatarUrl: "https://i.pravatar.cc/150?img=4",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 5,
     name: "Eve",
     avatarUrl: "https://i.pravatar.cc/150?img=5",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 6,
     name: "Frank",
     avatarUrl: "https://i.pravatar.cc/150?img=6",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 7,
     name: "Eve",
     avatarUrl: "https://i.pravatar.cc/150?img=5",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 8,
     name: "Frank",
     avatarUrl: "https://i.pravatar.cc/150?img=6",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 9,
     name: "Eve",
     avatarUrl: "https://i.pravatar.cc/150?img=5",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 10,
     name: "Frank",
     avatarUrl: "https://i.pravatar.cc/150?img=6",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 11,
     name: "Eve",
     avatarUrl: "https://i.pravatar.cc/150?img=5",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 12,
     name: "Frank",
     avatarUrl: "https://i.pravatar.cc/150?img=6",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 13,
     name: "Eve",
     avatarUrl: "https://i.pravatar.cc/150?img=5",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
   {
     id: 14,
     name: "Frank",
     avatarUrl: "https://i.pravatar.cc/150?img=6",
-    tags: ["hallow", "frendly", "idk"],
-    email: "imAProfessor@mail.what",
+    tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+    email: "ProfessorEmail@gmail.com",
   },
 ];
 
@@ -222,19 +246,18 @@ export const MOCK_projectinfo: ProjectInfo[] = [
 export const SortOptions = [
   { label: "Title", value: "title" },
   { label: "Creation Time", value: "time_of_creation" },
-  { label: "Books", value: "books" },
 ];
-export const handleFilterSelect = (value: string) => {
-  console.log("Selected filter:", value);
-  // Apply filtering logic here
-};
+// export const handleFilterSelect = (value: string) => {
+//   console.log("Selected filter:", value);
+//   // Apply filtering logic here
+// };
 //search bar layout
 // export const [SearchedProducts, setSearchedProducts] = useState<Item[]>(MOCK_projectinfo);
 //discard empty search input , set the SearchedProducts variable
 // export const handleSearch = (term: string) =>
 //    term != "" ? setSearchedProducts(filterItems(MOCK_projectinfo, term, [])) : null;
 //tags Filter
-export const allTags = new Set<string>([
+export const SortTags = new Set<string>([
   "JavaScript",
   "TypeScript",
   "React",

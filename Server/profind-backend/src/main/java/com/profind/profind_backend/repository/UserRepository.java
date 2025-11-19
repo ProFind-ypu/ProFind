@@ -6,4 +6,6 @@ import com.profind.profind_backend.domain.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
+    Optional<User> findByUniId(String uniID);
+    
 }

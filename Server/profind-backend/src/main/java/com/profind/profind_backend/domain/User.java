@@ -11,8 +11,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false, unique = true)
+    private String uniId;
 
     @Column(nullable = false)
     private String passwordHash;
@@ -38,6 +42,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public String getUniID() {
+        return uniId;
+    }
+
+    public void setUniID(String uniID) {
+        this.uniId = uniID;
     }
 
     public String getPasswordHash() {

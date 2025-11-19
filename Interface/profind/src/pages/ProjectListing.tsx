@@ -2,9 +2,9 @@ import ProjectPreviewCard from "../components/Primary/ProjectCard";
 import {
   MOCK_supervisor,
   type ProjectInfo,
-  allTags,
   SortOptions,
   MOCK_projectinfo,
+  SortTags,
 } from "../testing/constants";
 import { useState } from "react";
 import { filterItems } from "../helpers/_SearchHelpers";
@@ -14,6 +14,7 @@ import TagFilter from "../components/complex/TagFilter";
 import CallOutWarning from "../components/complex/CallOutWarning";
 import { sortItems } from "../helpers/_SortHelper";
 import DropdownMenu from "../components/complex/DropdownMenu";
+import { Link } from "react-router-dom";
 
 export default function ProjectsListing() {
   // Sample user data for avatars
@@ -29,7 +30,7 @@ export default function ProjectsListing() {
     <main className=" px-6 py-6 flex flex-col items-center gap-5">
       {/* <h1 className="text-3xl">Explore Projects</h1> */}
       {/* Avatars Section */}
-      <div className=" flex flex-col w-full items-center justify-center gap-5">
+      <div className=" flex flex-col w-full justify-center gap-5">
         <h3 className="text-3xl md:text-4xl font-extrabold text-white text-center">
           Plan With Supervisors
         </h3>
@@ -39,14 +40,14 @@ export default function ProjectsListing() {
             <ProfessorProfilePreview ProInfo={user} />
           ))}
         </div>
-        {/*<Link to="/test" className="flex justify-center ">*/}
-        <button
-          className="px-3 py-1 border-2 w-fit border-white bg-banner   text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-white/10"
-          // onClick={() => console.log(user, loading)}
-        >
-          View All Supervisor
-        </button>
-        {/*</Link>*/}
+        <Link to="/test" className="flex justify-center ">
+          <button
+            className="px-3 py-1 border-2 flex flex-row gap-1 border-white bg-banner   text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-white/10"
+            // onClick={() => console.log(user, loading)}
+          >
+            View All Supervisor
+          </button>
+        </Link>
       </div>
       {/* Project Content - Items Grid */}
       <div className="flex flex-col items-center pb-10 gap-7">
@@ -63,7 +64,7 @@ export default function ProjectsListing() {
             />
             <div className="flex flex-col  sm:flex-row sm:gap-3 items-center">
               <TagFilter
-                availableTags={allTags}
+                availableTags={SortTags}
                 tagFilterFunc={handleTagFilter}
               />
 

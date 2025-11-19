@@ -88,7 +88,7 @@ export default function ProjectDetailes() {
                 }
               `}
           >
-            {project.status ? "Already Taken" : "Start Application"}
+            {!project.status ? "Already Taken" : "Start Application"}
           </button>
         </Link>
       </div>

@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect } from "react";
+import { HiMiniChevronDown } from "react-icons/hi2";
+import type { IconType } from "react-icons/lib";
+
 interface FilterOption {
   label: string;
   value: string;
+  icon?: IconType;
 }
 
 interface DropdownMenuProps {
@@ -45,29 +49,16 @@ export default function DropdownMenu({
   }, []);
 
   return (
-    <div className=" flex flex-col justify-center text-left" ref={dropdownRef}>
+    <div className=" flex flex-col justify-center text-left " ref={dropdownRef}>
       {/* Dropdown Button */}
       <button
         type="button"
         // onClick={toggleDropdown}
         onMouseDown={toggleDropdown}
-        className="inline-flex justify-between items-center w-full px-4 py-2 text-sm font-medium text-white backdrop-blur-md rounded-md focus:outline-none focus:ring-1 focus:ring-white/40 transition-all duration-200"
+        className="inline-flex justify-between gap-1 items-center w-full px-4 py-2 text-sm font-medium text-white backdrop-blur-md rounded-md focus:outline-none focus:ring-1 focus:ring-white/40 transition-all duration-200"
       >
         {selected ? selected.label : placeholder}
-        <svg
-          className={`w-5 h-5 ml-2 transition-transform duration-200 ${
-            isOpen ? "transform rotate-180" : ""
-          }`}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
-        </svg>
+        <HiMiniChevronDown size={20} />
       </button>
 
       {/* Dropdown Menu */}
@@ -87,8 +78,9 @@ export default function DropdownMenu({
               <button
                 key={option.value}
                 onClick={() => handleSelect(option)}
-                className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-900 hover:font-bold transition duration-100"
+                className="flex flex-row items-center font-bold gap-2 w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-100 hover:text-gray-900 hover:font-bold transition duration-100"
               >
+                {option.icon ? <option.icon size={22} /> : ""}
                 {option.label}
               </button>
             ))}

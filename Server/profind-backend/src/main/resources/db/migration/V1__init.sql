@@ -1,6 +1,7 @@
 CREATE TABLE users (
   id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   email varchar(255) NOT NULL UNIQUE,
+  uni_id VARCHAR(255) NOT NULL UNIQUE,
   password_hash varchar(255) NOT NULL,
   role varchar(50),
   full_name varchar(255),
