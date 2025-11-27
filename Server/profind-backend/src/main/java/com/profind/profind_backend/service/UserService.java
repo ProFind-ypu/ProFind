@@ -62,4 +62,8 @@ public class UserService {
     public Optional<User> findByUniId(String email) {
         return userRepository.findByUniId(email);
     }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
 }

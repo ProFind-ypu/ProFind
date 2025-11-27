@@ -1,61 +1,80 @@
 package com.profind.profind_backend.web;
 
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import com.profind.profind_backend.service.UserService;
+import com.profind.profind_backend.config.JwtUtils;
+import com.profind.profind_backend.service.RefreshTokenService;
 import com.profind.profind_backend.domain.User;
+import com.profind.profind_backend.domain.RefreshToken;
 
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-
+    private final AuthenticationManager authenticationManager;
     private final UserService userService;
-    // you will add JwtUtils later
+    private final JwtUtils jwtUtils;
+    private final RefreshTokenService refreshTokenService;
 
-    public AuthController(UserService userService) {
+    public AuthController(AuthenticationManager authenticationManager, UserService userService, JwtUtils jwtUtils, RefreshTokenService refreshTokenService) {
+        this.authenticationManager = authenticationManager;
         this.userService = userService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
-        final String email = body.get("email");
-        final String password = body.get("password");
-        final String fullName = body.get("fullName");
-        final String uniID = body.get("uni_id");
-        try {
-            final User u = userService.register(email, password, fullName, uniID);
-            //TODO: return jwt token with other info  
-            return ResponseEntity.ok(Map.of("id", u.getId(), "email", u.getEmail()));
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "error", e.getMessage(),
-                    "code", "REGISTRATION_FAILED"
-            ));
-
-        }
+        this.jwtUtils = jwtUtils;
+        this.refreshTokenService = refreshTokenService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-        final String email = body.get("email");
-        final String password = body.get("password");
-
-        final Optional<User> u = userService.login(email, password);
-        if (u.isPresent()) {
-            return ResponseEntity.ok(Map.of("id", u.get().getId(), "email", u.get().getEmail()));
+        String email = body.get("email");
+        String password = body.get("password");
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        User user = userService.findByEmail(email).orElseThrow();
+        // roles list:
+        var roles = java.util.List.of(user.getRole().name());
+        String accessToken = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), roles);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
+        String expirationMs = System.getenv("APP_JWT_EXPIRATION_MS");
+        if (expirationMs == null) {
+            expirationMs = "3600000";
         }
-
-        //TODO: add status code ("code", "AUTH_FAILED", 404, not found .....)
-        //TODO : return jwt token , with extra data 
-        return ResponseEntity.status(401).body(Map.of(
-                "error", "Invalid email or password",
-                "code", "LOGIN_AUTH_FAILED"
+        return ResponseEntity.ok(Map.of(
+            "accessToken", accessToken,
+            "refreshToken", refreshToken.getToken(),
+            "expiresIn", expirationMs
         ));
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody Map<String,String> body) {
+        String refreshTokenStr = body.get("refreshToken");
+        java.util.Optional<RefreshToken> maybe = refreshTokenService.findByToken(refreshTokenStr);
+        if (maybe.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid refresh token"));
+        }
+        RefreshToken rt = maybe.get();
+        if (!refreshTokenService.isValid(rt)) {
+            refreshTokenService.deleteByToken(refreshTokenStr);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Refresh token expired"));
+        }
+        // Issue new access token
+        java.util.Optional<User> userOpt = userService.findById(rt.getUserId());
+        if (userOpt.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","User not found"));
+        User user = userOpt.get();
+        String newAccess = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), java.util.List.of(user.getRole().name()));
+        return ResponseEntity.ok(Map.of("accessToken", newAccess));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody Map<String,String> body) {
+        String refreshTokenStr = body.get("refreshToken");
+        refreshTokenService.deleteByToken(refreshTokenStr);
+        return ResponseEntity.ok(Map.of("status", "ok"));
+    }
 }
