@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.util.StringUtils;
+import org.springframework.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,22 +33,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws jakarta.servlet.ServletException, IOException {
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                Long userId = jwtUtils.getUserIdFromJwt(jwt);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(jwtUtils.getUserIdFromJwt(jwt).toString());
-                // The above loads by username/email; adjust: we will load by email in token, so:
-                // Instead: get email claim and load by email
-                // (Better: replace previous two lines with:)
+                String email = jwtUtils.getEmailFromJwt(jwt);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                
+                UsernamePasswordAuthenticationToken authentication = 
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            // ignore - let security handle unauthenticated
+            // Log exception if needed, but don't fail the request
+            // Security context will remain unauthenticated
         }
 
-        // Slightly different approach below for correctness (replaced in final code)
         filterChain.doFilter(request, response);
     }
 }

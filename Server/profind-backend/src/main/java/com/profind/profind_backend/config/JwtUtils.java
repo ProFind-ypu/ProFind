@@ -48,6 +48,11 @@ public class JwtUtils {
         return Long.valueOf(claims.getSubject());
     }
 
+    public String getEmailFromJwt(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return claims.get("email", String.class);
+    }
+
     public List<String> getRolesFromJwt(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
         Object roles = claims.get("roles");
