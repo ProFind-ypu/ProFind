@@ -9,12 +9,19 @@ CREATE TABLE users (
 );
 
 CREATE TABLE project (
-  id serial PRIMARY KEY,
+  id bigserial PRIMARY KEY,
   professor_id bigint NOT NULL,
-  title varchar(255),
-  status varchar(50),
+  title varchar(255) NOT NULL,
+  short_description varchar(1024),
+  description text,
+  requirements text,
+  tags jsonb,                
+  status varchar(50) DEFAULT 'OPEN',
+  created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
+
+
 
 CREATE TABLE refresh_token (
   id bigserial PRIMARY KEY,
@@ -25,4 +32,7 @@ CREATE TABLE refresh_token (
 );
 
 CREATE INDEX idx_refresh_token_user ON refresh_token(user_id);
+CREATE INDEX idx_project_professor ON project(professor_id);
+CREATE INDEX idx_project_status ON project(status);
+CREATE INDEX idx_project_title ON project USING gin (to_tsvector('english', title));
 
