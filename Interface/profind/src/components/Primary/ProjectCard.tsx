@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import TagWrapper from "../complex/TagWrapper";
-import type { ProjectInfo } from "../../testing/constants";
+import type { ProjectInfo } from "../../class/ProjectInfo";
 type Props = { project_info: ProjectInfo };
 export default function ProjectPreviewCard({ project_info }: Props) {
   const nav = useNavigate();

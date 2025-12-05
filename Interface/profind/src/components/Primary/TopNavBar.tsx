@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/AuthContext";
 import DropdownMenu from "../complex/DropdownMenu";
 import { HiCog8Tooth, HiUserCircle } from "react-icons/hi2";
@@ -6,11 +6,11 @@ import { HiCog8Tooth, HiUserCircle } from "react-icons/hi2";
 const DropMenuOptions = [
   { label: "Your Profile", value: "/profile", icon: HiUserCircle },
   { label: "Settings", value: "time_of_creation", icon: HiCog8Tooth },
-  { label: "Books", value: "books" },
 ];
 const TopNavBar = () => {
   const { user } = useAuth();
   const logedStat: boolean = user != null;
+  const navigate = useNavigate();
   return (
     // <nav className=" backdrop-blur-md bg-focus  shadow-md  border-b  sticky top-0 z-50">
     <header className="sticky top-0 bg-default z-20 backdrop-blur-md w-full border-0 border-white/30">
@@ -31,7 +31,9 @@ const TopNavBar = () => {
               <DropdownMenu
                 placeholder={user?.name}
                 options={DropMenuOptions}
-                onSelect={() => {}}
+                onSelect={() => {
+                  navigate("/dashboard");
+                }}
               />
             </div>
           ) : (

@@ -1,11 +1,13 @@
 package com.profind.profind_backend.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.profind.profind_backend.repository.UserRepository;
-import com.profind.profind_backend.domain.User;
-import com.profind.profind_backend.domain.Role;
 import java.util.Optional;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.profind.profind_backend.domain.Role;
+import com.profind.profind_backend.domain.User;
+import com.profind.profind_backend.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -50,7 +52,7 @@ public class UserService {
         if (user.isPresent() && encoder.matches(rawPassword, user.get().getPasswordHash())) {
             return user;
         }
-
+        System.out.println(email+rawPassword);
         return Optional.empty();
 
     }

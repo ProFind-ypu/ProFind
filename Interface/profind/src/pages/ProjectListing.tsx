@@ -1,7 +1,6 @@
 import ProjectPreviewCard from "../components/Primary/ProjectCard";
 import {
   MOCK_supervisor,
-  type ProjectInfo,
   SortOptions,
   MOCK_projectinfo,
   SortTags,
@@ -15,6 +14,7 @@ import CallOutWarning from "../components/complex/CallOutWarning";
 import { sortItems } from "../helpers/_SortHelper";
 import DropdownMenu from "../components/complex/DropdownMenu";
 import { Link } from "react-router-dom";
+import type { ProjectInfo } from "../class/ProjectInfo";
 
 export default function ProjectsListing() {
   // Sample user data for avatars

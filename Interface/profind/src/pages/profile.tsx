@@ -1,4 +1,6 @@
 import TagWrapper from "../components/complex/TagWrapper";
+import ProjectPreviewCard from "../components/Primary/ProjectCard";
+import { MOCK_projectinfo } from "../testing/constants";
 
 interface Professor {
   id: number;
@@ -18,7 +20,7 @@ interface Professor {
 // Mock data
 const professorData: Professor = {
   id: 1,
-  name: "Dr. Eleanor Reed",
+  name: "Dr,Mazen",
   title: "Associate Professor of Computer Science",
   department: "Department of Computer Science",
   email: "e.reed@university.edu",
@@ -51,7 +53,7 @@ export default function Profile() {
     office,
     bio,
     researchInterests,
-    publications,
+    // publications,
     officeHours,
     avatarUrl,
   } = professorData;
@@ -146,7 +148,7 @@ export default function Profile() {
               📚 Selected Projects
             </h2>
             <ul className="space-y-4">
-              {publications.map((pub, index) => (
+              {/*{publications.map((pub, index) => (
                 <li
                   key={index}
                   className="text-gray-200 leading-relaxed pl-5 border-l-4 border-indigo-600 hover:border-indigo-400 group transition-all duration-200 relative"
@@ -155,7 +157,13 @@ export default function Profile() {
                     {pub}
                   </span>
                 </li>
-              ))}
+              ))}*/}
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+                {MOCK_projectinfo.map((item) => {
+                  if (item.supervisor === professorData.name)
+                    return <ProjectPreviewCard project_info={item} />;
+                })}
+              </div>
             </ul>
           </section>
         </div>

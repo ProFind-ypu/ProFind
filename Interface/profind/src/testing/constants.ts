@@ -1,24 +1,27 @@
+import type { ProjectInfo } from "../class/ProjectInfo";
+import type { User } from "../class/User";
 import { getRandomSublist } from "../helpers/_getrandomTag";
 
-export type User = {
-  id: number;
-  name: string;
-  avatarUrl: string;
-  tags: string[];
-  email: string;
-};
+// export type User = {
+//   id: number;
+//   name: string;
+//   avatarUrl: string;
+//   type: string;
+//   tags: string[];
+//   email: string;
+// };
 
-export type ProjectInfo = {
-  id: number;
-  title: string;
-  description: string;
-  status: boolean;
-  tags: Set<string>;
-  requirements: string[];
-  suggestedStudentCount: number;
-  supervisor: string;
-  creation_time: Date;
-};
+// export type ProjectInfo = {
+//   id: number;
+//   title: string;
+//   description: string;
+//   status: boolean;
+//   tags: Set<string>;
+//   requirements: string[];
+//   suggestedStudentCount: number;
+//   supervisor: string;
+//   creation_time: Date;
+// };
 export const randTags = [
   "Artificial Intelligence",
   "Linux",
@@ -41,102 +44,132 @@ export const randTags = [
   "CellPhone Networks",
   "Robotics",
 ];
+export const MOCK_Professor_USER: User = {
+  id: 1,
+  name: "Alice",
+  avatarUrl: "ss", //"https://i.pravatar.cc/150?img=1"
+  type: "professor",
+  tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+  email: "ProfessorEmail@gmail.com",
+};
+export const MOCK_Student_USER: User = {
+  id: 1,
+  name: "Alice",
+  avatarUrl: "ss", //"https://i.pravatar.cc/150?img=1"
+  type: "Student",
+  tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
+  email: "ProfessorEmail@gmail.com",
+};
 export const MOCK_supervisor: User[] = [
   {
     id: 1,
     name: "Alice",
-    avatarUrl: "https://i.pravatar.cc/150?img=1",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=1"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 2,
     name: "Bob",
-    avatarUrl: "https://i.pravatar.cc/150?img=2",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=2"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 3,
     name: "Charlie",
-    avatarUrl: "https://i.pravatar.cc/150?img=3",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=3"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 4,
     name: "Diana",
-    avatarUrl: "https://i.pravatar.cc/150?img=4",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=4"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 5,
     name: "Eve",
-    avatarUrl: "https://i.pravatar.cc/150?img=5",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=5"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 6,
     name: "Frank",
-    avatarUrl: "https://i.pravatar.cc/150?img=6",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=1"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 7,
     name: "Eve",
-    avatarUrl: "https://i.pravatar.cc/150?img=5",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=5"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 8,
     name: "Frank",
-    avatarUrl: "https://i.pravatar.cc/150?img=6",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=2"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 9,
     name: "Eve",
-    avatarUrl: "https://i.pravatar.cc/150?img=5",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=5"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 10,
     name: "Frank",
-    avatarUrl: "https://i.pravatar.cc/150?img=6",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=3"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 11,
     name: "Eve",
-    avatarUrl: "https://i.pravatar.cc/150?img=5",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=5"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 12,
     name: "Frank",
-    avatarUrl: "https://i.pravatar.cc/150?img=6",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=4"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 13,
     name: "Eve",
-    avatarUrl: "https://i.pravatar.cc/150?img=5",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=5"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },
   {
     id: 14,
     name: "Frank",
-    avatarUrl: "https://i.pravatar.cc/150?img=6",
+    avatarUrl: "ss", //"https://i.pravatar.cc/150?img=5"
+    type: "professor",
     tags: getRandomSublist(Math.floor(Math.random() * 5) + 3),
     email: "ProfessorEmail@gmail.com",
   },

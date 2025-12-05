@@ -9,7 +9,9 @@ import Profile from "./pages/profile.tsx";
 import ProjectDetailes from "./pages/projectInfo.tsx";
 import Footer from "./components/decorator/Footer.tsx";
 import ApplicationForm from "./pages/applecationForm.tsx";
+import EmailVerification from "./pages/emailVerification .tsx";
 import { AuthProvider } from "./Auth/AuthContext.tsx";
+import Dashboard from "./pages/dashboard.tsx";
 
 export default function App() {
   return (
@@ -28,6 +30,8 @@ export default function App() {
           {/* pages without Navegation bar */}
           <Route element={<WithoutNavbar />}>
             <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/Email_Verification" element={<EmailVerification />} />
             <Route path="/signup" element={<Signup />} />
           </Route>
         </Routes>
