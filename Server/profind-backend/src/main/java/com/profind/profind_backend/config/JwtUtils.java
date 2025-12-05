@@ -17,6 +17,12 @@ public class JwtUtils {
 
     public JwtUtils(@Value("${app.jwt.secret}") String secret,
                     @Value("${app.jwt.expirationMs}") long jwtExpirationMs) {
+        if (secret == null || secret.trim().isEmpty()) {
+            throw new IllegalArgumentException("JWT secret cannot be null or empty. Please set APP_JWT_SECRET environment variable with at least 32 characters.");
+        }
+        if (secret.length() < 32) {
+            throw new IllegalArgumentException("JWT secret must be at least 32 characters (256 bits) for HMAC-SHA256. Current length: " + secret.length());
+        }
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
         this.jwtExpirationMs = jwtExpirationMs;
     }

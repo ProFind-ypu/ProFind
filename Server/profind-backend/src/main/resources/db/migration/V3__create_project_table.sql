@@ -1,28 +1,4 @@
-CREATE TABLE users (
-  id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  email varchar(255) NOT NULL UNIQUE,
-  uni_id VARCHAR(255) NOT NULL UNIQUE,
-  password_hash varchar(255) NOT NULL,
-  role varchar(50),
-  full_name varchar(255),
-  created_at timestamptz DEFAULT now()
-);
-
-CREATE TABLE project (
-  id bigserial PRIMARY KEY,
-  professor_id bigint NOT NULL,
-  title varchar(255) NOT NULL,
-  short_description varchar(1024),
-  description text,
-  requirements text,
-  tags jsonb,                
-  status varchar(50) DEFAULT 'OPEN',
-  created_at timestamptz DEFAULT now(),
-  updated_at timestamptz DEFAULT now()
-);
-
-
-
+-- Create refresh_token table
 CREATE TABLE refresh_token (
   id bigserial PRIMARY KEY,
   token varchar(512) NOT NULL UNIQUE,
@@ -31,8 +7,9 @@ CREATE TABLE refresh_token (
   created_at timestamptz DEFAULT now()
 );
 
-CREATE INDEX idx_refresh_token_user ON refresh_token(user_id);
-CREATE INDEX idx_project_professor ON project(professor_id);
-CREATE INDEX idx_project_status ON project(status);
-CREATE INDEX idx_project_title ON project USING gin (to_tsvector('english', title));
+-- Create indexes
+CREATE INDEX IF NOT EXISTS idx_refresh_token_user ON refresh_token(user_id);
+CREATE INDEX IF NOT EXISTS idx_project_professor ON project(professor_id);
+CREATE INDEX IF NOT EXISTS idx_project_status ON project(status);
+CREATE INDEX IF NOT EXISTS idx_project_title ON project USING gin (to_tsvector('english', title));
 
