@@ -26,12 +26,18 @@ export default function Login() {
         id: "1",
         name: "Ag",
         email: "hallowbitch@me.proton",
+        type: "student",
         avatar: "erlthismotherfucker",
         isOnline: true,
       };
       login(mockuser);
-      navigate("/explore"); // or use router
+      if (mockuser.type == "student") {
+        navigate("/explore"); // or use router
+      } else {
+        navigate("/dashboard"); // or use router
+      }
     } catch (err: any) {
+      console.log(err);
       setConnectionError(err.response?.data?.message || "Unknown Error");
     }
   };

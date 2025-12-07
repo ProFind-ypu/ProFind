@@ -11,7 +11,6 @@ export default function Signup() {
   const handleLogin = () => {
     if (!isValid) return;
     console.log("Logging in with:", form);
-    // TODO: Call login API under here
   };
   return (
     <main>

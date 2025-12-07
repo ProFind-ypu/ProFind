@@ -1,5 +1,4 @@
-import { useMemo } from "react";
-import type { ProjectInfo } from "../testing/constants";
+import type { ProjectInfo } from "../class/ProjectInfo";
 
 /**
  * Filters an array of objects based on a search term and specified keys.
