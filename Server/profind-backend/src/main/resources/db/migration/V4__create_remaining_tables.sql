@@ -44,7 +44,7 @@ BEGIN
     CREATE TABLE project_file (
       id bigserial PRIMARY KEY,
       project_id bigint NOT NULL,
-      uploaded_by bigint NOT NULL,
+      uploaded_by bigint,
       filename varchar(1024) NOT NULL,
       url varchar(2048) NOT NULL,
       mime_type varchar(255),

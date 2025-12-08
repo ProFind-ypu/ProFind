@@ -8,6 +8,8 @@ CREATE TABLE refresh_token (
 );
 
 -- Create indexes
+ALTER TABLE refresh_token
+  ADD CONSTRAINT fk_refresh_token_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;
 CREATE INDEX IF NOT EXISTS idx_refresh_token_user ON refresh_token(user_id);
 CREATE INDEX IF NOT EXISTS idx_project_professor ON project(professor_id);
 CREATE INDEX IF NOT EXISTS idx_project_status ON project(status);
