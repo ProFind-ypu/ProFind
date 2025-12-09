@@ -213,11 +213,11 @@ BEGIN
   FOR t IN SELECT table_name FROM information_schema.columns WHERE column_name='updated_at' AND table_schema='public'
   LOOP
     EXECUTE format('
-      DO $$ BEGIN
+      DO $trigger$ BEGIN
         IF NOT EXISTS (SELECT 1 FROM pg_trigger WHERE tgname = %L) THEN
           CREATE TRIGGER %I BEFORE UPDATE ON %I FOR EACH ROW EXECUTE FUNCTION set_updated_at_column();
         END IF;
-      END $$;', 'trg_set_updated_at_' || t, 'trg_set_updated_at_' || t, t);
+      END $trigger$;', 'trg_set_updated_at_' || t, 'trg_set_updated_at_' || t, t);
   END LOOP;
 END $$;
 
