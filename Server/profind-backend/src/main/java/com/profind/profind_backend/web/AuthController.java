@@ -30,6 +30,24 @@ public class AuthController {
         this.refreshTokenService = refreshTokenService;
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
+        try {
+            User user = userService.register(
+                body.get("email"),
+                body.get("password"),
+                body.get("fullName"),
+                body.get("uni_id")
+            );
+            return ResponseEntity.ok(Map.of(
+                "message", "User registered successfully",
+                "userId", user.getId()
+            ));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        }
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
         String email = body.get("email");

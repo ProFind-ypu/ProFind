@@ -1,6 +1,8 @@
 package com.profind.profind_backend.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import java.time.Instant;
 import java.util.List;
 
@@ -25,7 +27,8 @@ public class Project {
     @Column(columnDefinition = "text")
     private String requirements;
 
-    // tags stored as JSONB (List<String> mapped to text, or use a converter)
+    // tags stored as JSONB (List<String> mapped to JSONB)
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private List<String> tags;
 
