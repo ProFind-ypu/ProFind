@@ -1,16 +1,23 @@
-## Build stage (uses mcr images to avoid Docker Hub timeouts)
-FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu AS build
-RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn -B -DskipTests clean package
+# Use Maven to build the application
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-## Runtime stage (JRE from mcr)
-FROM mcr.microsoft.com/openjdk/jdk:21-ubuntu
 WORKDIR /app
-COPY --from=build /app/target/profind-backend-0.0.1-SNAPSHOT.jar app.jar
+
+# Copy source code and build
+COPY . .
+RUN mvn clean package -DskipTests
+
+# Use a lightweight JDK image to run the app
+FROM eclipse-temurin:17-jre
+
+WORKDIR /app
+
+# Copy the built jar from the build stage
+COPY --from=build /app/target/*.jar app.jar
+
+# Expose the port (matches docker-compose)
 EXPOSE 8080
-ENV JAVA_OPTS=""
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
