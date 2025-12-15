@@ -7,17 +7,22 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Map;
 import com.profind.profind_backend.service.RequestService;
+import com.profind.profind_backend.service.UserService;
 
 @RestController
 @RequestMapping("/api/requests")
 public class RequestController {
     private final RequestService requestService;
-    public RequestController(RequestService requestService) { this.requestService = requestService; }
+    private final UserService userService;
+    public RequestController(RequestService requestService, UserService userService) {
+        this.requestService = requestService;
+        this.userService = userService;
+    }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Map<String,Object> body,
                                     @AuthenticationPrincipal UserDetails user) {
-        Long studentId = Long.valueOf(user.getUsername()); // or store userId in principal
+        Long studentId = userService.findByEmail(user.getUsername()).orElseThrow().getId();
         Long professorId = Long.valueOf(body.get("professorId").toString());
         Long projectId = body.containsKey("projectId") ? Long.valueOf(body.get("projectId").toString()) : null;
         String message = (String) body.getOrDefault("message", "");
@@ -29,7 +34,7 @@ public class RequestController {
     public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody Map<String,String> body,
                                           @AuthenticationPrincipal UserDetails user) {
         String newStatus = body.get("status");
-        Long actorId = Long.valueOf(user.getUsername());
+        Long actorId = userService.findByEmail(user.getUsername()).orElseThrow().getId();
         if ("ACCEPTED".equalsIgnoreCase(newStatus)) {
             requestService.changeStatusToAccepted(id, actorId);
         } else if ("REJECTED".equalsIgnoreCase(newStatus)) {
@@ -44,5 +49,11 @@ public class RequestController {
     public ResponseEntity<?> forProfessor(@PathVariable Long pid) {
         return ResponseEntity.ok(requestService.findByProfessor(pid));
     }
+    @GetMapping("/student/me")
+    public ResponseEntity<?> myRequests(@AuthenticationPrincipal UserDetails user) {
+        Long studentId = userService.findByEmail(user.getUsername()).orElseThrow().getId();
+        return ResponseEntity.ok(requestService.findByStudent(studentId));
+    }
+
 }
 

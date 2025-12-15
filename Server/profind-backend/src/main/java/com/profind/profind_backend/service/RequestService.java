@@ -91,4 +91,8 @@ public class RequestService {
     public List<SupervisionRequest> findByProfessor(Long professorId) {
         return requestRepo.findByProfessorId(professorId);
     }
+
+    public List<SupervisionRequest> findByStudent(Long studentId) {
+        return requestRepo.findByStudentId(studentId);
+    }
 }
