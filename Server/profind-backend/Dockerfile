@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copy source code and build
 COPY . .
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -Dmaven.wagon.http.retryHandler.count=5
 
 # Use a lightweight JDK image to run the app
 FROM eclipse-temurin:17-jre
