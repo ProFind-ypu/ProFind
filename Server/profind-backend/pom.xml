@@ -116,13 +116,6 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- JSONB mapping helper -->
-		<dependency>
-			<groupId>com.vladmihalcea</groupId>
-			<artifactId>hibernate-types-52</artifactId>
-			<version>2.21.1</version>
-		</dependency>
-
 		<!-- Jackson Java Time support -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
