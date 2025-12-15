@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.profind.profind_backend.service.UserService;
 import com.profind.profind_backend.config.JwtUtils;
@@ -28,6 +30,13 @@ public class AuthController {
         this.userService = userService;
         this.jwtUtils = jwtUtils;
         this.refreshTokenService = refreshTokenService;
+    }
+
+    static class UserDto {
+        public Long id;
+        public String name;
+        public String email;
+        public String type;
     }
 
     @PostMapping("/register")
@@ -94,5 +103,19 @@ public class AuthController {
         String refreshTokenStr = body.get("refreshToken");
         refreshTokenService.deleteByToken(refreshTokenStr);
         return ResponseEntity.ok(Map.of("status", "ok"));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(@AuthenticationPrincipal UserDetails principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        User user = userService.findByEmail(principal.getUsername()).orElseThrow();
+        UserDto dto = new UserDto();
+        dto.id = user.getId();
+        dto.name = user.getFullName() != null ? user.getFullName() : user.getEmail();
+        dto.email = user.getEmail();
+        dto.type = user.getRole() != null ? user.getRole().name().toLowerCase() : "student";
+        return ResponseEntity.ok(Map.of("user", dto));
     }
 }

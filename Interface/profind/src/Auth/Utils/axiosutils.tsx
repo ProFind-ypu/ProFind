@@ -3,7 +3,7 @@ import axios, { type AxiosInstance } from 'axios';
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
-  withCredentials: true, // crucial for sending cookies
+  withCredentials: true,
 });
 
 // Interceptor: Handle 401 auto-refresh
@@ -14,8 +14,8 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await axios.post('/api/refresh', {}, { withCredentials: true });
-        return api(originalRequest); // retry original request
+        await api.post('/auth/refresh', {});
+        return api(originalRequest);
       } catch (refreshError) {
         window.location.href = '/login';
       }

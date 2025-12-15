@@ -206,8 +206,7 @@ interface Proposal {
 
 export default function Dashboard() {
   const user = MOCK_Professor_USER;
-  // const [userRole, setUserRole] = useState<UserRole>("student"); // This would come from auth
-  const [proposals, setProposals] = useState<Proposal[]>([
+  const [proposals] = useState<Proposal[]>([
     {
       id: "1",
       title: "AI-Based Mental Health Chatbot",

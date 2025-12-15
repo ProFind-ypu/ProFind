@@ -22,7 +22,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        // use this when the login api is ready
         const res = await axios.get<{ user: User }>("/api/auth/me", {
           withCredentials: true,
         });
@@ -44,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = async (): Promise<void> => {
     try {
-      await axios.post("/api/logout", {}, { withCredentials: true });
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
     } catch (err) {
       console.error("Logout failed:", err);
     } finally {
