@@ -37,17 +37,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws jakarta.servlet.ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String email = jwtUtils.getEmailFromJwt(jwt);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-                
-                UsernamePasswordAuthenticationToken authentication = 
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            if (jwt != null) {
+                if (jwtUtils.validateJwtToken(jwt)) {
+                    String email = jwtUtils.getEmailFromJwt(jwt);
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                    
+                    UsernamePasswordAuthenticationToken authentication = 
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    System.out.println("Authenticated user: " + email + " for request: " + request.getRequestURI());
+                } else {
+                    System.out.println("Invalid JWT token for request: " + request.getRequestURI());
+                }
+            } else {
+                // System.out.println("No JWT token found for request: " + request.getRequestURI());
             }
         } catch (Exception ex) {
-            // Log exception if needed, but don't fail the request
-            // Security context will remain unauthenticated
+            System.err.println("Error in JwtAuthenticationFilter: " + ex.getMessage());
+            ex.printStackTrace();
         }
 
         filterChain.doFilter(request, response);

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.profind.profind_backend.security.UserPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.profind.profind_backend.service.UserService;
@@ -41,20 +42,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
-        try {
-            User user = userService.register(
-                body.get("email"),
-                body.get("password"),
-                body.get("fullName"),
-                body.get("uni_id")
-            );
-            return ResponseEntity.ok(Map.of(
-                "message", "User registered successfully",
-                "userId", user.getId()
-            ));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+        User user = userService.register(
+            body.get("email"),
+            body.get("password"),
+            body.get("fullName"),
+            body.get("uni_id"),
+            body.get("role")
+        );
+        return ResponseEntity.ok(Map.of(
+            "message", "User registered successfully",
+            "userId", user.getId()
+        ));
     }
 
     @PostMapping("/login")
@@ -106,7 +104,7 @@ public class AuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<?> me(@AuthenticationPrincipal UserDetails principal) {
+    public ResponseEntity<?> me(@AuthenticationPrincipal UserPrincipal principal) {
         if (principal == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

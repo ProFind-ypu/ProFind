@@ -4,7 +4,7 @@ package com.profind.profind_backend.web;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.profind.profind_backend.security.UserPrincipal;
 import java.util.Map;
 import com.profind.profind_backend.service.RequestService;
 import com.profind.profind_backend.service.UserService;
@@ -21,10 +21,19 @@ public class RequestController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Map<String,Object> body,
-                                    @AuthenticationPrincipal UserDetails user) {
-        Long studentId = userService.findByEmail(user.getUsername()).orElseThrow().getId();
-        Long professorId = Long.valueOf(body.get("professorId").toString());
-        Long projectId = body.containsKey("projectId") ? Long.valueOf(body.get("projectId").toString()) : null;
+                                    @AuthenticationPrincipal UserPrincipal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+        
+        Object professorIdObj = body.get("professorId");
+        if (professorIdObj == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "professorId is required"));
+        }
+
+        Long studentId = principal.getId();
+        Long professorId = Long.valueOf(professorIdObj.toString());
+        Long projectId = body.get("projectId") != null ? Long.valueOf(body.get("projectId").toString()) : null;
         String message = (String) body.getOrDefault("message", "");
         var created = requestService.createRequest(studentId, professorId, projectId, message);
         return ResponseEntity.ok(created);
@@ -32,9 +41,12 @@ public class RequestController {
 
     @PutMapping("/{id}/status")
     public ResponseEntity<?> changeStatus(@PathVariable Long id, @RequestBody Map<String,String> body,
-                                          @AuthenticationPrincipal UserDetails user) {
+                                          @AuthenticationPrincipal UserPrincipal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
         String newStatus = body.get("status");
-        Long actorId = userService.findByEmail(user.getUsername()).orElseThrow().getId();
+        Long actorId = principal.getId();
         if ("ACCEPTED".equalsIgnoreCase(newStatus)) {
             requestService.changeStatusToAccepted(id, actorId);
         } else if ("REJECTED".equalsIgnoreCase(newStatus)) {
@@ -50,8 +62,11 @@ public class RequestController {
         return ResponseEntity.ok(requestService.findByProfessor(pid));
     }
     @GetMapping("/student/me")
-    public ResponseEntity<?> myRequests(@AuthenticationPrincipal UserDetails user) {
-        Long studentId = userService.findByEmail(user.getUsername()).orElseThrow().getId();
+    public ResponseEntity<?> myRequests(@AuthenticationPrincipal UserPrincipal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
+        }
+        Long studentId = principal.getId();
         return ResponseEntity.ok(requestService.findByStudent(studentId));
     }
 

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.profind.profind_backend.domain.Role;
 import com.profind.profind_backend.domain.User;
+import com.profind.profind_backend.domain.AccountStatus;
+import com.profind.profind_backend.exception.RegistrationException;
 import com.profind.profind_backend.repository.UserRepository;
 
 @Service
@@ -21,30 +23,43 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    // i used IllegalArgumentException in register to pass the exeption as a message 
-    // instade of returning nothing , so the message have more meaning 
-    // and save the layout of service 
-    // TODO: change the exeptions to simple code 
-    public User register(String email, String rawPassword, String fullName, String uniID) {
-        if (userRepository.findByEmail(email).isPresent()) {
-            throw new IllegalArgumentException("Email already used");
-        }
-        if (userRepository.findByUniId(uniID).isPresent()) {
-            throw new IllegalArgumentException("University Id already used");
+    public User register(String email, String rawPassword, String fullName, String uniID, String roleStr) {
+        Optional<User> existingEmail = userRepository.findByEmail(email);
+        User u;
+        if (existingEmail.isPresent()) {
+            u = existingEmail.get();
+        } else {
+            Optional<User> existingUni = userRepository.findByUniId(uniID);
+            if (existingUni.isPresent()) {
+                u = existingUni.get();
+            } else {
+                u = new User();
+                u.setEmail(email);
+                u.setUniID(uniID);
+                u.setAccountStatus(AccountStatus.OPEN);
+            }
         }
 
-        final User u = new User();
-        try {
-            u.setEmail(email);
-            u.setPasswordHash(encoder.encode(rawPassword));
-            u.setFullName(fullName);
-            u.setUniID(uniID);
-            // TODO: add accountStatus to the User class => accountStatus (open, closed,Suspended )
-            u.setRole(Role.STUDENT);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Missing variables");
+        u.setPasswordHash(encoder.encode(rawPassword));
+        u.setFullName(fullName);
+        
+        if (roleStr != null && !roleStr.isEmpty()) {
+            try {
+                u.setRole(Role.valueOf(roleStr.toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                if (u.getRole() == null) u.setRole(Role.STUDENT);
+            }
+        } else if (email.contains("professor")) {
+            u.setRole(Role.PROFESSOR);
+        } else {
+            if (u.getRole() == null) u.setRole(Role.STUDENT);
         }
-        return userRepository.save(u);
+        
+        try {
+            return userRepository.save(u);
+        } catch (Exception e) {
+            throw new RegistrationException("ERR_DB_ERROR", "Could not save user: " + e.getMessage());
+        }
     }
 
     public Optional<User> login(String email, String rawPassword) {

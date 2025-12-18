@@ -24,6 +24,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    private AccountStatus accountStatus = AccountStatus.OPEN;
+
     private String fullName;
 
     private Instant createdAt = Instant.now();
@@ -65,6 +68,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(AccountStatus accountStatus) {
+        this.accountStatus = accountStatus;
     }
 
     public String getFullName() {

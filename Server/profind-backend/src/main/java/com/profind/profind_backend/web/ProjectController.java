@@ -9,6 +9,8 @@ import com.profind.profind_backend.service.ProjectService;
 import com.profind.profind_backend.web.dto.ProjectDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.profind.profind_backend.security.UserPrincipal;
 
 @RestController
 @RequestMapping("/api/projects")
@@ -18,7 +20,9 @@ public class ProjectController {
 
     @PostMapping
     @PreAuthorize("hasRole('PROFESSOR')")
-    public ResponseEntity<ProjectDto> create(@RequestBody ProjectDto dto) {
+    public ResponseEntity<ProjectDto> create(@RequestBody ProjectDto dto, 
+                                           @AuthenticationPrincipal UserPrincipal principal) {
+        dto.professorId = principal.getId();
         ProjectDto saved = service.create(dto);
         return ResponseEntity.ok(saved);
     }

@@ -40,6 +40,7 @@ public class ProFindApplication {
      * Redis-backed CacheManager for @Cacheable support.
      * Adjust TTL and prefix as needed.
      */
+/*
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
@@ -51,4 +52,5 @@ public class ProFindApplication {
                 .cacheDefaults(defaultConfig)
                 .build();
     }
+*/
 }
