@@ -4,6 +4,7 @@ package com.profind.profind_backend.worker;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.profind.profind_backend.repository.OutboxEventRepository;
 import com.profind.profind_backend.domain.OutboxEvent;
@@ -21,7 +22,7 @@ public class OutboxPublisher {
     private final NotificationService notificationService;
 
     public OutboxPublisher(OutboxEventRepository outboxRepo,
-                           EventSenderClient sender,
+                           @Qualifier("loggingEventSender") EventSenderClient sender,
                            NotificationService notificationService) {
         this.outboxRepo = outboxRepo;
         this.sender = sender;
