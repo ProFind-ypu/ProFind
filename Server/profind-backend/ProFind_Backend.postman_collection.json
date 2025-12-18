@@ -67,7 +67,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"student_new@example.com\",\n  \"password\": \"password123\",\n  \"fullName\": \"John Doe\",\n  \"uni_id\": \"123456\"\n}"
+              "raw": "{\n  \"email\": \"student@example.com\",\n  \"password\": \"password123\",\n  \"fullName\": \"John Doe\",\n  \"uni_id\": \"123456\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/register",
@@ -105,7 +105,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"professor@example.com\",\n  \"password\": \"password123\",\n  \"fullName\": \"Dr. Smith\",\n  \"uni_id\": \"654321\"\n}"
+              "raw": "{\n  \"email\": \"professor@example.com\",\n  \"password\": \"password123\",\n  \"fullName\": \"Dr. Smith\",\n  \"uni_id\": \"654321\",\n  \"role\": \"PROFESSOR\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/register",
@@ -183,7 +183,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"student_new@example.com\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"email\": \"student@example.com\",\n  \"password\": \"password123\"\n}"
             },
             "url": {
               "raw": "{{baseUrl}}/api/auth/login",
