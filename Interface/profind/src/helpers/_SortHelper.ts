@@ -18,8 +18,8 @@ export const sortItems = (
       break;
     case sortOption == "time_of_creation":
       return projectInfo.sort((a, b) => {
-        const dateA = new Date(a.creation_time).getTime();
-        const dateB = new Date(b.creation_time).getTime();
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
         return dateB - dateA; // Descending: newer first
       });
       break;

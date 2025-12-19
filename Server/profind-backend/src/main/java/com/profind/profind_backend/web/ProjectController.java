@@ -1,27 +1,35 @@
 package com.profind.profind_backend.web;
 
+import java.util.List;
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Page;
-import com.profind.profind_backend.service.ProjectService;
-import com.profind.profind_backend.web.dto.ProjectDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.profind.profind_backend.security.UserPrincipal;
+import com.profind.profind_backend.service.ProjectService;
+import com.profind.profind_backend.web.dto.ProjectDto;
 
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectController {
+
     private final ProjectService service;
-    public ProjectController(ProjectService service) { this.service = service; }
+
+    public ProjectController(ProjectService service) {
+        this.service = service;
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('PROFESSOR')")
-    public ResponseEntity<ProjectDto> create(@RequestBody ProjectDto dto, 
-                                           @AuthenticationPrincipal UserPrincipal principal) {
+    public ResponseEntity<ProjectDto> create(@RequestBody ProjectDto dto,
+            @AuthenticationPrincipal UserPrincipal principal) {
         dto.professorId = principal.getId();
         ProjectDto saved = service.create(dto);
         return ResponseEntity.ok(saved);
@@ -33,10 +41,10 @@ public class ProjectController {
         return dto == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(dto);
     }
 
+
     @GetMapping
-    public Page<ProjectDto> search(@RequestParam(required=false) String q,
-                                   @RequestParam(defaultValue="0") int page,
-                                   @RequestParam(defaultValue="10") int size) {
-        return service.search(q, PageRequest.of(page, size));
+    public List<ProjectDto> getAllProjects() {
+        return service.getAllProjects();
     }
+
 }

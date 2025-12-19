@@ -2,10 +2,11 @@ export type ProjectInfo = {
   id: number;
   title: string;
   description: string;
-  status: boolean;
+  shortDescription: string;
+  status: string;
   tags: Set<string>;
-  requirements: string[];
+  requirments: string[];
   suggestedStudentCount: number;
-  supervisor: string;
-  creation_time: Date;
+  professorId: string;
+  createdAt: string;
 };

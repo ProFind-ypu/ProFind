@@ -4,12 +4,13 @@ import type { ProjectInfo } from "../../class/ProjectInfo";
 type Props = { project_info: ProjectInfo };
 export default function ProjectPreviewCard({ project_info }: Props) {
   const nav = useNavigate();
+  //console.log(project_info.createdAt);
   return (
     <div
       className="flex flex-col  gap-5 p-5 hover:shadow-black hover:ring bg-banner justify-between rounded-lg cursor-pointer shadow-md hover:shadow-lg transition-shadow duration-300"
       key={project_info.id}
       onClick={() => {
-        nav("/projectDetailes");
+        nav("/projectDetailes?id=1");
       }}
     >
       <div className="flex flex-col gap-5 ">
@@ -28,7 +29,7 @@ export default function ProjectPreviewCard({ project_info }: Props) {
       </div>
       <div>
         <p className="pb-1 pl-1 text-sm">
-          {project_info.supervisor}{" "}
+          {project_info.professorId}{" "}
           <Link
             to=""
             className="text-blue-400 cursor-pointer hover:text-green-500"
@@ -39,7 +40,14 @@ export default function ProjectPreviewCard({ project_info }: Props) {
 
         <p className="pl-1 pb-1 text-xs">
           Created at:{" "}
-          {project_info.creation_time.toLocaleDateString("en-GB")}{" "}
+          {new Date(project_info.createdAt.toString()).toLocaleDateString(
+            "en-GB",
+            {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            },
+          )}
         </p>
         <div className="w-full flex flex-row gap-2">
           {[...project_info.tags].map((tag) => (

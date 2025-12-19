@@ -13,7 +13,7 @@ export const filterItems = (
   selectedTags?: Set<string>,
   keys?: (keyof ProjectInfo)[],
 ): ProjectInfo[] => {
-  // console.log(searchTerm);
+  // //console.log(searchTerm);
 
   if (
     !searchTerm.trim() &&

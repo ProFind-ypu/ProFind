@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../Auth/AuthContext";
+import { UseAuth } from "../../Auth/AuthContext";
 import DropdownMenu from "../complex/DropdownMenu";
 import { HiCog8Tooth, HiUserCircle } from "react-icons/hi2";
 
@@ -8,7 +8,7 @@ const DropMenuOptions = [
   { label: "Settings", value: "time_of_creation", icon: HiCog8Tooth },
 ];
 const TopNavBar = () => {
-  const { user } = useAuth();
+  const { user } = UseAuth();
   const logedStat: boolean = user != null;
   const navigate = useNavigate();
   return (
@@ -29,7 +29,7 @@ const TopNavBar = () => {
           {logedStat ? (
             <div className="outline rounded-lg " hidden={!logedStat}>
               <DropdownMenu
-                placeholder={user?.name}
+                placeholder={user?.fullname}
                 options={DropMenuOptions}
                 onSelect={() => {
                   navigate("/dashboard");

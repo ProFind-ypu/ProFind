@@ -11,7 +11,7 @@ export default function ProfessorProfilePreview({ ProInfo }: ProInfo) {
           src={ProInfo.avatarUrl}
           className=" max-w-[40%] h-fit rounded-full  object-center shadow-sm"
           onError={(e) => {
-            console.log(e);
+            //console.log(e);
             const img = e.target as HTMLImageElement;
             img.style.display = "none"; // Hide the broken image
             const fallback = img.nextElementSibling;
@@ -20,7 +20,7 @@ export default function ProfessorProfilePreview({ ProInfo }: ProInfo) {
         />
         <HiUserCircle className="hidden min-w-[25%] max-w-[40%]  sm:min-w-[20%] sm:max-w-[40%] h-fit  rounded-full  object-center shadow-sm" />
         <div className="pt-2 pb-2 ">
-          <h3 className="font-medium text-lg ">{ProInfo.name}</h3>
+          <h3 className="font-medium text-lg ">{ProInfo.fullname}</h3>
           <p className="text-sm text-wrap text-gray-500 mb-3">
             department of dephense
           </p>

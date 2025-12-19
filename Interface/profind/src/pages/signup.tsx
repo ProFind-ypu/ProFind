@@ -1,17 +1,38 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CallOutWarning from "../components/complex/CallOutWarning";
 import InputField from "../components/complex/InputField";
 import {
   useSignupFormValidation,
   type SignUpValidationErrors,
 } from "../helpers/_ValidateSignUp";
+import { UseAuth } from "../Auth/AuthContext";
 export default function Signup() {
   const { form, errors, handleChange, isValid } = useSignupFormValidation();
-
-  const handleLogin = () => {
+  const { register } = UseAuth();
+  const Navigate = useNavigate();
+  const handleRegister = async (e: React.FormEvent) => {
     if (!isValid) return;
-    console.log("Logging in with:", form);
+    e.preventDefault();
+    console.log(form.firstName + form.lastName);
+    const registerResponce = register(
+      {
+        email: form.email,
+        avatarUrl: "",
+        tags: [""],
+        fullname: form.firstName + form.lastName,
+        roles: "student",
+        uniId: form.universityId,
+      },
+      form.password,
+    );
+    if ((await registerResponce).user?.roles == "student") {
+      Navigate("/dashboard");
+    } else {
+      Navigate("/explore");
+    }
+    console.log("Logging in with:", (await registerResponce).user);
   };
+
   return (
     <main>
       <div className="flex min-h-full flex-col justify-center items-center">
@@ -96,7 +117,7 @@ export default function Signup() {
             <button
               type="submit"
               disabled={!isValid}
-              onClick={handleLogin}
+              onClick={handleRegister}
               className=" disabled:bg-gray-500 w-[80%] rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             >
               Sign up

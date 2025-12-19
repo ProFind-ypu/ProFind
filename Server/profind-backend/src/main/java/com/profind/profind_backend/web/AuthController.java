@@ -1,22 +1,25 @@
 package com.profind.profind_backend.web;
 
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import com.profind.profind_backend.security.UserPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.profind.profind_backend.service.UserService;
 import com.profind.profind_backend.config.JwtUtils;
-import com.profind.profind_backend.service.RefreshTokenService;
-import com.profind.profind_backend.domain.User;
 import com.profind.profind_backend.domain.RefreshToken;
-
-import java.util.Map;
+import com.profind.profind_backend.domain.User;
+import com.profind.profind_backend.security.UserPrincipal;
+import com.profind.profind_backend.service.RefreshTokenService;
+import com.profind.profind_backend.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -39,7 +42,9 @@ public class AuthController {
         public String email;
         public String type;
     }
-
+    // TODO check if all the variable are provided before registing
+    // the current state you can register with the same profile as login 
+    // you can register with no name (fullName=null in database )
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
         User user = userService.register(
@@ -49,10 +54,26 @@ public class AuthController {
             body.get("uni_id"),
             body.get("role")
         );
+        // return ResponseEntity.ok(Map.of(
+        //     "message", "User registered successfully",
+        //     "userId", user.getId()
+        // ));
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), body.get("password")));
+        // roles list:
+        String accessToken = jwtUtils.generateAccessToken(user);
+        // String accessToken = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), roles);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
+        String expirationMs = System.getenv("APP_JWT_EXPIRATION_MS");
+        if (expirationMs == null) {
+            expirationMs = "3600000";
+        }
         return ResponseEntity.ok(Map.of(
-            "message", "User registered successfully",
-            "userId", user.getId()
+            "accessToken", accessToken,
+            "refreshToken", refreshToken.getToken(),
+            "expiresIn", expirationMs
         ));
+    
     }
 
     @PostMapping("/login")
@@ -63,7 +84,8 @@ public class AuthController {
         User user = userService.findByEmail(email).orElseThrow();
         // roles list:
         var roles = java.util.List.of(user.getRole().name());
-        String accessToken = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), roles);
+        String accessToken = jwtUtils.generateAccessToken(user);
+        // String accessToken = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), roles);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
         String expirationMs = System.getenv("APP_JWT_EXPIRATION_MS");
         if (expirationMs == null) {
@@ -92,7 +114,8 @@ public class AuthController {
         java.util.Optional<User> userOpt = userService.findById(rt.getUserId());
         if (userOpt.isEmpty()) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","User not found"));
         User user = userOpt.get();
-        String newAccess = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), java.util.List.of(user.getRole().name()));
+        // String newAccess = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), java.util.List.of(user.getRole().name()));
+        String newAccess = jwtUtils.generateAccessToken(user);
         return ResponseEntity.ok(Map.of("accessToken", newAccess));
     }
 

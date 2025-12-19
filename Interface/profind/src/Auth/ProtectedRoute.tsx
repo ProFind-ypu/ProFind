@@ -1,14 +1,14 @@
 // components/ProtectedRoute.tsx
-import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from './AuthContext';
-import type { JSX } from 'react';
+import { Navigate, useLocation } from "react-router-dom";
+import { UseAuth } from "./AuthContext";
+import type { JSX } from "react";
 
 interface ProtectedRouteProps {
   children: JSX.Element;
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading } = UseAuth();
   const location = useLocation();
 
   if (loading) {

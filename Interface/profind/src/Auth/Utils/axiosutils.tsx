@@ -1,8 +1,8 @@
 // utils/api.ts
-import axios, { type AxiosInstance } from 'axios';
+import axios, { type AxiosInstance } from "axios";
 
 const api: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
   withCredentials: true,
 });
 
@@ -14,14 +14,15 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await api.post('/auth/refresh', {});
+        await api.post("/auth/refresh", {});
         return api(originalRequest);
       } catch (refreshError) {
-        window.location.href = '/login';
+        //console.log(refreshError);
+        window.location.href = "/login";
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

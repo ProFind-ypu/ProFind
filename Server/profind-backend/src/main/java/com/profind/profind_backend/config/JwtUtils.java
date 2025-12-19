@@ -1,14 +1,20 @@
 package com.profind.profind_backend.config;
 
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.profind.profind_backend.domain.User;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtils {
@@ -27,15 +33,21 @@ public class JwtUtils {
         this.jwtExpirationMs = jwtExpirationMs;
     }
 
-    public String generateAccessToken(Long userId, String email, List<String> roles) {
+    public String generateAccessToken(User user) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + jwtExpirationMs);
         return Jwts.builder()
-                .setSubject(String.valueOf(userId))
+                .setSubject(String.valueOf(user.getId()))
                 .setIssuedAt(now)
                 .setExpiration(expiry)
-                .claim("email", email)
-                .claim("roles", roles)
+                .claim("email", user.getEmail())
+                .claim("roles", user.getRole().name())
+                .claim("fullname", user.getFullName())
+                .claim("avatarUrl", "")
+                //error while converting date and time to string
+                // .claim("createdAt", user.getCreatedAt().toString())
+                .claim("accountStatus", user.getAccountStatus())
+                .claim("tags", "")
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }

@@ -1,23 +1,8 @@
+import type { Professor } from "../class/Professor";
 import TagWrapper from "../components/complex/TagWrapper";
-import ProjectPreviewCard from "../components/Primary/ProjectCard";
+import ProjectPreviewCard from "../components/Primary/ProjectPreviewCard";
 import { MOCK_projectinfo } from "../testing/constants";
 
-interface Professor {
-  id: number;
-  name: string;
-  title: string;
-  department: string;
-  email: string;
-  phone: string;
-  office: string;
-  bio: string;
-  researchInterests: string[];
-  publications: string[];
-  officeHours: string;
-  avatarUrl: string;
-}
-
-// Mock data
 const professorData: Professor = {
   id: 1,
   name: "Dr,Mazen",
@@ -160,7 +145,7 @@ export default function Profile() {
               ))}*/}
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {MOCK_projectinfo.map((item) => {
-                  if (item.supervisor === professorData.name)
+                  if (item.professorId === professorData.name)
                     return <ProjectPreviewCard project_info={item} />;
                 })}
               </div>

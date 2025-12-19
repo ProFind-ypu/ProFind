@@ -2,15 +2,15 @@ import { useLoginFormValidation } from "../helpers/_ValidateLogin";
 import CallOutWarning from "../components/complex/CallOutWarning";
 import InputField from "../components/complex/InputField";
 import { Link, useNavigate } from "react-router-dom";
-import type { User } from "../class/auth";
+// import type { User } from "../class/auth";
 import { useState } from "react";
-import { useAuth } from "../Auth/AuthContext";
+import { UseAuth } from "../Auth/AuthContext";
 import type { LoginValidationErrors } from "../class/LoginForm";
 
 export default function Login() {
   const { form, errors, handleChange, isValid } = useLoginFormValidation();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login } = UseAuth();
   const [connectionError, setConnectionError] = useState<string | undefined>(
     undefined,
   );
@@ -18,26 +18,22 @@ export default function Login() {
     if (!isValid) return;
     e.preventDefault();
     try {
-      //use this when the server login api is ready
-      // const res = await api.post<{ user: User }>("/auth/login", form);
-      //  login(res.data.user);
-      // untel then mock respond
-      const mockuser: User = {
-        id: "1",
-        name: "Ag",
-        email: "hallowbitch@me.proton",
-        type: "student",
-        avatar: "erlthismotherfucker",
-        isOnline: true,
-      };
-      login(mockuser);
-      if (mockuser.type == "student") {
+      // const mockuser: User = {
+      //   name: "Ag",
+      //   email: "hallowbitch@me.proton",
+      //   token: undefined,
+      //   type: "student",
+      //   avatar: "erlthismotherfucker",
+      //   isOnline: true,
+      // };
+      const loginResponde = await login(form.email, form.password);
+      if ((loginResponde.code == 200, loginResponde.user?.roles == "student")) {
         navigate("/explore"); // or use router
       } else {
         navigate("/dashboard"); // or use router
       }
     } catch (err: any) {
-      console.log(err);
+      //console.log(err);
       setConnectionError(err.response?.data?.message || "Unknown Error");
     }
   };

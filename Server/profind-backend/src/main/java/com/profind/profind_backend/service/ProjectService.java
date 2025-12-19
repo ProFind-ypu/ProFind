@@ -1,14 +1,16 @@
 package com.profind.profind_backend.service;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import com.profind.profind_backend.repository.ProjectRepository;
+
 import com.profind.profind_backend.domain.Project;
 import com.profind.profind_backend.domain.ProjectStatus;
+import com.profind.profind_backend.repository.ProjectRepository;
 import com.profind.profind_backend.web.dto.ProjectDto;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.CacheEvict;
 
 @Service
 public class ProjectService {
@@ -24,6 +26,7 @@ public class ProjectService {
         p.setTitle(dto.title);
         p.setShortDescription(dto.shortDescription);
         p.setDescription(dto.description);
+        p.setRequirements(String.join("$@", dto.requirments));
         p.setTags(dto.tags);
         p.setStatus(ProjectStatus.OPEN);
         Project saved = repo.save(p);
@@ -34,20 +37,28 @@ public class ProjectService {
         return repo.findById(id).map(this::toDto).orElse(null);
     }
 
-    @Cacheable(value = "projects", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + (#search ?: '')")
-    public Page<ProjectDto> search(String search, Pageable pageable) {
-        // simple implementation: search by title containing text.
-        // For production use Specification or external search (Elastic).
-        Page<Project> page;
-        if (search == null || search.isBlank()) {
-            page = repo.findAll(pageable);
-        } else {
-            page = repo.findAll((root, query, cb) -> 
-                cb.like(cb.lower(root.get("title")), "%" + search.toLowerCase() + "%")
-            , pageable);
-        }
-        return page.map(this::toDto);
-    }
+    // @Cacheable(value = "projects", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + (#search ?: '')")
+    // public Page<ProjectDto> search(String search, Pageable pageable) {
+    //     // simple implementation: search by title containing text.
+    //     // For production use Specification or external search (Elastic).
+    //     Page<Project> page;
+    //     if (search == null || search.isBlank()) {
+    //         page = repo.findAll(pageable);
+    //     } else {
+    //         page = repo.findAll((root, query, cb) -> 
+    //             cb.like(cb.lower(root.get("title")), "%" + search.toLowerCase() + "%")
+    //         , pageable);
+    //     }
+    //     return page.map(this::toDto);
+    // }
+
+    // @Cacheable(value = "projects", key = "")
+    
+   public List<ProjectDto> getAllProjects() {
+    return repo.findAll().stream()
+               .map(this::toDto)
+               .collect(Collectors.toList());
+}
 
     @CacheEvict(value = "projects", allEntries = true)
     public ProjectDto update(Long id, ProjectDto dto) {
@@ -55,6 +66,9 @@ public class ProjectService {
         p.setTitle(dto.title);
         p.setShortDescription(dto.shortDescription);
         p.setDescription(dto.description);
+        // the $@ is a prefix to devide the string when it will come from the front and save into database , and used to make the list<string> from string by splitting at that prefix($@) 
+        //TODO find a better way than using the $@ prefix
+        p.setRequirements(String.join("$@", dto.requirments) );
         p.setTags(dto.tags);
         p.setUpdatedAt(java.time.Instant.now());
         Project saved = repo.save(p);
@@ -68,6 +82,8 @@ public class ProjectService {
         d.title = p.getTitle();
         d.shortDescription = p.getShortDescription();
         d.description = p.getDescription();
+        d.requirments=Arrays.stream(p.getRequirements().split("$@"))
+                          .collect(Collectors.toList());
         d.tags = p.getTags();
         d.status = p.getStatus().name();
         d.createdAt = p.getCreatedAt();

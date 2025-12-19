@@ -185,8 +185,9 @@
 // Dashboard.tsx
 import { useState, useEffect } from "react";
 import { HiPlus } from "react-icons/hi2";
-import { Link } from "react-router-dom";
-import { MOCK_Professor_USER } from "../testing/constants";
+import { Link, Navigate } from "react-router-dom";
+// import { MOCK_Professor_USER } from "../testing/constants";
+import { UseAuth } from "../Auth/AuthContext";
 
 type ProposalStatus =
   | "draft"
@@ -205,7 +206,10 @@ interface Proposal {
 }
 
 export default function Dashboard() {
-  const user = MOCK_Professor_USER;
+  // const user = MOCK_Professor_USER;
+  const { user } = UseAuth();
+  //console.log(user);
+
   const [proposals] = useState<Proposal[]>([
     {
       id: "1",
@@ -215,6 +219,9 @@ export default function Dashboard() {
       status: "under-review",
     },
   ]);
+  if (user == null) {
+    Navigate({ to: "/login" });
+  }
 
   useEffect(() => {
     // Simulate fetching user role and proposals
@@ -273,9 +280,9 @@ export default function Dashboard() {
         </nav>
       </aside>
       <div className="sm:hidden fixed bottom-[10%] ">
-        <Link to={user.type === "student" ? "/ApplicationForm" : "/"}>
+        <Link to={user?.roles === "student" ? "/ApplicationForm" : "/"}>
           <button className="px-4 py-2 flex flex-row items-center gap-2  shadow-sm  shadow-indigo-500  bg-indigo-600 rounded hover:bg-indigo-700 transition">
-            {user.type === "student" ? "New Proposal" : "Review Queue (3)"}
+            {user?.roles === "student" ? "New Proposal" : "Review Queue (3)"}
             <HiPlus />
           </button>
         </Link>
@@ -286,13 +293,13 @@ export default function Dashboard() {
         <header className=" flex pl-1 justify-between items-center ">
           <h2 className="text-lg sm:text-2xl font-semibold">
             Welcome
-            {user.type === "professor"
-              ? " Professor " + user.name
-              : "M's" + user.name}
+            {user?.roles === "PROFESSOR"
+              ? " Dr. " + user?.fullname
+              : user?.fullname}
           </h2>
-          <Link to={user.type === "student" ? "/ApplicationForm" : "/"}>
+          <Link to={user?.roles === "student" ? "/ApplicationForm" : "/"}>
             <button className="px-4 py-2 hidden sm:block bg-indigo-600 rounded hover:bg-indigo-700 transition">
-              {user.type === "student" ? "New Proposal" : "Review Queue (3)"}
+              {user?.roles === "student" ? "New Proposal" : "Review Queue (3)"}
             </button>
           </Link>
         </header>
@@ -308,7 +315,9 @@ export default function Dashboard() {
         {/* Project Feed / Match Board */}
         <section id="Container">
           <h3 className="text-lg font-medium mb-4 ">
-            {user.type === "student" ? "Your Proposals" : "Proposals to Review"}
+            {user?.roles === "student"
+              ? "Your Proposals"
+              : "Proposals to Review"}
           </h3>
           <div className="space-y-4">
             {proposals.map((proposal) => (
@@ -325,7 +334,7 @@ export default function Dashboard() {
                   ></span>
                 </div>
                 <p className="text-sm text-gray-300 mt-1">
-                  {user.type === "professor" && `By: ${proposal.studentName}`}
+                  {user?.roles === "professor" && `By: ${proposal.studentName}`}
                 </p>
                 <p className="text-xs text-gray-400 mt-2">
                   {proposal.lastUpdate}
