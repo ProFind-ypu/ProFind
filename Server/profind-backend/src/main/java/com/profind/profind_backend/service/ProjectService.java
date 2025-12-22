@@ -1,6 +1,5 @@
 package com.profind.profind_backend.service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +25,7 @@ public class ProjectService {
         p.setTitle(dto.title);
         p.setShortDescription(dto.shortDescription);
         p.setDescription(dto.description);
-        if (dto.requirments != null && !dto.requirments.isEmpty()) {
-            p.setRequirements(String.join("$@", dto.requirments));
-        } else {
-            p.setRequirements("");
-        }
+        p.setRequirements(dto.requirments);        
         p.setTags(dto.tags);
         p.setStatus(ProjectStatus.OPEN);
         Project saved = repo.save(p);
@@ -70,9 +65,7 @@ public class ProjectService {
         p.setTitle(dto.title);
         p.setShortDescription(dto.shortDescription);
         p.setDescription(dto.description);
-        // the $@ is a prefix to devide the string when it will come from the front and save into database , and used to make the list<string> from string by splitting at that prefix($@) 
-        //TODO find a better way than using the $@ prefix
-        p.setRequirements(String.join("$@", dto.requirments) );
+        p.setRequirements(dto.requirments);
         p.setTags(dto.tags);
         p.setUpdatedAt(java.time.Instant.now());
         Project saved = repo.save(p);
@@ -86,12 +79,13 @@ public class ProjectService {
         d.title = p.getTitle();
         d.shortDescription = p.getShortDescription();
         d.description = p.getDescription();
-        if (p.getRequirements() != null && !p.getRequirements().isEmpty()) {
-            d.requirments = Arrays.stream(p.getRequirements().split("\\$@"))
-                              .collect(Collectors.toList());
-        } else {
-            d.requirments = List.of();
-        }
+        // if (p.getRequirements() != null && !p.getRequirements().isEmpty()) {
+        //     d.requirments = Arrays.stream(p.getRequirements().split("\\$@"))
+        //                       .collect(Collectors.toList());
+        // } else {
+        //     d.requirments = List.of();
+        // }
+        d.requirments=p.getRequirements();
         d.tags = p.getTags();
         d.status = p.getStatus().name();
         d.createdAt = p.getCreatedAt();

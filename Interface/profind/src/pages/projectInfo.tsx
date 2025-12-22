@@ -1,9 +1,10 @@
 // import { MOCK_projectinfo } from "../testing/constants";
 import TagWrapper from "../components/complex/TagWrapper";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import ProjectService from "../class/projectService";
+
 import { useEffect, useState } from "react";
 import type { ProjectInfo } from "../class/ProjectInfo";
+import ProjectService from "../class/Services/projectService";
 
 export default function ProjectDetailes() {
   const nav = useNavigate();

@@ -23,13 +23,15 @@ DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'profile') THEN
     CREATE TABLE profile (
-      user_id bigint PRIMARY KEY,            -- same id as users.id
+      user_id bigint PRIMARY KEY, 
       bio text,
       department_id bigint,
       year int,
-      skills text,                           -- csv fallback (or prefer jsonb)
+      skills text,        
       avatar_url varchar(1024),
       cv_url varchar(1024),
+      alt_email varchar(1024),
+      telephonenumber varchar(1024),
       updated_at timestamptz DEFAULT now()
     );
     ALTER TABLE profile ADD CONSTRAINT fk_profile_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;

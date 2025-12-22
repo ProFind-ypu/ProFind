@@ -54,10 +54,6 @@ public class AuthController {
             body.get("uni_id"),
             body.get("role")
         );
-        // return ResponseEntity.ok(Map.of(
-        //     "message", "User registered successfully",
-        //     "userId", user.getId()
-        // ));
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), body.get("password")));
         // roles list:
@@ -83,7 +79,7 @@ public class AuthController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         User user = userService.findByEmail(email).orElseThrow();
         // roles list:
-        var roles = java.util.List.of(user.getRole().name());
+        // var roles = java.util.List.of(user.getRole().name());
         String accessToken = jwtUtils.generateAccessToken(user);
         // String accessToken = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), roles);
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());

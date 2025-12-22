@@ -1,13 +1,17 @@
+// {"id":1,"fullName":"Anaskln","year":"2025","bio":"Sample bio",
+// "skills":"SQL, Python","department":"Software","phonenumber":"+1234567890"
+// ,"avatarUrl":"https://example.com/avatar.jpg","role":"PROFESSOR"
+// ,"altemail":"alt@example.com"}
 export interface Professor {
   id: number;
-  name: string;
-  title: string;
+  fullName: string;
+  // title: string;
   department: string;
-  email: string;
-  phone: string;
+  altemail: string;
+  phonenumber: string;
   office: string;
   bio: string;
-  researchInterests: string[];
+  skills: string[];
   publications: string[];
   officeHours: string;
   avatarUrl: string;

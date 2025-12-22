@@ -10,7 +10,7 @@ export default function ProjectPreviewCard({ project_info }: Props) {
       className="flex flex-col  gap-5 p-5 hover:shadow-black hover:ring bg-banner justify-between rounded-lg cursor-pointer shadow-md hover:shadow-lg transition-shadow duration-300"
       key={project_info.id}
       onClick={() => {
-        nav("/projectDetailes?id=1");
+        nav("/projectDetailes?id=" + project_info.id);
       }}
     >
       <div className="flex flex-col gap-5 ">

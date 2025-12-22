@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.profind.profind_backend.domain.AccountStatus;
 import com.profind.profind_backend.domain.Role;
 import com.profind.profind_backend.domain.User;
-import com.profind.profind_backend.domain.AccountStatus;
 import com.profind.profind_backend.exception.RegistrationException;
 import com.profind.profind_backend.repository.UserRepository;
 
@@ -49,6 +49,7 @@ public class UserService {
             } catch (IllegalArgumentException e) {
                 if (u.getRole() == null) u.setRole(Role.STUDENT);
             }
+           //TODO dont forget to remove this later 
         } else if (email.contains("professor")) {
             u.setRole(Role.PROFESSOR);
         } else {

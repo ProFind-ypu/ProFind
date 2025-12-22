@@ -1,5 +1,5 @@
-import { getProjects } from "../helpers/_getProjectsFromServer";
-import type { ProjectInfo } from "./ProjectInfo";
+import type { ProjectInfo } from "../ProjectInfo";
+import { getProjects } from "./_getProjectsFromServer";
 
 export default class ProjectService {
   private static instance: ProjectService;

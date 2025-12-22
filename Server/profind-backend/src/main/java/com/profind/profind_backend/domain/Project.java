@@ -33,9 +33,11 @@ public class Project {
     @Column(columnDefinition = "text")
     private String description;
 
-    @Column(columnDefinition = "text")
-    private String requirements;
-
+    // @Column(columnDefinition = "text")
+    // private String requirements;
+    @JdbcTypeCode(SqlTypes.JSON)
+        @Column(columnDefinition = "jsonb")
+        private List<String> requirements;
     // tags stored as JSONB (List<String> mapped to JSONB)
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
@@ -90,11 +92,11 @@ public class Project {
         this.description = description;
     }
 
-    public String getRequirements() {
+    public List<String> getRequirements() {
         return requirements;
     }
 
-    public void setRequirements(String requirements) {
+    public void setRequirements(List<String> requirements) {
         this.requirements = requirements;
     }
 
