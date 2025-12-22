@@ -1,0 +1,270 @@
+{
+	"id": "bbb076f2-4989-4c9d-976c-c2f0d4c20f9d",
+	"name": "ProFind API",
+	"timestamp": "2025-12-22T09:02:36.582Z",
+	"collection_id": "50916666-da2c8169-0d29-4b45-a975-48c78d3d8886",
+	"folder_id": 0,
+	"environment_id": "50916666-e87a4b48-c40e-4b68-8adc-df8292846340",
+	"totalPass": 8,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-12-22T09:02:35.201Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "6c0fc276-7527-432d-b12e-5d86e19f9aee",
+			"name": "Register Professor",
+			"url": "http://localhost:8081/api/auth/register",
+			"time": 185,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				185
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "b0a8bba3-06c1-48c5-b272-ba671f22ef9d",
+			"name": "Register Student",
+			"url": "http://localhost:8081/api/auth/register",
+			"time": 176,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				176
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "b94d6fef-856e-44b8-8682-4925877e47db",
+			"name": "Get Me (Professor)",
+			"url": "http://localhost:8081/api/auth/me",
+			"time": 21,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				21
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "95d8905d-dd9c-4bb8-a9d8-a1bef8603299",
+			"name": "Create Project",
+			"url": "http://localhost:8081/api/projects",
+			"time": 44,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				44
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "5668eb8a-74c6-43c9-9882-fa178d12210b",
+			"name": "Get All Projects",
+			"url": "http://localhost:8081/api/projects",
+			"time": 23,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				23
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "6bc1c3ab-a08c-4e94-8506-243e8530725b",
+			"name": "Create Supervision Request",
+			"url": "http://localhost:8081/api/requests",
+			"time": 34,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				34
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "db518bbe-d647-4dc0-af3b-bc2f5cb7a62f",
+			"name": "Accept Request",
+			"url": "http://localhost:8081/api/requests/4/status",
+			"time": 56,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				56
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "28918596-8dcc-4c2e-bfef-e8e29983811d",
+			"name": "Get My Notifications",
+			"url": "http://localhost:8081/api/notifications",
+			"time": 19,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				19
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 558,
+	"collection": {
+		"requests": [
+			{
+				"id": "6c0fc276-7527-432d-b12e-5d86e19f9aee",
+				"method": "POST"
+			},
+			{
+				"id": "b0a8bba3-06c1-48c5-b272-ba671f22ef9d",
+				"method": "POST"
+			},
+			{
+				"id": "b94d6fef-856e-44b8-8682-4925877e47db",
+				"method": "GET"
+			},
+			{
+				"id": "95d8905d-dd9c-4bb8-a9d8-a1bef8603299",
+				"method": "POST"
+			},
+			{
+				"id": "5668eb8a-74c6-43c9-9882-fa178d12210b",
+				"method": "GET"
+			},
+			{
+				"id": "6bc1c3ab-a08c-4e94-8506-243e8530725b",
+				"method": "POST"
+			},
+			{
+				"id": "db518bbe-d647-4dc0-af3b-bc2f5cb7a62f",
+				"method": "PUT"
+			},
+			{
+				"id": "28918596-8dcc-4c2e-bfef-e8e29983811d",
+				"method": "GET"
+			}
+		]
+	}
+}

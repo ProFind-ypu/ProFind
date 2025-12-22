@@ -1,10 +1,13 @@
 package com.profind.profind_backend.domain;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "notifications")
+@Table(name = "notification")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +19,8 @@ public class Notification {
     @Column(nullable = false)
     private String type;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(nullable = false, columnDefinition = "jsonb")
     private String payload;
 
     @Column(nullable = false)

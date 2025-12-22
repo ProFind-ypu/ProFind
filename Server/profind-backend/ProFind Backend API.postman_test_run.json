@@ -1,220 +1,22 @@
 {
-	"id": "25c3b9f7-933b-4c20-8ed1-2e973664f72a",
+	"id": "ed18e475-4952-4a28-b808-ee3250c0709b",
 	"name": "ProFind Backend API",
-	"timestamp": "2025-12-18T21:17:25.101Z",
-	"collection_id": "50916666-54e0acfc-502c-4327-9c8e-ca36d94bc9a7",
+	"timestamp": "2025-12-22T07:57:55.423Z",
+	"collection_id": "50916666-59a46ea3-0f4b-488e-ad2a-cf6309ed7b6d",
 	"folder_id": 0,
-	"environment_id": "50916666-249f8721-3943-4906-9198-ca1bca56abda",
-	"totalPass": 13,
+	"environment_id": "50916666-da36a8d5-0373-4fb6-b02b-edb26945c24d",
+	"totalPass": 4,
 	"delay": 0,
 	"persist": true,
 	"status": "finished",
-	"startedAt": "2025-12-18T21:17:22.832Z",
-	"totalFail": 15,
+	"startedAt": "2025-12-22T07:57:52.829Z",
+	"totalFail": 2,
 	"results": [
 		{
-			"id": "1589ee10-634a-42d1-b1f0-c1d799283c76",
-			"name": "Register User",
-			"url": "http://localhost:8081/api/auth/register",
-			"time": 96,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Status code is 200": true,
-				"Response has userId": true
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Response has userId": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				96
-			],
-			"allTests": [
-				{
-					"Status code is 200": true,
-					"Response has userId": true
-				}
-			]
-		},
-		{
-			"id": "750c34fd-5c13-4e03-94c0-15362fb78627",
+			"id": "4be3d2f2-d95c-44ec-8d63-115fba2fb59a",
 			"name": "Register Professor",
 			"url": "http://localhost:8081/api/auth/register",
-			"time": 88,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Status code is 200": true,
-				"Response has userId": true
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Response has userId": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				88
-			],
-			"allTests": [
-				{
-					"Status code is 200": true,
-					"Response has userId": true
-				}
-			]
-		},
-		{
-			"id": "1ecbb1ba-6a21-4bb7-8ab6-57da92997c0c",
-			"name": "Login as Professor",
-			"url": "http://localhost:8081/api/auth/login",
-			"time": 92,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Status code is 200": true,
-				"Response has accessToken": true
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Response has accessToken": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				92
-			],
-			"allTests": [
-				{
-					"Status code is 200": true,
-					"Response has accessToken": true
-				}
-			]
-		},
-		{
-			"id": "448c9fe5-c609-438d-8516-f83fd5635a54",
-			"name": "Login",
-			"url": "http://localhost:8081/api/auth/login",
-			"time": 88,
-			"responseCode": {
-				"code": 200,
-				"name": "OK"
-			},
-			"tests": {
-				"Status code is 200": true,
-				"Response has accessToken": true
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Response has accessToken": {
-					"pass": 1,
-					"fail": 0
-				}
-			},
-			"times": [
-				88
-			],
-			"allTests": [
-				{
-					"Status code is 200": true,
-					"Response has accessToken": true
-				}
-			]
-		},
-		{
-			"id": "3feb5d50-7ea3-4772-a72f-105cb22295d3",
-			"name": "Get Me",
-			"url": "http://localhost:8081/api/auth/me",
-			"time": 4,
-			"responseCode": {
-				"code": 401,
-				"name": "Unauthorized"
-			},
-			"tests": {
-				"Status code is 200": false,
-				"Response has user": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				},
-				"Response has user": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
-			"times": [
-				4
-			],
-			"allTests": [
-				{
-					"Status code is 200": false,
-					"Response has user": false
-				}
-			]
-		},
-		{
-			"id": "a9782c82-0729-4648-82e6-77d5d32d5355",
-			"name": "Refresh Token",
-			"url": "http://localhost:8081/api/auth/refresh",
-			"time": 7,
-			"responseCode": {
-				"code": 401,
-				"name": "Unauthorized"
-			},
-			"tests": {
-				"Status code is 200": false,
-				"Response has new accessToken": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				},
-				"Response has new accessToken": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
-			"times": [
-				7
-			],
-			"allTests": [
-				{
-					"Status code is 200": false,
-					"Response has new accessToken": false
-				}
-			]
-		},
-		{
-			"id": "64cef447-ab43-4e18-b9be-c6e0e41eef69",
-			"name": "Logout",
-			"url": "http://localhost:8081/api/auth/logout",
-			"time": 7,
+			"time": 518,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
@@ -229,7 +31,7 @@
 				}
 			},
 			"times": [
-				7
+				518
 			],
 			"allTests": [
 				{
@@ -238,24 +40,100 @@
 			]
 		},
 		{
-			"id": "87795f76-2c05-4a80-b475-b8302b929511",
-			"name": "Create Project",
-			"url": "http://localhost:8081/api/projects",
+			"id": "9c20da7f-a243-4873-9f4a-2d46fd3dbd60",
+			"name": "Login Professor",
+			"url": "http://localhost:8081/api/auth/login",
+			"time": 93,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Login successful": true
+			},
+			"testPassFailCounts": {
+				"Login successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				93
+			],
+			"allTests": [
+				{
+					"Login successful": true
+				}
+			]
+		},
+		{
+			"id": "74eae4b8-8ca9-4655-b20e-8f2241fe9959",
+			"name": "Get Me (Professor)",
+			"url": "http://localhost:8081/api/auth/me",
+			"time": 76,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				76
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "427446e0-86f4-4667-b70f-1d74a8dfa4a6",
+			"name": "Register Student",
+			"url": "http://localhost:8081/api/auth/register",
+			"time": 166,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				166
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "0cde973a-7af1-49e7-a111-4e665f071c58",
+			"name": "Get Me (Student)",
+			"url": "http://localhost:8081/api/auth/me",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				16
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "1d61b20c-06b2-4339-9e30-c76bac918757",
+			"name": "Refresh Token",
+			"url": "http://localhost:8081/api/auth/refresh",
 			"time": 21,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
 			},
 			"tests": {
-				"Status code is 200": true,
-				"Response has id": true
+				"Refresh successful": true
 			},
 			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Response has id": {
+				"Refresh successful": {
 					"pass": 1,
 					"fail": 0
 				}
@@ -265,350 +143,241 @@
 			],
 			"allTests": [
 				{
-					"Status code is 200": true,
-					"Response has id": true
+					"Refresh successful": true
 				}
 			]
 		},
 		{
-			"id": "838669a5-effb-4248-9163-a6d4c89984d2",
-			"name": "Get Project by ID",
-			"url": "http://localhost:8081/api/projects/",
-			"time": 20,
-			"responseCode": {
-				"code": 500,
-				"name": "Internal Server Error"
-			},
-			"tests": {
-				"Status code is 200": false,
-				"Response has title": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				},
-				"Response has title": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
-			"times": [
-				20
-			],
-			"allTests": [
-				{
-					"Status code is 200": false,
-					"Response has title": false
-				}
-			]
-		},
-		{
-			"id": "da3b16a0-e42a-44ee-8602-97debc9d4fd9",
-			"name": "Search Projects",
-			"url": "http://localhost:8081/api/projects?q=sample&page=0&size=10",
-			"time": 35,
-			"responseCode": {
-				"code": 500,
-				"name": "Internal Server Error"
-			},
-			"tests": {
-				"Status code is 200": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
-			"times": [
-				35
-			],
-			"allTests": [
-				{
-					"Status code is 200": false
-				}
-			]
-		},
-		{
-			"id": "4535ac38-f912-4d4c-8906-aeda594f9818",
+			"id": "5e006295-1480-4f59-925d-8a80b0ed807e",
 			"name": "Get All Professors",
 			"url": "http://localhost:8081/api/professors",
-			"time": 12,
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				15
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "85a72844-de23-4569-ac9a-371f75250aa6",
+			"name": "Create Project",
+			"url": "http://localhost:8081/api/projects",
+			"time": 44,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {
+				"Project Created": false
+			},
+			"testPassFailCounts": {
+				"Project Created": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				44
+			],
+			"allTests": [
+				{
+					"Project Created": false
+				}
+			]
+		},
+		{
+			"id": "6ed6cd66-3246-4b86-a1fd-39d10273dfec",
+			"name": "Get All Projects",
+			"url": "http://localhost:8081/api/projects",
+			"time": 40,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				40
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d05d1082-e1e3-4e7e-b89b-b0ad765deaaa",
+			"name": "Get Project By ID",
+			"url": "http://localhost:8081/api/projects/",
+			"time": 21,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				21
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "7b9061c4-ae45-4a55-88aa-6cecbd949cb2",
+			"name": "Create Request (Student)",
+			"url": "http://localhost:8081/api/requests",
+			"time": 27,
 			"responseCode": {
 				"code": 200,
 				"name": "OK"
 			},
 			"tests": {
-				"Status code is 200": true,
-				"Response is array": true
+				"Request Created": true
 			},
 			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 1,
-					"fail": 0
-				},
-				"Response is array": {
+				"Request Created": {
 					"pass": 1,
 					"fail": 0
 				}
 			},
 			"times": [
-				12
+				27
 			],
 			"allTests": [
 				{
-					"Status code is 200": true,
-					"Response is array": true
+					"Request Created": true
 				}
 			]
 		},
 		{
-			"id": "e32122d0-3020-42a1-a7c7-43094e2e682c",
-			"name": "Create Request",
-			"url": "http://localhost:8081/api/requests",
-			"time": 4,
-			"responseCode": {
-				"code": 403,
-				"name": "Forbidden"
-			},
-			"tests": {
-				"Status code is 200": false,
-				"Response has id": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				},
-				"Response has id": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
-			"times": [
-				4
-			],
-			"allTests": [
-				{
-					"Status code is 200": false,
-					"Response has id": false
-				}
-			]
-		},
-		{
-			"id": "b7507725-a8b5-4692-9064-4c227ad59eb1",
-			"name": "Change Request Status",
-			"url": "http://localhost:8081/api/requests//status",
-			"time": 3,
-			"responseCode": {
-				"code": 403,
-				"name": "Forbidden"
-			},
-			"tests": {
-				"Status code is 200": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
-			"times": [
-				3
-			],
-			"allTests": [
-				{
-					"Status code is 200": false
-				}
-			]
-		},
-		{
-			"id": "7214bab0-e609-4573-b302-ca2afdfb1d4d",
-			"name": "Get Requests for Professor",
-			"url": "http://localhost:8081/api/requests/professor/",
-			"time": 4,
-			"responseCode": {
-				"code": 403,
-				"name": "Forbidden"
-			},
-			"tests": {
-				"Status code is 200": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
-			"times": [
-				4
-			],
-			"allTests": [
-				{
-					"Status code is 200": false
-				}
-			]
-		},
-		{
-			"id": "6107f90d-69cf-4658-9b09-3d3551fd3526",
-			"name": "Get My Requests",
+			"id": "d9b4fd94-f76f-4594-997f-74f19106c9e3",
+			"name": "Get My Requests (Student)",
 			"url": "http://localhost:8081/api/requests/student/me",
-			"time": 4,
+			"time": 16,
 			"responseCode": {
-				"code": 403,
-				"name": "Forbidden"
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				16
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "00f1d126-ef61-402a-bc03-43f844365852",
+			"name": "Accept Request (Professor)",
+			"url": "http://localhost:8081/api/requests/1/status",
+			"time": 59,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error"
 			},
 			"tests": {
-				"Status code is 200": false
+				"Status updated": false
 			},
 			"testPassFailCounts": {
-				"Status code is 200": {
+				"Status updated": {
 					"pass": 0,
 					"fail": 1
 				}
 			},
 			"times": [
-				4
+				59
 			],
 			"allTests": [
 				{
-					"Status code is 200": false
+					"Status updated": false
 				}
 			]
 		},
 		{
-			"id": "fdbe2a1a-e2f0-4caa-baa2-d898d50445ae",
+			"id": "43df38ec-e970-492e-873f-b9857a32b4af",
 			"name": "Get My Notifications",
 			"url": "http://localhost:8081/api/notifications",
-			"time": 5,
+			"time": 36,
 			"responseCode": {
-				"code": 403,
-				"name": "Forbidden"
+				"code": 500,
+				"name": "Internal Server Error"
 			},
-			"tests": {
-				"Status code is 200": false,
-				"Response is array": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				},
-				"Response is array": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
+			"tests": {},
+			"testPassFailCounts": {},
 			"times": [
-				5
+				36
 			],
 			"allTests": [
-				{
-					"Status code is 200": false,
-					"Response is array": false
-				}
-			]
-		},
-		{
-			"id": "155cb16e-78ba-4ea6-b01f-94cb4fbed11c",
-			"name": "Mark Notification as Read",
-			"url": "http://localhost:8081/api/notifications//read",
-			"time": 3,
-			"responseCode": {
-				"code": 403,
-				"name": "Forbidden"
-			},
-			"tests": {
-				"Status code is 200": false
-			},
-			"testPassFailCounts": {
-				"Status code is 200": {
-					"pass": 0,
-					"fail": 1
-				}
-			},
-			"times": [
-				3
-			],
-			"allTests": [
-				{
-					"Status code is 200": false
-				}
+				{}
 			]
 		}
 	],
 	"count": 1,
-	"totalTime": 493,
+	"totalTime": 1148,
 	"collection": {
 		"requests": [
 			{
-				"id": "1589ee10-634a-42d1-b1f0-c1d799283c76",
+				"id": "4be3d2f2-d95c-44ec-8d63-115fba2fb59a",
 				"method": "POST"
 			},
 			{
-				"id": "750c34fd-5c13-4e03-94c0-15362fb78627",
+				"id": "9c20da7f-a243-4873-9f4a-2d46fd3dbd60",
 				"method": "POST"
 			},
 			{
-				"id": "1ecbb1ba-6a21-4bb7-8ab6-57da92997c0c",
-				"method": "POST"
-			},
-			{
-				"id": "448c9fe5-c609-438d-8516-f83fd5635a54",
-				"method": "POST"
-			},
-			{
-				"id": "3feb5d50-7ea3-4772-a72f-105cb22295d3",
+				"id": "74eae4b8-8ca9-4655-b20e-8f2241fe9959",
 				"method": "GET"
 			},
 			{
-				"id": "a9782c82-0729-4648-82e6-77d5d32d5355",
+				"id": "427446e0-86f4-4667-b70f-1d74a8dfa4a6",
 				"method": "POST"
 			},
 			{
-				"id": "64cef447-ab43-4e18-b9be-c6e0e41eef69",
-				"method": "POST"
-			},
-			{
-				"id": "87795f76-2c05-4a80-b475-b8302b929511",
-				"method": "POST"
-			},
-			{
-				"id": "838669a5-effb-4248-9163-a6d4c89984d2",
+				"id": "0cde973a-7af1-49e7-a111-4e665f071c58",
 				"method": "GET"
 			},
 			{
-				"id": "da3b16a0-e42a-44ee-8602-97debc9d4fd9",
-				"method": "GET"
-			},
-			{
-				"id": "4535ac38-f912-4d4c-8906-aeda594f9818",
-				"method": "GET"
-			},
-			{
-				"id": "e32122d0-3020-42a1-a7c7-43094e2e682c",
+				"id": "1d61b20c-06b2-4339-9e30-c76bac918757",
 				"method": "POST"
 			},
 			{
-				"id": "b7507725-a8b5-4692-9064-4c227ad59eb1",
+				"id": "5e006295-1480-4f59-925d-8a80b0ed807e",
+				"method": "GET"
+			},
+			{
+				"id": "85a72844-de23-4569-ac9a-371f75250aa6",
+				"method": "POST"
+			},
+			{
+				"id": "6ed6cd66-3246-4b86-a1fd-39d10273dfec",
+				"method": "GET"
+			},
+			{
+				"id": "d05d1082-e1e3-4e7e-b89b-b0ad765deaaa",
+				"method": "GET"
+			},
+			{
+				"id": "7b9061c4-ae45-4a55-88aa-6cecbd949cb2",
+				"method": "POST"
+			},
+			{
+				"id": "d9b4fd94-f76f-4594-997f-74f19106c9e3",
+				"method": "GET"
+			},
+			{
+				"id": "00f1d126-ef61-402a-bc03-43f844365852",
 				"method": "PUT"
 			},
 			{
-				"id": "7214bab0-e609-4573-b302-ca2afdfb1d4d",
+				"id": "43df38ec-e970-492e-873f-b9857a32b4af",
 				"method": "GET"
-			},
-			{
-				"id": "6107f90d-69cf-4658-9b09-3d3551fd3526",
-				"method": "GET"
-			},
-			{
-				"id": "fdbe2a1a-e2f0-4caa-baa2-d898d50445ae",
-				"method": "GET"
-			},
-			{
-				"id": "155cb16e-78ba-4ea6-b01f-94cb4fbed11c",
-				"method": "PUT"
 			}
 		]
 	}
