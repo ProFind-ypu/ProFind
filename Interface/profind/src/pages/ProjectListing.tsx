@@ -1,12 +1,12 @@
 import ProjectPreviewCard from "../components/Primary/ProjectPreviewCard";
 import { SortOptions, SortTags } from "../testing/constants";
 import { useEffect, useState } from "react";
-import { filterItems } from "../helpers/_SearchHelpers";
+import { filterProjects } from "../helpers/_SearchHelpers";
 import ProfessorProfilePreview from "../components/Primary/ProfessorProfilePreview";
 import SearchBar from "../components/complex/SearchBar";
 import TagFilter from "../components/complex/TagFilter";
 import CallOutWarning from "../components/complex/CallOutWarning";
-import { sortItems } from "../helpers/_SortHelper";
+import { sortProjects } from "../helpers/_SortHelper";
 import DropdownMenu from "../components/complex/DropdownMenu";
 import { Link, useNavigate } from "react-router-dom";
 import type { ProjectInfo } from "../class/ProjectInfo";
@@ -68,7 +68,7 @@ export default function ProjectsListing() {
             <ProfessorProfilePreview ProInfo={user} />
           ))}*/}
         </div>
-        <Link to="/test" className="flex justify-center">
+        <Link to="/professors" className="flex justify-center">
           <button className="px-3 py-1 border-2 flex flex-row gap-1 border-white bg-banner text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-white/10">
             View All Supervisor
           </button>
@@ -131,13 +131,13 @@ export default function ProjectsListing() {
 
   function handleSearch(term: string, tags?: Set<string>, sortoption?: string) {
     setSearchTerm(term);
-    const filteredItems = filterItems(
+    const filteredItems = filterProjects(
       SearchedProducts, // Use fetched data, not MOCK_projectinfo
       term,
       tags || SelectedTags,
       ["title", "description"],
     );
-    const sortedItems = sortItems(filteredItems, sortoption || SortOption);
+    const sortedItems = sortProjects(filteredItems, sortoption || SortOption);
     setSearchedProducts(sortedItems);
   }
 }

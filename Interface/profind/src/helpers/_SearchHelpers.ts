@@ -1,3 +1,4 @@
+import type { Professor } from "../class/Professor";
 import type { ProjectInfo } from "../class/ProjectInfo";
 
 /**
@@ -7,7 +8,7 @@ import type { ProjectInfo } from "../class/ProjectInfo";
  * @param keys - Array of object keys to include in the search
  * @returns Filtered array
  */
-export const filterItems = (
+export const filterProjects = (
   projectInfo: ProjectInfo[],
   searchTerm: string,
   selectedTags?: Set<string>,
@@ -75,4 +76,39 @@ export const debounce = <F extends (...args: any[]) => void>(
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func(...args), delay);
   };
+};
+
+export const filterProfessors = (
+  professors: Professor[],
+  searchTerm: string,
+  selectedTags?: Set<string>,
+  keys?: (keyof Professor)[],
+): Professor[] => {
+  if (
+    !searchTerm.trim() &&
+    (selectedTags == undefined || selectedTags.size == 0)
+  )
+    return professors;
+  let tmp;
+  const normalizedSearchValue = searchTerm.toLowerCase().trim();
+  if (keys != undefined && keys.length != 0)
+    tmp = professors.filter((item) =>
+      keys.some((key) => {
+        const value = item[key];
+        return (
+          value && String(value).toLowerCase().includes(normalizedSearchValue)
+        );
+      }),
+    );
+  else {
+    tmp = professors.filter((item) =>
+      item.fullName.toLowerCase().includes(normalizedSearchValue),
+    );
+  }
+  if (selectedTags != undefined && selectedTags.size > 0) {
+    return tmp.filter((projinfo) => {
+      return isSetsIntersected(new Set(projinfo.skills), selectedTags);
+    });
+  }
+  return tmp;
 };

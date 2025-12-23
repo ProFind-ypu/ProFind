@@ -1,3 +1,4 @@
+import type { Professor } from "../class/Professor";
 import type { ProjectInfo } from "../class/ProjectInfo";
 
 /**
@@ -7,7 +8,7 @@ import type { ProjectInfo } from "../class/ProjectInfo";
  * @param keys - Array of object keys to include in the search
  * @returns Filtered array
  */
-export const sortItems = (
+export const sortProjects = (
   projectInfo: ProjectInfo[],
   sortOption?: string,
 ): ProjectInfo[] => {
@@ -25,6 +26,25 @@ export const sortItems = (
       break;
     default:
       return projectInfo.sort((a, b) => a.title.localeCompare(b.title));
+      break;
+  }
+};
+export const sortProfessors = (
+  projectInfo: Professor[],
+  sortOption?: string,
+): Professor[] => {
+  if (sortOption == undefined) return projectInfo;
+  switch (true) {
+    case sortOption == "name":
+      return projectInfo.sort((a, b) => a.fullName.localeCompare(b.fullName));
+      break;
+    case sortOption == "department":
+      return projectInfo.sort((a, b) =>
+        a.department.localeCompare(b.department),
+      );
+      break;
+    default:
+      return projectInfo.sort((a, b) => a.fullName.localeCompare(b.fullName));
       break;
   }
 };
