@@ -13,6 +13,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,8 +38,9 @@ public class Project {
     // @Column(columnDefinition = "text")
     // private String requirements;
     @JdbcTypeCode(SqlTypes.JSON)
-        @Column(columnDefinition = "jsonb")
-        private List<String> requirements;
+    @Column(columnDefinition = "jsonb")
+    private List<String> requirements;
+
     // tags stored as JSONB (List<String> mapped to JSONB)
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
@@ -51,6 +54,10 @@ public class Project {
 
     @Column(name = "updated_at")
     private Instant updatedAt = Instant.now();
+
+    @OneToOne
+    @JoinColumn(name = "proposal_id", unique = true)
+    private Proposal proposal;
 
     public Long getId() {
         return id;
@@ -130,5 +137,13 @@ public class Project {
 
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Proposal getProposal() {
+        return proposal;
+    }
+
+    public void setProposal(Proposal proposal) {
+        this.proposal = proposal;
     }
 }

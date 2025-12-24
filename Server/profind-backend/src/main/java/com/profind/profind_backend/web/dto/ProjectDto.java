@@ -9,9 +9,10 @@ public class ProjectDto {
     public String title;
     public String shortDescription;
     public String description;
-    public List<String> requirments;// NEW
+    public List<String> requirements;
     public List<String> tags;
     public String status;
+    public Long proposalId;
     public Instant createdAt;
     public Instant updatedAt;
 }

@@ -8,15 +8,19 @@ import org.springframework.stereotype.Service;
 
 import com.profind.profind_backend.domain.Project;
 import com.profind.profind_backend.domain.ProjectStatus;
+import com.profind.profind_backend.domain.Proposal;
 import com.profind.profind_backend.repository.ProjectRepository;
+import com.profind.profind_backend.repository.ProposalRepository;
 import com.profind.profind_backend.web.dto.ProjectDto;
 
 @Service
 public class ProjectService {
     private final ProjectRepository repo;
+    private final ProposalRepository proposalRepo;
 
-    public ProjectService(ProjectRepository repo) {
+    public ProjectService(ProjectRepository repo, ProposalRepository proposalRepo) {
         this.repo = repo;
+        this.proposalRepo = proposalRepo;
     }
 
     public ProjectDto create(ProjectDto dto) {
@@ -25,9 +29,10 @@ public class ProjectService {
         p.setTitle(dto.title);
         p.setShortDescription(dto.shortDescription);
         p.setDescription(dto.description);
-        p.setRequirements(dto.requirments);        
+        p.setRequirements(dto.requirements);        
         p.setTags(dto.tags);
         p.setStatus(ProjectStatus.OPEN);
+        
         Project saved = repo.save(p);
         return toDto(saved);
     }
@@ -65,9 +70,10 @@ public class ProjectService {
         p.setTitle(dto.title);
         p.setShortDescription(dto.shortDescription);
         p.setDescription(dto.description);
-        p.setRequirements(dto.requirments);
+        p.setRequirements(dto.requirements);
         p.setTags(dto.tags);
         p.setUpdatedAt(java.time.Instant.now());
+
         Project saved = repo.save(p);
         return toDto(saved);
     }
@@ -79,15 +85,12 @@ public class ProjectService {
         d.title = p.getTitle();
         d.shortDescription = p.getShortDescription();
         d.description = p.getDescription();
-        // if (p.getRequirements() != null && !p.getRequirements().isEmpty()) {
-        //     d.requirments = Arrays.stream(p.getRequirements().split("\\$@"))
-        //                       .collect(Collectors.toList());
-        // } else {
-        //     d.requirments = List.of();
-        // }
-        d.requirments=p.getRequirements();
+        d.requirements = p.getRequirements();
         d.tags = p.getTags();
         d.status = p.getStatus().name();
+        if (p.getProposal() != null) {
+            d.proposalId = p.getProposal().getId();
+        }
         d.createdAt = p.getCreatedAt();
         d.updatedAt = p.getUpdatedAt();
         return d;
