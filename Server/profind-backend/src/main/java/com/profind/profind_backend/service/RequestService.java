@@ -25,13 +25,14 @@ public class RequestService {
         this.projectRepo = projectRepo;
     }
 
-    public SupervisionRequest createRequest(Long studentId, Long professorId, Long projectId, String message) {
+    public SupervisionRequest createRequest(Long studentId, Long professorId, Long projectId, String message, String formData) {
         SupervisionRequest r = new SupervisionRequest();
         r.setStudentId(studentId);
         r.setProfessorId(professorId);
         r.setProjectId(projectId);
         r.setStatus("PENDING");
         r.setMessage(message);
+        r.setFormData(formData);
         r.setCreatedAt(Instant.now());
         return requestRepo.save(r);
     }

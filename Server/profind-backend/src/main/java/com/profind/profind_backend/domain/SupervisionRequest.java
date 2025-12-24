@@ -1,5 +1,8 @@
 package com.profind.profind_backend.domain;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.*;
 import java.time.Instant;
 
@@ -27,6 +30,10 @@ public class SupervisionRequest {
 
     @Column(columnDefinition = "text")
     private String message;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "form_data", columnDefinition = "jsonb")
+    private String formData;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
@@ -80,6 +87,14 @@ public class SupervisionRequest {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getFormData() {
+        return formData;
+    }
+
+    public void setFormData(String formData) {
+        this.formData = formData;
     }
 
     public Instant getCreatedAt() {

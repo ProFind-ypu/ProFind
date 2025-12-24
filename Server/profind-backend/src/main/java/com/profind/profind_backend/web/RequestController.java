@@ -35,7 +35,19 @@ public class RequestController {
         Long professorId = Long.valueOf(professorIdObj.toString());
         Long projectId = body.get("projectId") != null ? Long.valueOf(body.get("projectId").toString()) : null;
         String message = (String) body.getOrDefault("message", "");
-        var created = requestService.createRequest(studentId, professorId, projectId, message);
+        
+        String formData = null;
+        if (body.containsKey("formData")) {
+            try {
+                // We store the formData as a JSON string for the JSONB column
+                formData = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(body.get("formData"));
+            } catch (Exception e) {
+                // fallback if serialization fails
+                formData = body.get("formData").toString();
+            }
+        }
+
+        var created = requestService.createRequest(studentId, professorId, projectId, message, formData);
         return ResponseEntity.ok(created);
     }
 
