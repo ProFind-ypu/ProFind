@@ -22,7 +22,7 @@ public class OutboxPublisher {
     private final NotificationService notificationService;
 
     public OutboxPublisher(OutboxEventRepository outboxRepo,
-                           @Qualifier("loggingEventSender") EventSenderClient sender,
+                           @Qualifier("n8nEventSender") EventSenderClient sender,
                            NotificationService notificationService) {
         this.outboxRepo = outboxRepo;
         this.sender = sender;

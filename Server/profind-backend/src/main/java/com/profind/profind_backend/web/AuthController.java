@@ -9,8 +9,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -120,6 +122,19 @@ public class AuthController {
         String refreshTokenStr = body.get("refreshToken");
         refreshTokenService.deleteByToken(refreshTokenStr);
         return ResponseEntity.ok(Map.of("status", "ok"));
+    }
+
+    @GetMapping("/users/{id}/contacts")
+    public ResponseEntity<?> getUserContacts(@PathVariable Long id, @RequestHeader(value = "X-App-Token", required = false) String internalToken) {
+        // Optional: verify internalToken if you want to restrict this endpoint
+        return userService.findById(id)
+                .map(user -> ResponseEntity.ok(Map.of(
+                        "id", user.getId(),
+                        "email", user.getEmail(),
+                        "fullName", user.getFullName(),
+                        "telegramChatId", "" // You can add a field to User.java for this later
+                )))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/me")
