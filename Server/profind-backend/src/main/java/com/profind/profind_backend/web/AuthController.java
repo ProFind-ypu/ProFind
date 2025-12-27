@@ -121,6 +121,7 @@ public class AuthController {
     public ResponseEntity<?> logout(@RequestBody Map<String,String> body) {
         String refreshTokenStr = body.get("refreshToken");
         refreshTokenService.deleteByToken(refreshTokenStr);
+        
         return ResponseEntity.ok(Map.of("status", "ok"));
     }
 
@@ -143,11 +144,23 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         User user = userService.findByEmail(principal.getUsername()).orElseThrow();
-        UserDto dto = new UserDto();
-        dto.id = user.getId();
-        dto.name = user.getFullName() != null ? user.getFullName() : user.getEmail();
-        dto.email = user.getEmail();
-        dto.type = user.getRole() != null ? user.getRole().name().toLowerCase() : "student";
-        return ResponseEntity.ok(Map.of("user", dto));
+        // UserDto dto = new UserDto();
+        // dto.id = user.getId();
+        // dto.name = user.getFullName() != null ? user.getFullName() : user.getEmail();
+        // dto.email = user.getEmail();
+        // dto.type = user.getRole() != null ? user.getRole().name().toLowerCase() : "student";
+        
+        String accessToken = jwtUtils.generateAccessToken(user);
+        // String accessToken = jwtUtils.generateAccessToken(user.getId(), user.getEmail(), roles);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user.getId());
+        String expirationMs = System.getenv("APP_JWT_EXPIRATION_MS");
+        if (expirationMs == null) {
+            expirationMs = "3600000";
+        }
+        return ResponseEntity.ok(Map.of(
+            "accessToken", accessToken,
+            "refreshToken", refreshToken.getToken(),
+            "expiresIn", expirationMs
+        ));
     }
 }

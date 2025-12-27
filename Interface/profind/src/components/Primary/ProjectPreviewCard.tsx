@@ -4,7 +4,6 @@ import type { ProjectInfo } from "../../class/ProjectInfo";
 type Props = { project_info: ProjectInfo };
 export default function ProjectPreviewCard({ project_info }: Props) {
   const nav = useNavigate();
-  //console.log(project_info.createdAt);
   return (
     <div
       className="flex flex-col  gap-5 p-5 hover:shadow-black hover:ring bg-banner justify-between rounded-lg cursor-pointer shadow-md hover:shadow-lg transition-shadow duration-300"
@@ -19,8 +18,10 @@ export default function ProjectPreviewCard({ project_info }: Props) {
             {project_info.title}
           </h3>
           <TagWrapper
-            title={project_info.status ? "Taken" : "Open"}
-            classname={project_info.status ? "error-bg " : "secsess-bg "}
+            title={project_info.status == "OPEN" ? "Open" : "Taken"}
+            classname={
+              project_info.status == "OPEN" ? "secsess-bg " : "error-bg "
+            }
           />
         </div>
         <p id="OverflowText" className=" text-sm mt-1 w-full  ">

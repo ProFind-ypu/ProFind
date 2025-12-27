@@ -39,7 +39,7 @@ export default function CallOutWarning({ text, classname }: MyComponentProps) {
           </svg>
         </div>
         <div>
-          <p>{text}</p>
+          <p className="whitespace-break-spaces">{text}</p>
         </div>
       </div>
     );

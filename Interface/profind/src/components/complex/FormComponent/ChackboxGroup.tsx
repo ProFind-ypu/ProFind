@@ -1,26 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckBox from "./CheckBox";
 
-interface ChackBoxGroupProps {
+interface CheckBoxGroupProps {
   titles: string[];
   name: string;
+  singleSelect?: boolean;
+  value?: number[];
+  onChange?: (selectedIndices: number[]) => void;
 }
 
-export default function ChackBoxGroup({ titles, name }: ChackBoxGroupProps) {
-  const [selected, setSelected] = useState<string | null>();
+export default function CheckBoxGroup({
+  titles,
+  name,
+  singleSelect = false,
+  value,
+  onChange,
+}: CheckBoxGroupProps) {
+  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
 
-  const handleCheckboxClick = (title: string) => {
-    // If already selected, unselect it (like radio toggle-off behavior)
-    const newSelected = selected === title ? null : title;
-    setSelected(newSelected);
+  // Sync with parent-controlled value
+  useEffect(() => {
+    if (value !== undefined) {
+      setSelectedIndices(value);
+    }
+  }, [value]);
+
+  const handleCheckboxClick = (index: number) => {
+    let newSelected: number[];
+
+    if (singleSelect) {
+      newSelected = [index];
+    } else {
+      const isSelected = selectedIndices.includes(index);
+      newSelected = isSelected
+        ? selectedIndices.filter((i) => i !== index)
+        : [...selectedIndices, index];
+    }
+
+    setSelectedIndices(newSelected);
+    onChange?.(newSelected);
   };
-  return titles.map((title) => (
+
+  return titles.map((title, index) => (
     <CheckBox
-      key={title}
+      key={index}
       name={name}
       title={title}
-      Checked={selected === title}
-      onClick={() => handleCheckboxClick(title)}
+      Checked={selectedIndices.includes(index)}
+      onClick={() => handleCheckboxClick(index)}
     />
   ));
 }

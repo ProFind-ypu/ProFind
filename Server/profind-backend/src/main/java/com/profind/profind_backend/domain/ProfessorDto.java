@@ -6,7 +6,7 @@ public class ProfessorDto {
 
     public Long id;
     public String fullName;
-    public String year;
+    public int  year;
     public String bio;
     public List<String> skills;
     public String department;
@@ -18,7 +18,7 @@ public class ProfessorDto {
 
     public ProfessorDto(Long id,
             String fullName,
-            String year,
+            int year,
             String bio,
             String altemail,
             String phonenumber,
@@ -26,7 +26,7 @@ public class ProfessorDto {
             String department,
             String avatarUrl,
             String role) {
-                this.id = id;
+        this.id = id;
         this.bio = bio;
         this.fullName=fullName;
         this.year=year;

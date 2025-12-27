@@ -1,14 +1,21 @@
 package com.profind.profind_backend.domain;
 
+import java.time.Instant;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import jakarta.persistence.*;
-import java.time.Instant;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "proposal")
 public class Proposal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +31,9 @@ public class Proposal {
 
     @Column(nullable = false, length = 50)
     private String status = "PENDING";
+
+    @Column(name = "title",nullable = false, length = 50)
+    private String title ;
 
     @Column(columnDefinition = "text")
     private String message;
@@ -77,7 +87,13 @@ public class Proposal {
     public void setStatus(String status) {
         this.status = status;
     }
+public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
     public String getMessage() {
         return message;
     }

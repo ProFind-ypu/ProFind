@@ -1,6 +1,6 @@
 // import { MOCK_projectinfo } from "../testing/constants";
 import TagWrapper from "../components/complex/TagWrapper";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import type { ProjectInfo } from "../class/ProjectInfo";
@@ -50,7 +50,6 @@ export default function ProjectDetailes() {
       fetchProject();
     }
   }, [searchParam]);
-  console.log(project);
   // const formattedDate = new Date(project.createdAt).toLocaleDateString(
   //   "en-US",
   //   {
@@ -121,7 +120,8 @@ export default function ProjectDetailes() {
           Requirements
         </h3>
         <ul className="list-disc list-inside space-y-2 text-gray-300">
-          {project.requirments.map((req, index) => (
+          {}
+          {project.requirements.map((req, index) => (
             <li key={index}>{req}</li>
           ))}
         </ul>
@@ -129,20 +129,23 @@ export default function ProjectDetailes() {
 
       {/* Apply Button */}
       <div className="flex justify-center">
-        <Link to={"/ApplicationForm"}>
-          <button
-            // disabled={!project.status}
-            className={`px-6 py-3 rounded-lg font-semibold text-white transition-all duration-200
+        <button
+          onClick={() =>
+            nav(
+              `/ApplicationForm?id=${project.proposalId}&projectId=${project.id}`,
+            )
+          }
+          // disabled={!project.status}
+          className={`px-6 py-3 rounded-lg font-semibold text-white transition-all duration-200
                 ${
                   !project.status
                     ? "bg-gray-600 "
                     : "bg-[#4f3aed] hover:bg-[#6a55ee] active:bg-[#3a29cc]"
                 }
               `}
-          >
-            {!project.status ? "Already Taken" : "Start Application"}
-          </button>
-        </Link>
+        >
+          {!project.status ? "Already Taken" : "Start Application"}
+        </button>
       </div>
     </main>
   );

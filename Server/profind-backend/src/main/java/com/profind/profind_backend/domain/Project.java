@@ -20,7 +20,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "project")
 public class Project {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "professor_id", nullable = false)
@@ -59,6 +61,10 @@ public class Project {
     @JoinColumn(name = "proposal_id", unique = true)
     private Proposal proposal;
 
+    @OneToOne
+    @JoinColumn(name = "default_proposal_id", unique = true)
+    private Proposal default_proposal_id;
+
     public Long getId() {
         return id;
     }
@@ -66,6 +72,8 @@ public class Project {
     public void setId(Long id) {
         this.id = id;
     }
+
+    
 
     public Long getProfessorId() {
         return professorId;
@@ -145,5 +153,13 @@ public class Project {
 
     public void setProposal(Proposal proposal) {
         this.proposal = proposal;
+    }
+    
+    public Proposal getDefault_proposal_id() {
+        return default_proposal_id;
+    }
+
+    public void setDefault_proposal_id(Proposal id) {
+        this.default_proposal_id = id;
     }
 }

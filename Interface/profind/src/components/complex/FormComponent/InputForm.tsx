@@ -1,10 +1,12 @@
+import { useState } from "react";
+
 interface InputFormProp {
   id: string;
   name: string;
   _value?: string;
   className?: string;
   maxLength?: number;
-  onchange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onchange?: (newvalue: string) => void;
 }
 export default function InputForm({
   id,
@@ -14,13 +16,17 @@ export default function InputForm({
   maxLength,
   onchange = () => {},
 }: InputFormProp) {
+  const [inputValue, setInputValue] = useState(_value || "");
   return (
     <input
       id={id}
       name={name}
       type={"text"}
-      onChange={onchange}
-      value={_value}
+      value={inputValue} // ← controlled value
+      onChange={(e) => {
+        setInputValue(e.target.value);
+        onchange(e.target.value);
+      }}
       required
       maxLength={maxLength}
       className={`transparentInput  ${className}`}

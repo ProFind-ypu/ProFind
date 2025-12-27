@@ -40,6 +40,7 @@ public class JwtUtils {
                 .setSubject(String.valueOf(user.getId()))
                 .setIssuedAt(now)
                 .setExpiration(expiry)
+                .claim("id", user.getId())
                 .claim("email", user.getEmail())
                 .claim("roles", user.getRole().name())
                 .claim("fullname", user.getFullName())

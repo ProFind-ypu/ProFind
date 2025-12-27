@@ -12,8 +12,46 @@ import EmailVerification from "./pages/emailVerification .tsx";
 import { AuthProvider } from "./Auth/AuthContext.tsx";
 import Dashboard from "./pages/dashboard.tsx";
 import ProfessorsList from "./pages/ProfessorsListing.tsx";
+import axios from "axios";
+import Logout from "./pages/logout.tsx";
+import MyProjects from "./pages/myprojects.tsx";
+import AssideBar from "./components/Primary/AssideBar.tsx";
+import NewProject from "./pages/newProject.tsx";
 
 export default function App() {
+  // Log all outgoing requests
+  axios.interceptors.request.use(
+    (config) => {
+      console.log("🚀 Axios Request:", {
+        url: config.url,
+        method: config.method?.toUpperCase(),
+        headers: config.headers,
+        data: config.data,
+        withCredentials: config.withCredentials,
+      });
+      return config;
+    },
+    (error) => {
+      console.error("❌ Axios Request Error:", error);
+      return Promise.reject(error);
+    },
+  );
+
+  // Optional: Log responses too
+  axios.interceptors.response.use(
+    (response) => {
+      console.log("✅ Axios Response:", {
+        status: response.status,
+        data: response.data,
+        headers: response.headers,
+      });
+      return response;
+    },
+    (error) => {
+      console.error("❌ Axios Response Error:", error);
+      return Promise.reject(error);
+    },
+  );
   return (
     <BrowserRouter>
       <AuthProvider>
@@ -25,18 +63,32 @@ export default function App() {
             <Route path="/professors" element={<ProfessorsList />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/projectDetailes" element={<ProjectDetailes />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/ApplicationForm" element={<ApplicationForm />} />
           </Route>
           {/* pages without Navegation bar */}
+          <Route element={<WithAssideBar />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/myprojects" element={<MyProjects />} />
+            <Route path="/newproject" element={<NewProject />} />
+          </Route>
           <Route element={<WithoutNavbar />}>
             <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/Email_Verification" element={<EmailVerification />} />
             <Route path="/signup" element={<Signup />} />
           </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
+  );
+}
+function WithAssideBar() {
+  return (
+    <>
+      <AssideBar />
+      <Outlet />
+      <Footer />
+    </>
   );
 }
 function WithNavbar() {

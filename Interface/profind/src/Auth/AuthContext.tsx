@@ -7,6 +7,7 @@ import type {
   RegisterResult,
 } from "../class/auth";
 import type { User } from "../class/User";
+import { getToken, setToken } from "./localStorage";
 // import type { LoginResponce } from "../class/LoginResponce";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,11 +30,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get<{ user: User }>("/api/auth/me", {
-          withCredentials: true,
+        const respond = await axios.get("/api/auth/me", {
+          headers: {
+            Authorization: "Bearer " + getToken(),
+          },
         });
-
-        setUser(res.data.user);
+        // setUser(res.data.user);
+        // const registereduser = jwtDecode<User>(respond.data["accessToken"]);
+        //TODO: making the success code is 201 in backend
+        const registereduser = jwtDecode<User>(respond.data["accessToken"]);
+        if (respond.status === 200) {
+          registereduser.token = respond.data["accessToken"];
+          setToken(respond.data["accessToken"]);
+          setUser(registereduser);
+          return {
+            success: true,
+            message: "Registration successful",
+            user: registereduser,
+          };
+        }
       } catch (err) {
         console.error("Auth check failed:", err);
         setUser(null);
@@ -64,6 +79,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const registereduser = jwtDecode<User>(respond.data["accessToken"]);
       //TODO: making the success code is 201 in backend
       if (respond.status === 200) {
+        registereduser.token = respond.data["accessToken"];
+        setToken(respond.data["accessToken"]);
         setUser(registereduser);
         return {
           success: true,
@@ -94,6 +111,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       if (respond.status === 200) {
         const loggeduser = jwtDecode<User>(respond.data["accessToken"]);
+        setToken(respond.data["accessToken"]);
         // const mockuser: User = {
         //   fullname: "Ag",
         //   email: "hallowbitch@me.proton",
@@ -102,7 +120,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         //   avatarUrl: "erlthismotherfucker",
         // };
         //console.log(loggeduser);
-
+        loggeduser.token = respond.data["accessToken"];
         setUser(loggeduser);
 
         return {
@@ -122,7 +140,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = async (): Promise<void> => {
     try {
-      await axios.post("/api/auth/logout", {}, { withCredentials: true });
+      await axios.post("/api/auth/logout", {
+        headers: {
+          Authorization: "Bearer " + getToken(),
+        },
+      });
     } catch (err) {
       console.error("Logout failed:", err);
     } finally {

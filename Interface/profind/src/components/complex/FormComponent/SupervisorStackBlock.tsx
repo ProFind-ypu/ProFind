@@ -1,10 +1,32 @@
 import { useState } from "react";
 import InputForm from "./InputForm";
 
-export default function SupervisorStackBlock() {
+interface SupervisorStackBlockProp {
+  values: string[];
+  onchange: (values: string[]) => void;
+}
+export default function SupervisorStackBlock({
+  values,
+  onchange,
+}: SupervisorStackBlockProp) {
+  // Fill missing values with empty strings
+  const filledValues = [
+    values[0] || "",
+    values[1] || "",
+    values[2] || "", // Added for consistency (though not used in current layout)
+  ];
+  const [suppervisorsNames, setSuppervisorsNames] =
+    useState<string[]>(filledValues);
   const [hider, setHider] = useState([false, true, true]);
+  const handleInputChange = (index: number, value: string) => {
+    const newValues = [...suppervisorsNames];
+    newValues[index] = value;
+    setSuppervisorsNames(newValues);
+    onchange(newValues); // Notify parent
+  };
+
   return (
-    <div className="flex w-full overflow-hidden h-full  content-center items-center">
+    <div className="flex w-full overflow-hidden h-full content-center items-center">
       <div className="flex flex-row w-full p-2 items-center">
         <div
           className={`w-full sm:w-1/3 h-full sm:block! ${hider.at(0) ? "hidden" : ""}`}
@@ -13,7 +35,12 @@ export default function SupervisorStackBlock() {
             <p>اسم المشرف الرئيسي</p>
           </div>
           <div className="sad">
-            <InputForm id="" name="" />
+            <InputForm
+              id=""
+              name=""
+              _value={filledValues[0]}
+              onchange={(v) => handleInputChange(0, v)}
+            />
           </div>
           <div className="sad p-2">
             <p>التوقيع</p>
@@ -29,7 +56,12 @@ export default function SupervisorStackBlock() {
             <p>اسم المشرف المساعد</p>
           </div>
           <div className="sad">
-            <InputForm id="" name="" />
+            <InputForm
+              id=""
+              name=""
+              _value={filledValues[1]}
+              onchange={(v) => handleInputChange(1, v)}
+            />
           </div>
           <div className="sad p-2">
             <p>التوقيع</p>
@@ -45,7 +77,12 @@ export default function SupervisorStackBlock() {
             <p>اسم المشرف الخارجي</p>
           </div>
           <div className="sad">
-            <InputForm id="" name="" />
+            <InputForm
+              id=""
+              name=""
+              _value={filledValues[2] || ""}
+              onchange={(v) => handleInputChange(2, v)}
+            />
           </div>
           <div className="sad p-2">
             <p>التوقيع</p>
@@ -76,8 +113,8 @@ export default function SupervisorStackBlock() {
   );
   function shiftHider() {
     setHider((prev) => {
-      const newArr = [...prev]; // Copy the array
-      newArr.unshift(newArr.pop()!); // Rotate: move last to front
+      const newArr = [...prev];
+      newArr.unshift(newArr.pop()!);
       return newArr;
     });
   }

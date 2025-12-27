@@ -1,17 +1,20 @@
 package com.profind.profind_backend.service;
 
-import com.profind.profind_backend.domain.Project;
-import com.profind.profind_backend.domain.Proposal;
-import com.profind.profind_backend.repository.ProjectRepository;
-import com.profind.profind_backend.repository.ProposalRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.profind.profind_backend.domain.Project;
+import com.profind.profind_backend.domain.ProjectStatus;
+import com.profind.profind_backend.domain.Proposal;
+import com.profind.profind_backend.repository.ProjectRepository;
+import com.profind.profind_backend.repository.ProposalRepository;
+
 @Service
 public class ProposalService {
+
     private final ProposalRepository proposalRepo;
     private final ProjectRepository projectRepo;
 
@@ -24,17 +27,17 @@ public class ProposalService {
     public Proposal createProposal(Long studentId, Long professorId, Long projectId, String message, String formData) {
         if (projectId != null) {
             Project project = projectRepo.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
-            
-            if (project.getProposal() != null) {
-                throw new IllegalStateException("This project is already taken and cannot be requested.");
-            }
+                    .orElseThrow(() -> new IllegalArgumentException("Project not found"));
 
+            // if (project.getProposal() != null) {
+            //     throw new IllegalStateException("This project is already taken and cannot be requested.");
+            // }
             Proposal p = new Proposal();
             p.setStudentId(studentId);
             p.setProfessorId(professorId);
             p.setProjectId(projectId);
             p.setMessage(message);
+            p.setTitle(project.getTitle());
             p.setFormData(formData);
             p.setStatus("PENDING");
             p.setCreatedAt(Instant.now());
@@ -52,6 +55,7 @@ public class ProposalService {
             p.setStudentId(studentId);
             p.setProfessorId(professorId);
             p.setMessage(message);
+            p.setTitle("student title");
             p.setFormData(formData);
             p.setStatus("PENDING");
             p.setCreatedAt(Instant.now());
@@ -60,7 +64,8 @@ public class ProposalService {
         }
     }
 
-    public List<Proposal> findByStudent(Long studentId) {
+    public List<Proposal>
+            findByStudent(Long studentId) {
         return proposalRepo.findByStudentId(studentId);
     }
 
@@ -70,5 +75,19 @@ public class ProposalService {
 
     public void deleteProposal(Long id) {
         proposalRepo.deleteById(id);
+    }
+
+    @Transactional
+    public Proposal updateProposal(Proposal proposal) {
+        proposal.setUpdatedAt(Instant.now());
+        return proposalRepo.save(proposal);
+    }
+
+    @Transactional
+    public void updateProjectStatus(Long projectId, ProjectStatus status) {
+        Project project = projectRepo.findById(projectId)
+                .orElseThrow(() -> new IllegalArgumentException("Project not found"));
+        project.setStatus(status);
+        projectRepo.save(project);
     }
 }

@@ -1,11 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UseAuth } from "../../Auth/AuthContext";
 import DropdownMenu from "../complex/DropdownMenu";
-import { HiCog8Tooth, HiUserCircle } from "react-icons/hi2";
+import {
+  HiCog8Tooth,
+  HiOutlineArrowLeftOnRectangle,
+  HiUserCircle,
+} from "react-icons/hi2";
 
 const DropMenuOptions = [
-  { label: "Your Profile", value: "/profile", icon: HiUserCircle },
+  { label: "Your Profile", value: "dashboard", icon: HiUserCircle },
   { label: "Settings", value: "time_of_creation", icon: HiCog8Tooth },
+  { label: "Logout", value: "logout", icon: HiOutlineArrowLeftOnRectangle },
 ];
 const TopNavBar = () => {
   const { user } = UseAuth();
@@ -31,8 +36,9 @@ const TopNavBar = () => {
               <DropdownMenu
                 placeholder={user?.fullname}
                 options={DropMenuOptions}
-                onSelect={() => {
-                  navigate("/dashboard");
+                onSelect={(v: string) => {
+                  if (v == "dashboard") navigate("/dashboard");
+                  if (v == "logout") navigate("/logout");
                 }}
               />
             </div>

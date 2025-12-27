@@ -1,0 +1,72 @@
+{
+  "fields": [
+    {
+      "id": "projectType",
+      "choices": 1
+    },
+    {
+      "id": "arabicTitle",
+      "value": "arabic title"
+    },
+    {
+      "id": "englishTitle",
+      "value": "english title"
+    },
+    {
+      "id": "scientificField",
+      "choices": [1, 3, 4]
+    },
+    {
+      "id": "targetEntities",
+      "value": "tagate things"
+    },
+    {
+      "id": "projectDescription",
+      "value": "Description"
+    },
+    {
+      "id": "expectedOutcomes",
+      "value": "output string"
+    },
+    {
+      "id": "requiredSkillsTools",
+      "value": "requirmanets"
+    },
+    {
+      "id": "acquiredSkills",
+      "value": "What you will learn"
+    },
+    {
+      "id": "supervisors",
+      "value": [
+        "mainSupervisor",
+        "SecondarySuppervisor",
+        "OutSourcingSuppervisor"
+      ]
+    },
+    {
+      "id": "studentsNumber",
+      "value": 4
+    },
+    {
+      "id": "students",
+      "value": [
+        {
+          "id": 1,
+          "name": "name",
+          "uni_id": "202110076"
+        },
+        {
+          "id": 1,
+          "name": "name",
+          "uni_id": "202110076"
+        },
+        {
+          "id": 1,
+          "name": "name",
+          "uni_id": "202110076"
+        }
+      ]
+    }
+  ]
+}
