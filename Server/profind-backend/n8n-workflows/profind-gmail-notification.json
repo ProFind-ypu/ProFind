@@ -1,0 +1,121 @@
+{
+  "name": "ProFind Gmail Notification",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "outbox-event",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "eventType",
+              "value": "={{ $json.body?.eventType || $json.eventType }}"
+            },
+            {
+              "name": "targetEmail",
+              "value": "={{ (['SUPERVISION_REQUESTED', 'PROPOSAL_REQUESTED'].includes($json.body?.eventType || $json.eventType)) ? ($json.body?.payload?.professorEmail || $json.payload?.professorEmail) : ($json.body?.payload?.studentEmail || $json.payload?.studentEmail) }}"
+            },
+            {
+              "name": "targetName",
+              "value": "={{ (['SUPERVISION_REQUESTED', 'PROPOSAL_REQUESTED'].includes($json.body?.eventType || $json.eventType)) ? ($json.body?.payload?.professorName || $json.payload?.professorName) : ($json.body?.payload?.studentName || $json.payload?.studentName) }}"
+            },
+            {
+              "name": "reason",
+              "value": "={{ $json.body?.payload?.reason || $json.payload?.reason }}"
+            }
+          ]
+        }
+      },
+      "name": "Pre-process",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "subject": "=[ProFind] {{ $json.eventType.replace('_', ' ') }} Notification",
+        "emailType": "text",
+        "text": "=Hello {{ $json.targetName || 'User' }},\n\n{{ \n  $json.eventType.includes('REQUESTED') \n  ? 'You have received a new ' + ($json.eventType.includes('PROPOSAL') ? 'proposal' : 'supervision request') + ' from a student.' \n  : 'There is an update on your ' + ($json.eventType.includes('PROPOSAL') ? 'proposal' : 'supervision request') + '.' \n}}\n\nEvent: {{ $json.eventType.replace('_', ' ') }}\n{{ $json.reason ? 'Message/Reason: ' + $json.reason : '' }}\n\nYou can check the details in the ProFind application.\n\nBest regards,\nProFind Team",
+        "toList": "={{ $json.targetEmail }}",
+        "additionalFields": {}
+      },
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [
+        600,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PaPGR9bV3iRUUyS2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "responseMode": "lastNode",
+        "responseData": "={{ { status: 'ok' } }}"
+      },
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        850,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Pre-process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pre-process": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Respond OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

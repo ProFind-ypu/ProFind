@@ -72,39 +72,14 @@ public class ProposalController {
             return ResponseEntity.badRequest().body(Map.of("error", "proposalId is required"));
         }
 
-        Proposal proposal = proposalService.findById(proposalId);
-        if (proposal == null) {
-            return ResponseEntity.notFound().build();
+        try {
+            Proposal updated = proposalService.actionProposal(proposalId, action, principal.getId());
+            return ResponseEntity.ok(updated);
+        } catch (SecurityException e) {
+            return ResponseEntity.status(403).body(Map.of("error", e.getMessage()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
-        if (proposal.getProfessorId() != null && !proposal.getProfessorId().equals(principal.getId())) {
-        return ResponseEntity.status(403).body(Map.of("error", "Unauthorized: Only the project professor can update this proposal"));
-    }   
-        if (action.equals("approve")) {
-            proposal.setStatus("approved");
-            proposalService.updateProposal(proposal);
-            // todo send the notification
-            // proposalService.sendNotificationToStudent(proposal.getStudentId(), "Your proposal has been approved.");
-            if (proposal.getProjectId() != null) {
-                proposalService.updateProjectStatus(proposal.getProjectId(), ProjectStatus.ASSIGNED);
-            }
-            return ResponseEntity.ok(proposal);
-        }
-
-        if (action.equals("update")) {
-            // todo send the notification
-            //proposalService.sendNotificationToStudent(proposal.getStudentId(), "Your proposal has been updated by the professor.");
-            return ResponseEntity.ok(proposal);
-        }
-
-        if (action.equals("disapprove")) {
-            proposal.setStatus("disapproved");
-            proposalService.updateProposal(proposal);
-            // todo send the notification
-            //proposalService.sendNotificationToStudent(proposal.getStudentId(), "Your proposal has been disapproved.");
-            return ResponseEntity.ok(proposal);
-        }
-
-        return ResponseEntity.badRequest().body(Map.of("error", "Invalid action"));
     }
 
     @GetMapping("/me")
