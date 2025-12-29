@@ -20,20 +20,24 @@ import com.profind.profind_backend.config.JwtUtils;
 import com.profind.profind_backend.domain.RefreshToken;
 import com.profind.profind_backend.domain.User;
 import com.profind.profind_backend.security.UserPrincipal;
+import com.profind.profind_backend.service.ProfileService;
 import com.profind.profind_backend.service.RefreshTokenService;
 import com.profind.profind_backend.service.UserService;
+import com.profind.profind_backend.web.dto.ProfileDto;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final ProfileService profileService;
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
 
-    public AuthController(AuthenticationManager authenticationManager, UserService userService, JwtUtils jwtUtils, RefreshTokenService refreshTokenService) {
+    public AuthController(AuthenticationManager authenticationManager,ProfileService profileService, UserService userService, JwtUtils jwtUtils, RefreshTokenService refreshTokenService) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
+        this.profileService=profileService;
         this.jwtUtils = jwtUtils;
         this.refreshTokenService = refreshTokenService;
     }
@@ -71,6 +75,25 @@ public class AuthController {
             "refreshToken", refreshToken.getToken(),
             "expiresIn", expirationMs
         ));
+    
+    }
+    @PostMapping("/profile")
+    public ResponseEntity<?> createProfile(@RequestBody ProfileDto body,@AuthenticationPrincipal UserPrincipal principal) {
+if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        User user = userService.findByEmail(principal.getUsername()).orElseThrow();
+        profileService.register(
+            user.getId(),
+            body.department_id,
+            body.bio,
+            body.skills,
+            body.altEmail,
+            body.telephoneNumber
+        );
+
+        
+        return ResponseEntity.ok(Map.of());
     
     }
 

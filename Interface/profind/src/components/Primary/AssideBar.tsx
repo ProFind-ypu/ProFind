@@ -1,8 +1,10 @@
 import * as React from "react";
 import { HiArrowLeft } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
+import { UseAuth } from "../../Auth/AuthContext";
 
 export default function AssideBar() {
+  const { user } = UseAuth();
   const nav = useNavigate();
   return (
     <aside className="w-[20%] hidden sm:block bg-black/15 p-5 pr-11  sm:fixed h-full overflow-y-auto top-0 left-0">
@@ -17,12 +19,16 @@ export default function AssideBar() {
         >
           Dashboard
         </Link>
-        <Link
-          to="/myprojects"
-          className="block p-2 pl-3 rounded hover:bg-gray-700 transition"
-        >
-          My Projects
-        </Link>
+        {user?.roles == "PROFESSOR" ? (
+          <Link
+            to="/myprojects"
+            className="block p-2 pl-3 rounded hover:bg-gray-700 transition"
+          >
+            My Projects
+          </Link>
+        ) : (
+          ""
+        )}
         <a
           href="#"
           className="block p-2 pl-3 rounded hover:bg-gray-700 transition"

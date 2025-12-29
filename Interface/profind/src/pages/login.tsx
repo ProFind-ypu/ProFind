@@ -10,7 +10,7 @@ import type { LoginValidationErrors } from "../class/LoginForm";
 export default function Login() {
   const { form, errors, handleChange, isValid } = useLoginFormValidation();
   const navigate = useNavigate();
-  const { login } = UseAuth();
+  const { login, logout } = UseAuth();
   const [connectionError, setConnectionError] = useState<string | undefined>(
     undefined,
   );
@@ -18,14 +18,7 @@ export default function Login() {
     if (!isValid) return;
     e.preventDefault();
     try {
-      // const mockuser: User = {
-      //   name: "Ag",
-      //   email: "hallowbitch@me.proton",
-      //   token: undefined,
-      //   type: "student",
-      //   avatar: "erlthismotherfucker",
-      //   isOnline: true,
-      // };
+      logout();
       const loginResponde = await login(form.email, form.password);
       if ((loginResponde.code == 200, loginResponde.user?.roles == "student")) {
         navigate("/explore"); // or use router

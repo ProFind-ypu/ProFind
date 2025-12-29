@@ -39,7 +39,6 @@ export default function MyProjects() {
     };
 
     if (user) {
-      // Only fetch if user exists
       fetchProject();
     }
   }, [user, nav]);

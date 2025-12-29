@@ -26,7 +26,6 @@ BEGIN
       user_id bigint PRIMARY KEY, 
       bio text,
       department_id bigint,
-      year int,
       skills text,        
       avatar_url varchar(1024),
       cv_url varchar(1024),

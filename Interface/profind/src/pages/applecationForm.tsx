@@ -24,6 +24,9 @@ import {
   disapproveProposal,
   updateProposal,
 } from "../class/Services/_putProposal";
+import DropdownMenu from "../components/complex/DropdownMenu";
+import ProfessorsService from "../class/Services/ProfessorsService";
+import type { Professor } from "../class/Professor";
 const projectType = [
   "تطبيقي",
   "ماقبل التخرج",
@@ -49,6 +52,8 @@ export default function ApplicationForm() {
   const proposalId = searchParams.get("id");
   const projectId = searchParams.get("projectId");
   const reviewMode = searchParams.get("review");
+  const newMode = searchParams.get("new");
+  const [professors, setProfessors] = useState<Professor[]>();
   const [proposal, setProposal] = useState<Proposal>();
   const [professorId, setProfessorId] = useState<number>();
   const [loading, setLoading] = useState(true);
@@ -95,9 +100,21 @@ export default function ApplicationForm() {
         setLoading(false);
       }
     };
-
+    const loadProfessors = async () => {
+      try {
+        const service = ProfessorsService.getInstance();
+        const professors = await service.fetchProjects();
+        setProfessors(professors);
+      } catch (error) {
+        console.error("Failed to fetch professors:", error);
+        setProfessors([]);
+      }
+    };
     if (proposalId != null && proposalId != "NaN" && proposalId != "null") {
       fetchProposal();
+    }
+    if (newMode != null) {
+      loadProfessors();
     }
     fetchProject();
   }, [proposalId, professorId, projectId, form]);
@@ -110,6 +127,26 @@ export default function ApplicationForm() {
   return (
     <main className="flex flex-col font-bold justify-center  text-black bg-gray-200 lg:px-20 ">
       <div>
+        {newMode == null ? (
+          ""
+        ) : (
+          <div className="w-full flex flex-col items-center  justify-center  ">
+            <div className="w-fit ">
+              <label className="text-lg">choose your Professor</label>
+              <DropdownMenu
+                textClass="text-black text-lg "
+                backgroundClass="bg-black rounded mt-1"
+                placeholder="Professor Name"
+                options={professors!.map((p) => ({
+                  label: p.fullName,
+                  value: p.id.toString(),
+                }))}
+                onSelect={() => {}}
+              />
+            </div>
+          </div>
+        )}
+
         <div className="pt-10"></div>
         <DivRow>
           <DivData className="text-start text-xl space-y-1">
@@ -382,7 +419,7 @@ export default function ApplicationForm() {
         ) : (
           <button
             className="bg-black text-white text-xl px-5 py-2 rounded hover:bg-gray-900"
-            onClick={() => handleSubmet}
+            onClick={() => handleSubmet()}
           >
             Submit
           </button>
@@ -392,6 +429,8 @@ export default function ApplicationForm() {
   );
   function handleSubmet() {
     {
+      console.log("hallow");
+
       // Create final proposal object
       let finalProposal: Proposal;
 
@@ -419,9 +458,9 @@ export default function ApplicationForm() {
           updatedAt: new Date().toISOString(),
         };
       }
-
       postProposal(finalProposal, user!);
-      // nav("/myprojects");
+      if (user?.roles.toUpperCase() == "PROFESSOR") nav("/myprojects");
+      else nav("/dashboard");
     }
   }
   function ToggleView(event: React.ChangeEvent<HTMLInputElement>) {

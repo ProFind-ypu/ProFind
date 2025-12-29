@@ -13,7 +13,6 @@ public interface ProfessorRepository extends JpaRepository<Profile, Long> {
     @Query(value = """
         SELECT p.user_id AS id, 
                u.full_name AS fullName,
-               p.year,
                p.bio,
                p.alt_email,
                p.telephonenumber,

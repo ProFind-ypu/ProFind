@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const NewProject: React.FC = () => {
   const [projectDto, setFormData] = useState<Projectdto>({
+    id: -1,
     title: "",
     shortDescription: "",
     description: "",

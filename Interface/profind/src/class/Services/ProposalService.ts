@@ -1,5 +1,6 @@
+import { getToken } from "../../Auth/localStorage";
 import type { Proposal } from "../Proposal";
-import { getSingelProposal } from "./_getProposalsFromServer";
+import { getMyProposals, getSingelProposal } from "./_getProposalsFromServer";
 
 export default class ProposalService {
   private proposal: Proposal | null = null;
@@ -9,6 +10,9 @@ export default class ProposalService {
     this.proposal = await getSingelProposal(id); // Replace with actual method
     console.log(this.proposal);
     return this.proposal;
+  }
+  async fetchMyProposals(usertoken: string): Promise<Proposal[]> {
+    return await getMyProposals(usertoken);
   }
 
   getProjects(): Proposal | null {

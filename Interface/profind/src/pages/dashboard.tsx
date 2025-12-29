@@ -13,11 +13,10 @@ export default function Dashboard() {
 
   const [proposals, setProposals] = useState<Proposal[]>([]);
 
+  if (user == null) {
+    Navigate({ to: "/login" });
+  }
   useEffect(() => {
-    if (user == null) {
-      Navigate({ to: "/login" });
-      return;
-    }
     const fetchMyProposals = async () => {
       const res = await getMyProposals(user!.token!);
       console.log(res);
@@ -43,9 +42,11 @@ export default function Dashboard() {
     <div className="min-h-screen text-white flex flex-row justify-center">
       {/* Sidebar */}
       <div className="sm:hidden fixed bottom-[10%] ">
-        <Link to={user?.roles === "student" ? "/ApplicationForm" : "/"}>
+        <Link
+          to={user?.roles === "STUDENT" ? "/ApplicationForm" : "/dashboard"}
+        >
           <button className="px-4 py-2 flex flex-row items-center gap-2  shadow-sm  shadow-indigo-500  bg-indigo-600 rounded hover:bg-indigo-700 transition">
-            {user?.roles === "student" ? "New Proposal" : "Review Queue (3)"}
+            {user?.roles === "STUDENT" ? "New Proposal" : "Review Queue (3)"}
             <HiPlus />
           </button>
         </Link>
@@ -60,9 +61,11 @@ export default function Dashboard() {
               ? " Dr. " + user?.fullname
               : user?.fullname}
           </h2>
-          <Link to={user?.roles === "student" ? "/ApplicationForm" : "/"}>
+          <Link
+            to={user?.roles === "STUDENT" ? "/ApplicationForm?new=true" : "/"}
+          >
             <button className="px-4 py-2 hidden sm:block bg-indigo-600 rounded hover:bg-indigo-700 transition">
-              {user?.roles === "student" ? "New Proposal" : "Review Queue (3)"}
+              {user?.roles === "STUDENT" ? "New Proposal" : "Review Queue (3)"}
             </button>
           </Link>
         </header>
@@ -78,7 +81,7 @@ export default function Dashboard() {
         {/* Project Feed / Match Board */}
         <section id="Container">
           <h3 className="text-lg font-medium mb-4 ">
-            {user?.roles === "student"
+            {user?.roles === "STUDENT"
               ? "Your Proposals"
               : "Proposals to Review"}
           </h3>
@@ -87,7 +90,7 @@ export default function Dashboard() {
               .filter((p) => p.status == "PENDING")
               .map((proposal) => (
                 <Link
-                  to={`/ApplicationForm?id=${proposal.id}&projectId=${proposal.projectId}`}
+                  to={`/ApplicationForm?id=${proposal.id}&projectId=${proposal.projectId}${user?.roles == "PROFESSOR" ? "&review=true" : ""}`}
                 >
                   <div
                     id="subContainer"

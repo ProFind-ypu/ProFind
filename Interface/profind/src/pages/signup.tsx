@@ -16,6 +16,7 @@ export default function Signup() {
     console.log(form.firstName + form.lastName);
     const registerResponce = register(
       {
+        id: -1,
         email: form.email,
         avatarUrl: "",
         tags: [""],
@@ -25,8 +26,9 @@ export default function Signup() {
       },
       form.password,
     );
-    if ((await registerResponce).user?.roles == "student") {
-      Navigate("/dashboard");
+    if ((await registerResponce).user?.roles.toUpperCase() == "PROFESSOR") {
+      //   Navigate("/dashboard");
+      Navigate("/newProfile");
     } else {
       Navigate("/explore");
     }

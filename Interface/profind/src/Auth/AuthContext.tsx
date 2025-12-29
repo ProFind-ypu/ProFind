@@ -100,14 +100,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     password: string,
   ): Promise<LoginResult> => {
     try {
-      const respond = await axios.post(
-        "/api/auth/login",
-        {
-          email: email,
-          password,
-        },
-        { withCredentials: true },
-      );
+      const respond = await axios.post("/api/auth/login", {
+        email: email,
+        password,
+      });
 
       if (respond.status === 200) {
         const loggeduser = jwtDecode<User>(respond.data["accessToken"]);

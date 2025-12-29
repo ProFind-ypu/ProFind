@@ -17,6 +17,7 @@ import Logout from "./pages/logout.tsx";
 import MyProjects from "./pages/myprojects.tsx";
 import AssideBar from "./components/Primary/AssideBar.tsx";
 import NewProject from "./pages/newProject.tsx";
+import ProfileForm from "./pages/profilecreater.tsx";
 
 export default function App() {
   // Log all outgoing requests
@@ -74,6 +75,7 @@ export default function App() {
           </Route>
           <Route element={<WithoutNavbar />}>
             <Route path="/login" element={<Login />} />
+            <Route path="/newProfile" element={<ProfileForm />} />
             <Route path="/Email_Verification" element={<EmailVerification />} />
             <Route path="/signup" element={<Signup />} />
           </Route>
