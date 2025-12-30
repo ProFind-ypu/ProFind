@@ -29,12 +29,12 @@ export default function AssideBar() {
         ) : (
           ""
         )}
-        <a
-          href="#"
-          className="block p-2 pl-3 rounded hover:bg-gray-700 transition"
+        <Link
+          to="/messages"
+          className="block p-2 pl-3 rounded bg-green-900 hover:bg-gray-700 transition"
         >
           Messages
-        </a>
+        </Link>
         <a
           href="#"
           className="block p-2 pl-3 rounded hover:bg-gray-700 transition"

@@ -18,6 +18,7 @@ import MyProjects from "./pages/myprojects.tsx";
 import AssideBar from "./components/Primary/AssideBar.tsx";
 import NewProject from "./pages/newProject.tsx";
 import ProfileForm from "./pages/profilecreater.tsx";
+import { AIMessages } from "./pages/messages.tsx";
 
 export default function App() {
   // Log all outgoing requests
@@ -71,6 +72,7 @@ export default function App() {
           <Route element={<WithAssideBar />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/myprojects" element={<MyProjects />} />
+            <Route path="/messages" element={<AIMessages />} />
             <Route path="/newproject" element={<NewProject />} />
           </Route>
           <Route element={<WithoutNavbar />}>

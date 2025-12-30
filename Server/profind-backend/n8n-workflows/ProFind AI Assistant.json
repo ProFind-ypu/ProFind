@@ -4,52 +4,33 @@
     {
       "parameters": {
         "public": true,
-        "initialMessages": "Hi there! 👋\nMy name is ProFind. How can I assist you today?",
+        "initialMessages": "Hello ,im the Academic Project Supporter Chat , how can i help you.\nمرحبا , انا مساعد المشاريع الاكاديمي ,كيف لي مساعدتك .",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
-        -112,
-        0
+        48,
+        288
       ],
-      "id": "4b6796ab-f0d7-4dbe-8be8-f598b8ae56e3",
+      "id": "e6748249-5d2b-4ded-8df0-b4262013ef37",
       "name": "When chat message received",
       "webhookId": "1cd71ada-1728-4d9a-8788-03b2ec9d1f6e"
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "### ROLE\nYou are the \"ProFind AI Advisor,\" a multi-disciplinary academic consultant for all university majors. Your job is to help students refine project ideas, suggest academic improvements, and prepare them for supervisor meetings.\n\n### RESPONSE RULES\n1. **Bilingual Output:** You MUST provide your response in both Arabic and English. \n2. **Immediate Action:** Do not say \"I am ready\" or \"How can I help?\". Analyze the user's input immediately.\n3. **Multi-Disciplinary:** If the project is not related to Computer Science (e.g., Business, Law, Medicine), provide relevant academic advice for that specific field.\n4. **The \"Supervisor Standard\":** Evaluate if the idea is strong enough for a graduation project. If it is too simple (like a basic e-shop or a simple survey), suggest ways to add \"Academic Depth\" (e.g., adding a case study, a specific theoretical framework, or advanced data analysis).\n\n### RESPONSE STRUCTURE (Apply to both languages)\n- **Concept Evaluation:** Is the idea viable?\n- **Academic Enhancements:** 3 ways to make the project more professional or research-heavy.\n- **Methodology/Tools:** What methods or tools should be used?\n- **Supervisor Advice:** How to pitch this specific idea to a professor.\n\n### USER INPUT\nThe student has provided the following idea or question:",
-        "options": {}
+        "options": {
+          "systemMessage": "Act as a supportive academic mentor for students working on school or university projects. Your task is to:\n1. Suggest 3–5 creative, feasible project ideas tailored to the student’s subject or interest area.\n2. Review any project idea the student shares and provide constructive feedback to improve clarity, originality, feasibility, and impact.\n3. Deliver all responses bilingually—in clear, natural English followed immediately by accurate Arabic (MSA or widely understood dialect).\n\nKeep suggestions practical, age-appropriate, and aligned with common educational resources. Encourage critical thinking and real-world relevance."
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3,
       "position": [
-        112,
-        0
+        272,
+        288
       ],
-      "id": "de6b3a22-abd8-41f8-8602-96698897ee78",
+      "id": "177493f6-019b-4fd1-a3fc-da6809ec99e4",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        80,
-        208
-      ],
-      "id": "6b3b68e9-c5c7-47d2-ae20-1e00c1b47989",
-      "name": "Google Gemini Chat Model",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "IyMVH8GpcCjPTgcF",
-          "name": "Google Gemini(PaLM) Api account"
-        }
-      }
     },
     {
       "parameters": {
@@ -58,11 +39,35 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        224,
-        208
+        416,
+        512
       ],
-      "id": "c86d2643-3843-4c0b-b1ad-d408a76c8a3e",
+      "id": "24b10fea-bd5c-4ccf-bd9c-657f5cbaa71f",
       "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "model": "deepseek/deepseek-r1-0528:free",
+        "options": {
+          "timeout": 360000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        288,
+        512
+      ],
+      "id": "6e862c9f-e614-4265-a9e2-5329f40cdbfd",
+      "name": "OpenRouter Chat Model",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "credentials": {
+        "openRouterApi": {
+          "id": "YlaIzz0KPvv88pWb",
+          "name": "OpenRouter account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -78,17 +83,6 @@
         ]
       ]
     },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Simple Memory": {
       "ai_memory": [
         [
@@ -99,17 +93,29 @@
           }
         ]
       ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "availableInMCP": false
   },
-  "versionId": "57b84e06-c7b6-4525-b4aa-addd4940a419",
+  "versionId": "31442274-0e59-420a-a601-5fdc94bcdb0c",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "6989eeff3a5c1242d7cc3ccc633574f55781e853b3d93cb10df5a3f8b25348cc"
+    "instanceId": "cbaad3b5fabc68425ce17a1269e1a014fe60a455d82af1557e4e46bbec45d4cf"
   },
-  "id": "4CUmYyz9IsHG67RQ",
+  "id": "1jhcenYd5PFJZ59a",
   "tags": []
 }
