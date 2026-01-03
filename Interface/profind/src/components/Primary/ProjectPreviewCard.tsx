@@ -1,8 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import TagWrapper from "../complex/TagWrapper";
 import type { ProjectInfo } from "../../class/ProjectInfo";
-type Props = { project_info: ProjectInfo };
-export default function ProjectPreviewCard({ project_info }: Props) {
+type Props = { project_info: ProjectInfo; professorName: string };
+export default function ProjectPreviewCard({
+  project_info,
+  professorName,
+}: Props) {
   const nav = useNavigate();
   return (
     <div
@@ -30,7 +33,7 @@ export default function ProjectPreviewCard({ project_info }: Props) {
       </div>
       <div>
         <p className="pb-1 pl-1 text-sm">
-          {project_info.professorId}{" "}
+          {professorName}{" "}
           <Link
             to=""
             className="text-blue-400 cursor-pointer hover:text-green-500"

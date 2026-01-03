@@ -11,7 +11,7 @@ import CallOutWarning from "../components/complex/CallOutWarning";
 import FormPargraph from "../components/complex/FormComponent/FormPargraph";
 import { useEffect, useState } from "react";
 import ChackBoxGroup from "../components/complex/FormComponent/ChackboxGroup";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { getSingelProposal } from "../class/Services/_getProposalsFromServer";
 import type { Proposal } from "../class/Proposal";
 import { ProposalTemplate } from "../class/ProposalTemplate";
@@ -63,6 +63,9 @@ export default function ApplicationForm() {
   const { user } = UseAuth();
   if (reviewMode == "true") {
     console.log("reviewMOde");
+  }
+  if (user == null) {
+    Navigate({ to: "/login" });
   }
   useEffect(() => {
     const fetchProposal = async () => {

@@ -70,13 +70,13 @@ export default function Dashboard() {
           </Link>
         </header>
         {/* Notifications Panel */}
-        <section id="Container">
+        {/*<section id="Container">
           <h3 className="text-lg font-medium mb-4">Notifications</h3>
           <ul className="space-y-2 text-sm text-gray-300">
             <li>New feedback on "AI Chatbot" project.</li>
             <li>Dr. Smith reviewed your proposal.</li>
           </ul>
-        </section>
+        </section>*/}
 
         {/* Project Feed / Match Board */}
         <section id="Container">

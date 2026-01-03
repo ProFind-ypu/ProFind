@@ -13,14 +13,13 @@ export default function Signup() {
   const handleRegister = async (e: React.FormEvent) => {
     if (!isValid) return;
     e.preventDefault();
-    console.log(form.firstName + form.lastName);
     const registerResponce = register(
       {
         id: -1,
         email: form.email,
         avatarUrl: "",
         tags: [""],
-        fullname: form.firstName + form.lastName,
+        fullname: form.firstName + " " + form.lastName,
         roles: "student",
         uniId: form.universityId,
       },

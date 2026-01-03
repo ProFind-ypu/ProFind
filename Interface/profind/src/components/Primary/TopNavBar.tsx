@@ -25,7 +25,7 @@ const TopNavBar = () => {
           <div className="flex items-center space-x-3">
             <Link
               to="/"
-              className="font-bold text-xl sm:font-extrabold sm:text-2xl text-white tracking-wide"
+              className="font-bold text-xl sm:font-extrabold sm:text-2xl text-white tracking-wide ring-0"
             >
               ProFind
             </Link>

@@ -2,10 +2,20 @@ import { type NavigateFunction } from "react-router-dom";
 import TagWrapper from "../complex/TagWrapper";
 import { HiUserCircle } from "react-icons/hi2";
 import type { Professor } from "../../class/Professor";
+import { useEffect, useState } from "react";
 type ProInfo = { ProInfo: Professor; nav: NavigateFunction };
 // a shared navigation instant for better preformance
 // type navigationgInstant = { nav: NavigateFunction };
 export default function ProfessorProfilePreview({ ProInfo, nav }: ProInfo) {
+  // add some delay to stop caching the same url , so hopefully getting new faces images
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  useEffect(() => {
+    setTimeout(() => {
+      const url = ProInfo.avatarUrl;
+      setImageUrl(url + "?random=" + Math.random());
+    }, ProInfo.id * 500);
+  }, []);
   return (
     // <Link to="/profile">
     <div
@@ -13,7 +23,8 @@ export default function ProfessorProfilePreview({ ProInfo, nav }: ProInfo) {
       className=" w-full h-full cursor-pointer flex flex-row hover:scale-[1.1] gap-4 items-center  space-y-2  transition "
     >
       <img
-        src={ProInfo.avatarUrl}
+        // src={ProInfo.avatarUrl}
+        src={imageUrl}
         className=" max-w-[40%] h-fit rounded-full  object-center shadow-sm"
         onError={(e) => {
           //console.log(e);

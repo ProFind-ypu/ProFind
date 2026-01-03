@@ -183,7 +183,7 @@ export default function Profile() {
                 <TagWrapper
                   key={interest}
                   title={interest}
-                  classname="hover:bg-white/20 transition-colors duration-200 cursor-default"
+                  classname="bg-indigo-700! hover:bg-white/20 transition-colors duration-200 cursor-default"
                 />
               ))}
             </div>
@@ -208,7 +208,12 @@ export default function Profile() {
               <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {AllProjects.map((item) => {
                   if (Number.parseInt(item.professorId) === professor.id)
-                    return <ProjectPreviewCard project_info={item} />;
+                    return (
+                      <ProjectPreviewCard
+                        project_info={item}
+                        professorName={professor.fullName}
+                      />
+                    );
                 })}
               </div>
             </ul>

@@ -17,7 +17,8 @@ import type { Professor } from "../class/Professor";
 export default function ProjectsListing() {
   // there will be alot of ProfessorProfilePreview and to prevent creating a new useNavigate for each instant , use one and share it
   const navigate = useNavigate();
-  const [SearchedProducts, setSearchedProducts] = useState<ProjectInfo[]>([]);
+  const [projects, setProjects] = useState<ProjectInfo[]>([]);
+  const [SearchedProject, setSearchedProject] = useState<ProjectInfo[]>([]);
   const [Professors, setProfessors] = useState<Professor[]>([]);
   const [SortOption, setSortOption] = useState<string>("name");
   const [SearchTerm, setSearchTerm] = useState<string>("");
@@ -28,10 +29,11 @@ export default function ProjectsListing() {
       try {
         const service = ProjectService.getInstance();
         const projects = await service.fetchProjects();
-        setSearchedProducts(projects);
+        setSearchedProject(projects);
+        setProjects(projects);
       } catch (error) {
         console.error("Failed to fetch projects:", error);
-        setSearchedProducts([]);
+        setSearchedProject([]);
       }
     };
     const loadProfessors = async () => {
@@ -101,7 +103,7 @@ export default function ProjectsListing() {
           </div>
         </div>
 
-        {SearchedProducts.length === 0 ? (
+        {SearchedProject.length === 0 ? (
           <CallOutWarning
             text="nothing match the title name or the description"
             classname="bg-blue-900!"
@@ -111,8 +113,16 @@ export default function ProjectsListing() {
         )}
 
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {SearchedProducts.map((item) => (
-            <ProjectPreviewCard project_info={item} key={item.id} />
+          {SearchedProject.map((item) => (
+            <ProjectPreviewCard
+              project_info={item}
+              professorName={
+                Professors.find(
+                  (pro) => pro.id == Number.parseInt(item.professorId),
+                )?.fullName ?? "Not Provided"
+              }
+              key={item.id}
+            />
           ))}
         </div>
       </div>
@@ -131,14 +141,18 @@ export default function ProjectsListing() {
 
   function handleSearch(term: string, tags?: Set<string>, sortoption?: string) {
     setSearchTerm(term);
+    if ((term.length == 0 || term == "") && SortOption == null) {
+      setSearchedProject(projects);
+      return;
+    }
     const filteredItems = filterProjects(
-      SearchedProducts, // Use fetched data, not MOCK_projectinfo
+      SearchedProject,
       term,
       tags || SelectedTags,
       ["title", "description"],
     );
     const sortedItems = sortProjects(filteredItems, sortoption || SortOption);
-    setSearchedProducts(sortedItems);
+    setSearchedProject(sortedItems);
   }
 }
 

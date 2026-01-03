@@ -1,17 +1,22 @@
 // import { MOCK_projectinfo } from "../testing/constants";
 import TagWrapper from "../components/complex/TagWrapper";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import type { ProjectInfo } from "../class/ProjectInfo";
 import ProjectService from "../class/Services/projectService";
+import ProfessorsService from "../class/Services/ProfessorsService";
+import type { Professor } from "../class/Professor";
+import { UseAuth } from "../Auth/AuthContext";
 
 export default function ProjectDetailes() {
   const nav = useNavigate();
   const [searchParams] = useSearchParams();
   const searchParam = searchParams.get("id");
+  const [Professors, setProfessors] = useState<Professor[]>([]);
   const [project, setProject] = useState<ProjectInfo>();
   const [loading, setLoading] = useState(true);
+  const { user } = UseAuth();
   //missing id in request
   useEffect(() => {
     if (searchParam == null) {
@@ -46,32 +51,46 @@ export default function ProjectDetailes() {
           setLoading(false);
         }
       };
+      const loadProfessors = async () => {
+        try {
+          const service = ProfessorsService.getInstance();
+          const professors = await service.fetchProjects();
+          setProfessors(professors);
+        } catch (error) {
+          console.error("Failed to fetch professors:", error);
+          setProfessors([]);
+        }
+      };
+      loadProfessors();
 
       fetchProject();
     }
-  }, [searchParam]);
-  // const formattedDate = new Date(project.createdAt).toLocaleDateString(
-  //   "en-US",
-  //   {
-  //     year: "numeric",
-  //     month: "long",
-  //     day: "numeric",
-  //   },
-  // );
+  }, [searchParam, nav]);
   if (loading || !project) {
     return <div>Loading...</div>; // Or a spinner, or nothing while loading
   }
+  const formattedDate = new Date(project.createdAt!).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    },
+  );
+  console.log(project.status);
   return (
     <main className="min-h-screen max-w-4xl mx-auto px-6 py-8">
       {/* Project Title & Status */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-        <h2 className="text-3xl font-extrabold">{project.title}</h2>
+      <div className="flex flex-col  md:flex-row-reverse  md:items-start space-x-5 space-y-10 justify-between mb-6">
         <TagWrapper
-          title={project.status ? "Open" : "Taken"}
+          title={project.status == "OPEN" ? "Open" : "Taken"}
           classname={
-            project.status ? "secsess-bg text-sm! " : "error-bg text-sm! "
+            project.status == "OPEN"
+              ? "secsess-bg text-sm! "
+              : "error-bg text-sm! "
           }
         />
+        <h2 className="text-3xl font-extrabold">{project.title}</h2>
       </div>
 
       {/* Tags */}
@@ -90,18 +109,32 @@ export default function ProjectDetailes() {
           <h3 className="text-sm uppercase tracking-wider text-gray-400">
             Supervisor
           </h3>
-          <p className="text-lg">{project.professorId}</p>
+          <div>
+            <p className="text-lg ">
+              {Professors.at(Number.parseInt(project.professorId))?.fullName}
+            </p>
+            <Link
+              to={"/profile?id=" + project.professorId}
+              className="text-blue-500 text-nowrap"
+            >
+              [View Profile]
+            </Link>
+          </div>
         </div>
         <div className="w-fit">
           <h3 className="text-sm uppercase tracking-wider text-gray-400">
             Students Needed
           </h3>
-          <p className="text-lg text-center">{project.suggestedStudentCount}</p>
+          <p className="text-lg text-center">
+            {project.suggestedStudentCount ??
+              Math.floor((Math.random() * 10) % 5) + 1}
+          </p>
         </div>
         <div className="w-fit">
           <h3 className="text-sm uppercase tracking-wider text-gray-400">
             Created On
           </h3>
+          <p>{formattedDate}</p>
           {/*<p className="text-lg">{formattedDate}</p>*/}
         </div>
       </div>
@@ -120,7 +153,6 @@ export default function ProjectDetailes() {
           Requirements
         </h3>
         <ul className="list-disc list-inside space-y-2 text-gray-300">
-          {}
           {project.requirements.map((req, index) => (
             <li key={index}>{req}</li>
           ))}
@@ -135,16 +167,18 @@ export default function ProjectDetailes() {
               `/ApplicationForm?id=${project.proposalId}&projectId=${project.id}`,
             )
           }
-          // disabled={!project.status}
+          disabled={project.status != "OPEN" || user?.roles == "PROFESSOR"}
           className={`px-6 py-3 rounded-lg font-semibold text-white transition-all duration-200
                 ${
-                  !project.status
-                    ? "bg-gray-600 "
-                    : "bg-[#4f3aed] hover:bg-[#6a55ee] active:bg-[#3a29cc]"
+                  project.status == "OPEN" && user?.roles != "PROFESSOR"
+                    ? "bg-[#4f3aed] hover:bg-[#6a55ee] active:bg-[#3a29cc]"
+                    : "bg-gray-600"
                 }
               `}
         >
-          {!project.status ? "Already Taken" : "Start Application"}
+          {project.status == "OPEN" && user?.roles != "PROFESSOR"
+            ? "Start Application"
+            : "Already Taken"}
         </button>
       </div>
     </main>
