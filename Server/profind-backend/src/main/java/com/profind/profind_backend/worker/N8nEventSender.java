@@ -14,13 +14,19 @@ public class N8nEventSender implements EventSenderClient {
     private final RestTemplate rest;
     private final String webhookUrl;
     private final String apiKeyHeader; // optional, if you protect n8n with API key
+    private final String basicAuthUsername;
+    private final String basicAuthPassword;
 
     public N8nEventSender(RestTemplate rest,
                          @Value("${n8n.webhook.url:}") String webhookUrl,
-                         @Value("${n8n.api.key:}") String apiKeyHeader) {
+                         @Value("${n8n.api.key:}") String apiKeyHeader,
+                         @Value("${n8n.basic.username:}") String basicAuthUsername,
+                         @Value("${n8n.basic.password:}") String basicAuthPassword) {
         this.rest = rest;
         this.webhookUrl = webhookUrl;
         this.apiKeyHeader = apiKeyHeader;
+        this.basicAuthUsername = basicAuthUsername;
+        this.basicAuthPassword = basicAuthPassword;
     }
 
     @Override
@@ -33,6 +39,9 @@ public class N8nEventSender implements EventSenderClient {
         headers.setContentType(MediaType.APPLICATION_JSON);
         if (apiKeyHeader != null && !apiKeyHeader.isBlank()) {
             headers.set("X-Api-Key", apiKeyHeader);
+        }
+        if (basicAuthUsername != null && !basicAuthUsername.isBlank()) {
+            headers.setBasicAuth(basicAuthUsername, basicAuthPassword == null ? "" : basicAuthPassword);
         }
 
         // payload: send eventType + payloadJson + metadata

@@ -1,7 +1,8 @@
-INSERT INTO
-    department (name, code)
+INSERT INTO department (name, code)
 VALUES
-    ('Software Engineering', '1'),('Communication Engineering', '2');
+    ('Software Engineering', '1'),
+    ('Communication Engineering', '2')
+ON CONFLICT (code) DO NOTHING;
 
 
 -- INSERT INTO
@@ -100,26 +101,26 @@ INSERT INTO profile (
     alt_email,
     telephonenumber
 ) VALUES
-(1, 'Pioneer in computer science and AI ethics. Teaches algorithms and cryptography.', 1, 'Algorithms, Cryptography, Machine Learning, C++, Python, Discrete Math', 'https://thispersondoesnotexist.com/', 'aturing@private.edu', '+12025550123'),
-(2, 'Passionate about software design and open-source projects. Active in hackathons.', 1, 'Java, Spring Boot, React, Git, Docker, CI/CD, Agile', 'https://thispersondoesnotexist.com/', 'ewatson@private.edu', '+12025550124'),
-(3, 'Renowned physicist and science communicator. Currently on sabbatical.', 1, 'Quantum Mechanics, Relativity, Astrophysics, MATLAB, LaTeX', 'https://thispersondoesnotexist.com/', 'mcurie@private.edu', '+12025550125'),
-(4, 'Former top student, now suspended for academic misconduct. Seeking reinstatement.', 2, 'Networking, Signal Processing, Embedded Systems, C, Verilog', 'https://thispersondoesnotexist.com/', 'lneeson@private.edu', '+12025550126'),
-(5, 'Astrophysicist and public science advocate. Hosts popular YouTube channel.', 1, 'Cosmology, Data Science, Python, R, SQL, Visualization', 'https://thispersondoesnotexist.com/', 'ndtyson@private.edu', '+12025550127'),
-(6, 'Musician by passion, coder by day. Focused on full-stack development.', 1, 'JavaScript, Node.js, MongoDB, Express, Vue.js, REST APIs', 'https://thispersondoesnotexist.com/', 'orodrigo@private.edu', '+12025550128'),
-(7, 'Primatologist and conservationist. Teaches environmental computing.', 2, 'Data Analysis, GIS, Python, R, Remote Sensing, IoT', 'https://thispersondoesnotexist.com/', 'jgoodall@private.edu', '+12025550129'),
-(8, 'Actor turned tech enthusiast. Struggled with deadlines — now improving.', 2, 'C++, Arduino, PCB Design, Communication Protocols, Linux', 'https://thispersondoesnotexist.com/', 'ncentineo@private.edu', '+12025550130'),
-(9, 'Theoretical physicist known for black hole research. Currently inactive.', 1, 'General Relativity, Quantum Gravity, Python, Mathematica, LaTeX', 'https://thispersondoesnotexist.com/', 'shawking@private.edu', '+12025550131'),
-(10, 'Pop icon and self-taught programmer. Builds apps for music fans.', 1, 'Swift, Flutter, Firebase, UI/UX Design, API Integration, Git', 'https://thispersondoesnotexist.com/', 'tswift@private.edu', '+12025550132'),
-(11, 'DNA pioneer. Teaches bioinformatics and computational biology.', 1, 'Bioinformatics, Python, R, Genomics, Data Mining, SQL', 'https://thispersondoesnotexist.com/', 'rfreanklin@private.edu', '+12025550133'),
-(12, 'Actress and CS major. Balances film shoots with coding projects.', 1, 'React Native, GraphQL, AWS, TypeScript, Jest, Redux', 'https://thispersondoesnotexist.com/', 'zendaya@private.edu', '+12025550134'),
-(13, 'Nobel-winning physicist. Known for playful teaching style.', 2, 'Quantum Electrodynamics, Feynman Diagrams, C++, Python, LaTeX', 'https://thispersondoesnotexist.com/', 'rfeynman@private.edu', '+12025550135'),
-(14, 'Action star who failed his final project — now retaking courses.', 2, 'Network Security, Wireshark, Bash, Python, Penetration Testing', 'https://thispersondoesnotexist.com/', 'chemsworth@private.edu', '+12025550136'),
-(15, 'First computer programmer. Teaches historical computing and logic.', 1, 'Assembly, Logic Design, Prolog, Haskell, Functional Programming', 'https://thispersondoesnotexist.com/', 'alovelace@private.edu', '+12025550137'),
-(16, 'Singer focused on building fan engagement platforms.', 1, 'Node.js, PostgreSQL, Next.js, Stripe, OAuth, Webhooks', 'https://thispersondoesnotexist.com/', 'agrande@private.edu', '+12025550138'),
-(17, 'Relativity genius. Still teaches advanced physics to undergrads.', 1, 'Tensor Calculus, Python, MATLAB, LaTeX, Special Relativity', 'https://thispersondoesnotexist.com/', 'aeinstein@private.edu', '+12025550139'),
-(18, 'Spider-Man actor learning backend systems. Often late but brilliant.', 2, 'Express.js, MongoDB, Redis, Nginx, Microservices, Docker', 'https://thispersondoesnotexist.com/', 'tholland@private.edu', '+12025550140'),
-(19, 'NASA mathematician. Retired but mentors students in aerospace computing.', 2, 'Orbital Mechanics, Fortran, Python, Excel VBA, Simulation', 'https://thispersondoesnotexist.com/', 'kjohnson@private.edu', '+12025550141'),
-(20, 'Global superstar building AI tools for creative industries.', 1, 'Python, TensorFlow, PyTorch, GANs, Audio Processing, Unity', 'https://thispersondoesnotexist.com/', 'bbeyonce@private.edu', '+12025550142');
+(1, 'Pioneer in computer science and AI ethics. Teaches algorithms and cryptography.', (SELECT id FROM department WHERE code = '1'), 'Algorithms, Cryptography, Machine Learning, C++, Python, Discrete Math', 'https://thispersondoesnotexist.com/', 'aturing@private.edu', '+12025550123'),
+(2, 'Passionate about software design and open-source projects. Active in hackathons.', (SELECT id FROM department WHERE code = '1'), 'Java, Spring Boot, React, Git, Docker, CI/CD, Agile', 'https://thispersondoesnotexist.com/', 'ewatson@private.edu', '+12025550124'),
+(3, 'Renowned physicist and science communicator. Currently on sabbatical.', (SELECT id FROM department WHERE code = '1'), 'Quantum Mechanics, Relativity, Astrophysics, MATLAB, LaTeX', 'https://thispersondoesnotexist.com/', 'mcurie@private.edu', '+12025550125'),
+(4, 'Former top student, now suspended for academic misconduct. Seeking reinstatement.', (SELECT id FROM department WHERE code = '2'), 'Networking, Signal Processing, Embedded Systems, C, Verilog', 'https://thispersondoesnotexist.com/', 'lneeson@private.edu', '+12025550126'),
+(5, 'Astrophysicist and public science advocate. Hosts popular YouTube channel.', (SELECT id FROM department WHERE code = '1'), 'Cosmology, Data Science, Python, R, SQL, Visualization', 'https://thispersondoesnotexist.com/', 'ndtyson@private.edu', '+12025550127'),
+(6, 'Musician by passion, coder by day. Focused on full-stack development.', (SELECT id FROM department WHERE code = '1'), 'JavaScript, Node.js, MongoDB, Express, Vue.js, REST APIs', 'https://thispersondoesnotexist.com/', 'orodrigo@private.edu', '+12025550128'),
+(7, 'Primatologist and conservationist. Teaches environmental computing.', (SELECT id FROM department WHERE code = '2'), 'Data Analysis, GIS, Python, R, Remote Sensing, IoT', 'https://thispersondoesnotexist.com/', 'jgoodall@private.edu', '+12025550129'),
+(8, 'Actor turned tech enthusiast. Struggled with deadlines — now improving.', (SELECT id FROM department WHERE code = '2'), 'C++, Arduino, PCB Design, Communication Protocols, Linux', 'https://thispersondoesnotexist.com/', 'ncentineo@private.edu', '+12025550130'),
+(9, 'Theoretical physicist known for black hole research. Currently inactive.', (SELECT id FROM department WHERE code = '1'), 'General Relativity, Quantum Gravity, Python, Mathematica, LaTeX', 'https://thispersondoesnotexist.com/', 'shawking@private.edu', '+12025550131'),
+(10, 'Pop icon and self-taught programmer. Builds apps for music fans.', (SELECT id FROM department WHERE code = '1'), 'Swift, Flutter, Firebase, UI/UX Design, API Integration, Git', 'https://thispersondoesnotexist.com/', 'tswift@private.edu', '+12025550132'),
+(11, 'DNA pioneer. Teaches bioinformatics and computational biology.', (SELECT id FROM department WHERE code = '1'), 'Bioinformatics, Python, R, Genomics, Data Mining, SQL', 'https://thispersondoesnotexist.com/', 'rfreanklin@private.edu', '+12025550133'),
+(12, 'Actress and CS major. Balances film shoots with coding projects.', (SELECT id FROM department WHERE code = '1'), 'React Native, GraphQL, AWS, TypeScript, Jest, Redux', 'https://thispersondoesnotexist.com/', 'zendaya@private.edu', '+12025550134'),
+(13, 'Nobel-winning physicist. Known for playful teaching style.', (SELECT id FROM department WHERE code = '2'), 'Quantum Electrodynamics, Feynman Diagrams, C++, Python, LaTeX', 'https://thispersondoesnotexist.com/', 'rfeynman@private.edu', '+12025550135'),
+(14, 'Action star who failed his final project — now retaking courses.', (SELECT id FROM department WHERE code = '2'), 'Network Security, Wireshark, Bash, Python, Penetration Testing', 'https://thispersondoesnotexist.com/', 'chemsworth@private.edu', '+12025550136'),
+(15, 'First computer programmer. Teaches historical computing and logic.', (SELECT id FROM department WHERE code = '1'), 'Assembly, Logic Design, Prolog, Haskell, Functional Programming', 'https://thispersondoesnotexist.com/', 'alovelace@private.edu', '+12025550137'),
+(16, 'Singer focused on building fan engagement platforms.', (SELECT id FROM department WHERE code = '1'), 'Node.js, PostgreSQL, Next.js, Stripe, OAuth, Webhooks', 'https://thispersondoesnotexist.com/', 'agrande@private.edu', '+12025550138'),
+(17, 'Relativity genius. Still teaches advanced physics to undergrads.', (SELECT id FROM department WHERE code = '1'), 'Tensor Calculus, Python, MATLAB, LaTeX, Special Relativity', 'https://thispersondoesnotexist.com/', 'aeinstein@private.edu', '+12025550139'),
+(18, 'Spider-Man actor learning backend systems. Often late but brilliant.', (SELECT id FROM department WHERE code = '2'), 'Express.js, MongoDB, Redis, Nginx, Microservices, Docker', 'https://thispersondoesnotexist.com/', 'tholland@private.edu', '+12025550140'),
+(19, 'NASA mathematician. Retired but mentors students in aerospace computing.', (SELECT id FROM department WHERE code = '2'), 'Orbital Mechanics, Fortran, Python, Excel VBA, Simulation', 'https://thispersondoesnotexist.com/', 'kjohnson@private.edu', '+12025550141'),
+(20, 'Global superstar building AI tools for creative industries.', (SELECT id FROM department WHERE code = '1'), 'Python, TensorFlow, PyTorch, GANs, Audio Processing, Unity', 'https://thispersondoesnotexist.com/', 'bbeyonce@private.edu', '+12025550142');
 
 
 
@@ -206,7 +207,8 @@ INSERT INTO project (id, professor_id, proposal_id, title, status, updated_at, s
 (37, 19, NULL, 'Orbital Trajectory Simulator in Fortran', 'OPEN', NOW(), 'Model spacecraft trajectories under gravity.', 'Solve ODEs for two-body and patched-conic problems.', '["Fortran", "Python", "Orbital Mechanics", "Simulation"]', '["space", "simulation", "numerical"]', NOW()),
 (38, 19, NULL, 'Excel VBA Tool for Mission Planning', 'ASSIGNED', NOW(), 'Automate calculation of delta-v and transfer windows.', 'Build spreadsheet add-in for rapid mission analysis.', '["Excel VBA", "Python", "Orbital Mechanics", "Fortran"]', '["excel", "automation", "engineering"]', NOW()),
 (39, 20, NULL, 'Audio Classification with GANs in PyTorch', 'OPEN', NOW(), 'Generate synthetic audio for training classifiers.', 'Train GAN to augment dataset for speech/music recognition.', '["PyTorch", "GANs", "Audio Processing", "TensorFlow"]', '["audio", "gan", "deeplearning"]', NOW()),
-(40, 20, NULL, 'Unity Game Engine Integration with TensorFlow Lite', 'CLOSED', NOW(), 'Deploy ML models in real-time game environments.', 'Embed object detection or gesture recognition in Unity scenes.', '["Unity", "TensorFlow", "Python", "Audio Processing"]', '["game", "ml", "realtime"]', NOW());
+(40, 20, NULL, 'Unity Game Engine Integration with TensorFlow Lite', 'CLOSED', NOW(), 'Deploy ML models in real-time game environments.', 'Embed object detection or gesture recognition in Unity scenes.', '["Unity", "TensorFlow", "Python", "Audio Processing"]', '["game", "ml", "realtime"]', NOW())
+ON CONFLICT (id) DO NOTHING;
 
 
 
