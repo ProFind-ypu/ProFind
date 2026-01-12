@@ -97,6 +97,7 @@ export class ProposalTemplate {
   supervisors: string[] = [];
   studentsnumber: number = 0;
   students: Student[] = [];
+  loaded: boolean = false;
 
   fill(
     projectType: number,

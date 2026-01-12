@@ -18,9 +18,9 @@ const TopNavBar = () => {
   const navigate = useNavigate();
   return (
     // <nav className=" backdrop-blur-md bg-focus  shadow-md  border-b  sticky top-0 z-50">
-    <header className="sticky top-0 bg-default z-20 backdrop-blur-md w-full border-0 border-white/30">
+    <header className="sticky container mx-auto top-0 bg-default z-20 backdrop-blur-md w-full border-0 border-white/30">
       <div>
-        <div className="container mx-auto px-10 sm:px-20 py-4 flex items-center justify-between">
+        <div className=" mx-auto px-10 sm:px-20 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <Link

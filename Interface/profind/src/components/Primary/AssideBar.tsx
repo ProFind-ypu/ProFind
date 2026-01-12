@@ -30,10 +30,10 @@ export default function AssideBar() {
           ""
         )}
         <Link
-          to="/messages"
+          to="/aiSupport"
           className="block p-2 pl-3 rounded bg-green-900 hover:bg-gray-700 transition"
         >
-          Messages
+          Ai Support
         </Link>
         <a
           href="#"

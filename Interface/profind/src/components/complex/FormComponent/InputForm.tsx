@@ -11,12 +11,12 @@ interface InputFormProp {
 export default function InputForm({
   id,
   name,
-  _value,
+  _value = "",
   className,
   maxLength,
   onchange = () => {},
 }: InputFormProp) {
-  const [inputValue, setInputValue] = useState(_value || "");
+  const [inputValue, setInputValue] = useState(_value);
   return (
     <input
       id={id}

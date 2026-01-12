@@ -59,7 +59,11 @@ export default function MyProjects() {
       </header>
       <div className="w-full grid gap-4 pl-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {projects.map((item) => (
-          <ProjectPreviewCard project_info={item} key={item.id} />
+          <ProjectPreviewCard
+            professorName={user!.fullname!}
+            project_info={item}
+            key={item.id}
+          />
         ))}
       </div>
     </main>

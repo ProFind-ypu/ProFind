@@ -5,10 +5,10 @@ export default function Home() {
   return (
     <>
       {/* <Link to="/about"><h2>ss2</h2></Link>  */}
-      <main className="flex min-h-screen flex-col ">
+      <main className="flex container mx-auto min-h-screen flex-col ">
         <div
           className="
-              relative z-10 container mx-auto max-w-7xl px-4 py-16
+              relative z-10 px-4 py-16
               sm:px-6
               lg:px-8
               "

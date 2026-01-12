@@ -5,7 +5,8 @@ export interface Projectdto {
   description: string;
   requirements: string[];
   tags: string[];
-  status: "DRAFT" | "PENDING" | "APPROVED" | "REJECTED";
+  // status: "DRAFT" | "PENDING" | "APPROVED" | "REJECTED";
+  status: string;
   proposalId: string;
   createdAt: string;
   updatedAt: string;

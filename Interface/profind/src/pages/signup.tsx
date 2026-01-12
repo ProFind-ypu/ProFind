@@ -6,9 +6,11 @@ import {
   type SignUpValidationErrors,
 } from "../helpers/_ValidateSignUp";
 import { UseAuth } from "../Auth/AuthContext";
+import { useState } from "react";
 export default function Signup() {
   const { form, errors, handleChange, isValid } = useSignupFormValidation();
   const { register } = UseAuth();
+  const [connectionError, setConnectionError] = useState<string | null>(null);
   const Navigate = useNavigate();
   const handleRegister = async (e: React.FormEvent) => {
     if (!isValid) return;
@@ -25,13 +27,17 @@ export default function Signup() {
       },
       form.password,
     );
-    if ((await registerResponce).user?.roles.toUpperCase() == "PROFESSOR") {
-      //   Navigate("/dashboard");
-      Navigate("/newProfile");
+    const r = await registerResponce;
+    if (r.success) {
+      if (r.user?.roles.toUpperCase() == "PROFESSOR") {
+        //   Navigate("/dashboard");
+        Navigate("/newProfile");
+      } else {
+        Navigate("/explore");
+      }
     } else {
-      Navigate("/explore");
+      setConnectionError("Error:Email or university id is already registered ");
     }
-    console.log("Logging in with:", (await registerResponce).user);
   };
 
   return (
@@ -139,8 +145,14 @@ export default function Signup() {
     </main>
   );
 }
-function displayWaring(errors: SignUpValidationErrors) {
+function displayWaring(
+  errors: SignUpValidationErrors,
+  connectionError?: string,
+) {
   let message = "";
+  if (connectionError != null) {
+    message = connectionError;
+  }
   switch (true) {
     case errors.firstName != undefined:
       message = errors.firstName;

@@ -6,6 +6,7 @@ import ProfessorsService from "../class/Services/ProfessorsService";
 import ProjectService from "../class/Services/projectService";
 import type { ProjectInfo } from "../class/ProjectInfo";
 import ProjectPreviewCard from "../components/Primary/ProjectPreviewCard";
+import BackButton from "../components/Primary/BackButton";
 // import { MOCK_projectinfo } from "../testing/constants";
 
 // const professorData: Professor = {
@@ -105,6 +106,7 @@ export default function Profile() {
   console.log(AllProjects);
   return (
     <main className="min-h-screen  text-gray-100">
+      <BackButton />
       <div className="max-w-5xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         {/* Header: Profile Info */}
         <header className="flex flex-col sm:flex-row gap-6 items-center sm:items-start mb-10">

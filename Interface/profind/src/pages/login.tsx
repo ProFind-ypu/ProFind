@@ -20,10 +20,13 @@ export default function Login() {
     try {
       logout();
       const loginResponde = await login(form.email, form.password);
-      if ((loginResponde.code == 200, loginResponde.user?.roles == "student")) {
-        navigate("/explore"); // or use router
+
+      if (loginResponde.code == 200) {
+        if (loginResponde.user?.roles == "student") navigate("/explore");
+        else navigate("/dashboard"); // or use router
       } else {
-        navigate("/dashboard"); // or use router
+        console.log("login failed");
+        setConnectionError("Error: Wrong Email or Pasword  ");
       }
     } catch (err: any) {
       //console.log(err);

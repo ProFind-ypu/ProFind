@@ -28,7 +28,7 @@ export default function ProjectPreviewCard({
           />
         </div>
         <p id="OverflowText" className=" text-sm mt-1 w-full  ">
-          {project_info.description}
+          {project_info.shortDescription}
         </p>
       </div>
       <div>
@@ -53,7 +53,7 @@ export default function ProjectPreviewCard({
             },
           )}
         </p>
-        <div className="w-full flex flex-row gap-2">
+        <div className="w-full flex flex-wrap gap-2">
           {[...project_info.tags].map((tag) => (
             <TagWrapper title={tag} />
           ))}

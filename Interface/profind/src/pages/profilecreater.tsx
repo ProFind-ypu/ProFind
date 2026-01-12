@@ -7,19 +7,20 @@ import {
 } from "../class/Services/_postProfile";
 import { UseAuth } from "../Auth/AuthContext";
 import { Navigate } from "react-router-dom";
+import CallOutWarning from "../components/complex/CallOutWarning";
 
 // SkillList Component
 
 const ProfileForm: React.FC = () => {
   const { user } = UseAuth();
   const [formData, setFormData] = useState<ProfileSender>({
-    departmentId: -1,
+    department_id: -1,
     bio: "",
     skills: [""] as string[],
     altEmail: user?.email ?? "",
-    telphonenumber: "",
+    telephoneNumber: "",
   });
-
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const DropMenuOptions = [
     { label: "Software Engineering", value: "1" },
     { label: "Network Engineering", value: "2" },
@@ -30,6 +31,7 @@ const ProfileForm: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrorMessage(validateForm(formData));
   };
 
   const handleAddSkill = () => {
@@ -52,6 +54,7 @@ const ProfileForm: React.FC = () => {
       newSkills[index] = value;
       return { ...prev, skills: newSkills };
     });
+    setErrorMessage(validateForm(formData));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -105,7 +108,7 @@ const ProfileForm: React.FC = () => {
                   placeholder="Choose Your department "
                   options={DropMenuOptions}
                   onSelect={(e) => {
-                    formData.departmentId = Number.parseInt(e);
+                    formData.department_id = Number.parseInt(e);
                   }}
                 />
               </div>
@@ -117,8 +120,8 @@ const ProfileForm: React.FC = () => {
               </label>
               <input
                 type="text"
-                name="telphonenumber"
-                value={formData.telphonenumber}
+                name="telephoneNumber"
+                value={formData.telephoneNumber}
                 onChange={handleChange}
                 className="w-full p-3 bg-[#252525] border border-[#333] rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 placeholder="+1234567890"
@@ -147,7 +150,7 @@ const ProfileForm: React.FC = () => {
                 placeholder="Tell us about yourself..."
               />
             </div>
-
+            {errorMessage != null ? <CallOutWarning text={errorMessage} /> : ""}
             {/* Submit Button */}
             <div className="pt-4">
               <button
@@ -165,8 +168,19 @@ const ProfileForm: React.FC = () => {
 };
 
 export default ProfileForm;
+function validateForm(formData: ProfileSender): string | null {
+  if (formData.department_id === -1) return "Department is required";
+
+  if (!/^\+?\d{8,}$/.test(formData.telephoneNumber))
+    return "Phone number must be 8+ digits";
+
+  if (formData.skills.length < 2) return "At least two skill is required";
+  if (formData.bio.trim().length < 10)
+    return "Bio must be at least 10 characters";
+  return null;
+}
 function varifyForm(formData: ProfileSender): boolean {
-  if (formData.departmentId == -1) {
+  if (formData.department_id == -1) {
     console.log("error -1 department id");
     return false;
   }
@@ -175,8 +189,8 @@ function varifyForm(formData: ProfileSender): boolean {
     return false;
   }
   if (
-    formData.telphonenumber.length < 8 ||
-    formData.telphonenumber.match("[a-z]")
+    formData.telephoneNumber.length < 8 ||
+    formData.telephoneNumber.match("[a-z]")
   ) {
     console.log("error telphone number is wrong");
     return false;

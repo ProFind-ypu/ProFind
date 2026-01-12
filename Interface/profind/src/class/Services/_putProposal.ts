@@ -3,6 +3,7 @@
 import axios, { AxiosError } from "axios";
 import type { Proposal } from "../Proposal";
 import type { User } from "../User";
+import { Navigate } from "react-router-dom";
 
 const API_BASE_URL = "/api/proposals"; // Adjust if needed
 
@@ -23,6 +24,9 @@ export const approveProposal = async (
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
+    if (response.status == 200) {
+      Navigate({ to: "/dashboard" });
+    }
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -1,11 +1,11 @@
 import axios from "axios";
 import type { User } from "../User";
 export type ProfileSender = {
-  departmentId: number;
+  department_id: number;
   bio: string;
   skills: string[];
   altEmail: string;
-  telphonenumber: string;
+  telephoneNumber: string;
 };
 export async function postProfile(profileData: ProfileSender, user: User) {
   console.log(profileData);

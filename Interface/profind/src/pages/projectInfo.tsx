@@ -8,6 +8,7 @@ import ProjectService from "../class/Services/projectService";
 import ProfessorsService from "../class/Services/ProfessorsService";
 import type { Professor } from "../class/Professor";
 import { UseAuth } from "../Auth/AuthContext";
+import BackButton from "../components/Primary/BackButton";
 
 export default function ProjectDetailes() {
   const nav = useNavigate();
@@ -79,7 +80,8 @@ export default function ProjectDetailes() {
   );
   console.log(project.status);
   return (
-    <main className="min-h-screen max-w-4xl mx-auto px-6 py-8">
+    <main className="min-h-screen  mx-auto px-6 py-8">
+      <BackButton />
       {/* Project Title & Status */}
       <div className="flex flex-col  md:flex-row-reverse  md:items-start space-x-5 space-y-10 justify-between mb-6">
         <TagWrapper
@@ -111,7 +113,13 @@ export default function ProjectDetailes() {
           </h3>
           <div>
             <p className="text-lg ">
-              {Professors.at(Number.parseInt(project.professorId))?.fullName}
+              {/*{Professors.at(Number.parseInt(project.professorId))?.fullName}*/}
+              {
+                Professors.find(
+                  (professor) =>
+                    Number.parseInt(project.professorId) == professor.id,
+                )?.fullName
+              }
             </p>
             <Link
               to={"/profile?id=" + project.professorId}

@@ -1,3 +1,4 @@
+import * as htmlToImage from "html-to-image";
 import "../components/complex/FormComponent/formStyle.css";
 import uniimg from "../assets/UniLog.webp";
 import CheckBox from "../components/complex/FormComponent/CheckBox";
@@ -9,7 +10,7 @@ import InputForm from "../components/complex/FormComponent/InputForm";
 import SupervisorStackBlock from "../components/complex/FormComponent/SupervisorStackBlock";
 import CallOutWarning from "../components/complex/CallOutWarning";
 import FormPargraph from "../components/complex/FormComponent/FormPargraph";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChackBoxGroup from "../components/complex/FormComponent/ChackboxGroup";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { getSingelProposal } from "../class/Services/_getProposalsFromServer";
@@ -59,6 +60,7 @@ export default function ApplicationForm() {
   const [loading, setLoading] = useState(true);
   const [form] = useState<ProposalTemplate>(new ProposalTemplate());
   // const [newForm, setNewForm] = useState(new ProposalTemplate());
+  const elementRef = useRef(null);
   let newForm = new ProposalTemplate();
   const { user } = UseAuth();
   if (reviewMode == "true") {
@@ -67,6 +69,7 @@ export default function ApplicationForm() {
   if (user == null) {
     Navigate({ to: "/login" });
   }
+  newForm = new ProposalTemplate();
   useEffect(() => {
     const fetchProposal = async () => {
       try {
@@ -76,6 +79,7 @@ export default function ApplicationForm() {
         if (proposal != null) {
           setProposal(proposal);
           form.jsonToProposalTemplate(proposal.formData);
+          form.loaded = true;
         } else {
           setLoading(true);
         }
@@ -115,21 +119,23 @@ export default function ApplicationForm() {
     };
     if (proposalId != null && proposalId != "NaN" && proposalId != "null") {
       fetchProposal();
+    } else {
+      form.loaded = true;
     }
     if (newMode != null) {
       loadProfessors();
     }
     fetchProject();
   }, [proposalId, professorId, projectId, form]);
-  if (loading) {
+  if (loading || (!form.loaded && (newMode || reviewMode))) {
     return <h1>loading </h1>;
   }
   // console.log(form.ProposalTemplateToJson());
-  newForm = new ProposalTemplate();
   newForm.jsonToProposalTemplate(form.ProposalTemplateToJson());
+
   return (
     <main className="flex flex-col font-bold justify-center  text-black bg-gray-200 lg:px-20 ">
-      <div>
+      <div id="form-to-export" ref={elementRef} className="bg-gray-200 px-2">
         {newMode == null ? (
           ""
         ) : (
@@ -420,20 +426,26 @@ export default function ApplicationForm() {
             </button>
           </div>
         ) : (
-          <button
-            className="bg-black text-white text-xl px-5 py-2 rounded hover:bg-gray-900"
-            onClick={() => handleSubmet()}
-          >
-            Submit
-          </button>
+          <div className="space-x-10">
+            <button
+              className="bg-black text-white text-xl px-5 py-2 rounded hover:bg-gray-900"
+              onClick={() => handleSubmet()}
+            >
+              Submit
+            </button>
+            <button
+              className="bg-black text-white text-xl px-5 py-2 rounded hover:bg-gray-900"
+              onClick={downloadAsPng}
+            >
+              Download as Image
+            </button>
+          </div>
         )}
       </div>
     </main>
   );
   function handleSubmet() {
     {
-      console.log("hallow");
-
       // Create final proposal object
       let finalProposal: Proposal;
 
@@ -475,5 +487,28 @@ export default function ApplicationForm() {
       document
         .querySelector("meta")
         ?.setAttribute("content", "width=device-width, initial-scale=1.0");
+  }
+
+  async function downloadAsPng() {
+    if (elementRef.current) {
+      htmlToImage
+        .toPng(elementRef.current, { cacheBust: true })
+        .then((dataUrl) => {
+          // Create a link element to trigger the download
+          const link = document.createElement("a");
+          if (newForm.englishTitle != null) {
+            link.download = newForm.englishTitle + ".png";
+          } else {
+            link.download = "untitledProposal.png";
+          }
+
+          link.href = dataUrl;
+          link.click();
+          document.body.removeChild(link);
+        })
+        .catch((err) => {
+          console.error("oops, something went wrong!", err);
+        });
+    }
   }
 }
