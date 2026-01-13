@@ -1,0 +1,162 @@
+@startuml
+hide circle
+skinparam linetype ortho
+skinparam nodesep 100
+skinparam ranksep 100
+skinparam entityAttributeIconSize 0
+
+' -- Layout and Spacing Settings --
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+package "User & Profile Module" {
+    entity "users" as users {
+      * id : bigint <<PK>>
+      --
+      * email : varchar <<UQ>>
+      * uni_id : varchar <<UQ>>
+      * password_hash : varchar
+      role : varchar
+      account_status : varchar
+      full_name : varchar
+      created_at : timestamp
+    }
+
+    entity "profile" as profile {
+      * user_id : bigint <<PK,FK>>
+      --
+      department_id : bigint <<FK>>
+      bio : varchar
+      skills : varchar
+      avatar_url : varchar
+      alt_email : varchar
+      telephonenumber : varchar
+    }
+
+    entity "department" as department {
+      * id : bigint <<PK>>
+      --
+      name : varchar
+      code : varchar
+    }
+}
+
+package "Project & Proposal Module" {
+    entity "project" as project {
+      * id : bigint <<PK>>
+      --
+      * professor_id : bigint <<FK>>
+      title : varchar
+      short_description : varchar
+      description : text
+      requirements : jsonb
+      tags : jsonb
+      status : varchar
+      created_at : timestamp
+      updated_at : timestamp
+      proposal_id : bigint <<FK,UQ>>
+      default_proposal_id : bigint <<FK,UQ>>
+    }
+
+    entity "proposal" as proposal {
+      * id : bigint <<PK>>
+      --
+      * student_id : bigint <<FK>>
+      * professor_id : bigint <<FK>>
+      project_id : bigint <<FK>>
+      status : varchar
+      title : varchar
+      message : text
+      form_data : jsonb
+      created_at : timestamp
+      updated_at : timestamp
+    }
+}
+
+package "Supervision & Assignment Module" {
+    entity "supervision_request" as supervision_request {
+      * id : bigint <<PK>>
+      --
+      * student_id : bigint <<FK>>
+      * professor_id : bigint <<FK>>
+      project_id : bigint <<FK>>
+      status : varchar
+      message : text
+      form_data : jsonb
+      created_at : timestamp
+      updated_at : timestamp
+    }
+
+    entity "assignment" as assignment {
+      * id : bigint <<PK>>
+      --
+      * student_id : bigint <<FK>>
+      * professor_id : bigint <<FK>>
+      * project_id : bigint <<FK>>
+      start_date : date
+      end_date : date
+      status : varchar
+      created_at : timestamp
+      --
+      {unique} (student_id, project_id)
+    }
+}
+
+package "System Infrastructure" {
+    entity "refresh_token" as refresh_token {
+      * id : bigint <<PK>>
+      --
+      * token : varchar <<UQ>>
+      * user_id : bigint <<FK>>
+      * expiry_date : timestamp
+      * created_at : timestamp
+    }
+
+    entity "notification" as notification {
+      * id : bigint <<PK>>
+      --
+      * user_id : bigint <<FK>>
+      * type : varchar
+      * payload : jsonb
+      * created_at : timestamp
+      is_read : boolean
+    }
+
+    entity "outbox_event" as outbox_event {
+      * id : bigint <<PK>>
+      --
+      * event_type : varchar
+      * payload : jsonb
+      * status : varchar
+      retries : int
+      last_error : text
+      created_at : timestamp
+      processed_at : timestamp
+    }
+}
+
+' -- Relationships --
+users ||--|| profile : "user_id"
+department ||--o{ profile : "department_id"
+
+users ||--o{ project : "professor_id"
+
+users ||--o{ proposal : "student_id"
+users ||--o{ proposal : "professor_id"
+project ||--o{ proposal : "project_id"
+
+proposal ||--o| project : "proposal_id"
+proposal ||--o| project : "default_proposal_id"
+
+users ||--o{ supervision_request : "student_id"
+users ||--o{ supervision_request : "professor_id"
+project ||--o{ supervision_request : "project_id"
+
+users ||--o{ assignment : "student_id"
+users ||--o{ assignment : "professor_id"
+project ||--o{ assignment : "project_id"
+
+users ||--o{ refresh_token : "user_id"
+users ||--o{ notification : "user_id"
+
+@enduml
