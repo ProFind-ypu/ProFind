@@ -6,8 +6,16 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.profind.profind_backend.domain.*;
-import com.profind.profind_backend.repository.*;
+import com.profind.profind_backend.domain.EventStatus;
+import com.profind.profind_backend.domain.OutboxEvent;
+import com.profind.profind_backend.domain.Project;
+import com.profind.profind_backend.domain.ProjectStatus;
+import com.profind.profind_backend.domain.Proposal;
+import com.profind.profind_backend.domain.User;
+import com.profind.profind_backend.repository.OutboxEventRepository;
+import com.profind.profind_backend.repository.ProjectRepository;
+import com.profind.profind_backend.repository.ProposalRepository;
+import com.profind.profind_backend.repository.UserRepository;
 
 @Service
 public class ProposalService {
@@ -25,23 +33,26 @@ public class ProposalService {
     }
 
     @Transactional
-    public Proposal createProposal(Long studentId, Long professorId, Long projectId, String message, String formData) {
+    public Proposal createProposal(Long studentId, String role, Long professorId, Long projectId, String message, String formData) {
         Proposal p = new Proposal();
         if (projectId != null) {
             Project project = projectRepo.findById(projectId)
                     .orElseThrow(() -> new IllegalArgumentException("Project not found"));
-
             p.setStudentId(studentId);
             p.setProfessorId(professorId);
             p.setProjectId(projectId);
             p.setMessage(message);
             p.setTitle(project.getTitle());
             p.setFormData(formData);
-            p.setStatus("PENDING");
+            if (role.equals("PROFESSOR")) {
+                p.setStatus("DEFAULT");
+            } else {
+                p.setStatus("PENDING");
+
+            }
             p.setCreatedAt(Instant.now());
             p.setUpdatedAt(Instant.now());
             p = proposalRepo.save(p);
-
             // Link the project to the proposal (1:1)
             project.setProposal(p);
             projectRepo.save(project);
@@ -65,13 +76,13 @@ public class ProposalService {
         OutboxEvent ev = new OutboxEvent();
         ev.setEventType("PROPOSAL_REQUESTED");
         ev.setPayloadJson(String.format(
-            "{\"proposalId\":%d,\"studentId\":%d,\"studentEmail\":\"%s\",\"studentName\":\"%s\",\"professorId\":%d,\"professorEmail\":\"%s\",\"professorName\":\"%s\"}",
-            p.getId(), studentId,
-            student != null ? student.getEmail() : "",
-            student != null ? student.getFullName() : "",
-            professorId,
-            professor != null ? professor.getEmail() : "",
-            professor != null ? professor.getFullName() : ""
+                "{\"proposalId\":%d,\"studentId\":%d,\"studentEmail\":\"%s\",\"studentName\":\"%s\",\"professorId\":%d,\"professorEmail\":\"%s\",\"professorName\":\"%s\"}",
+                p.getId(), studentId,
+                student != null ? student.getEmail() : "",
+                student != null ? student.getFullName() : "",
+                professorId,
+                professor != null ? professor.getEmail() : "",
+                professor != null ? professor.getFullName() : ""
         ));
         ev.setStatus(EventStatus.PENDING);
         ev.setCreatedAt(Instant.now());
@@ -91,7 +102,7 @@ public class ProposalService {
 
         String eventType = null;
         if ("approve".equals(action)) {
-            proposal.setStatus("approved");
+            proposal.setStatus("APPROVE");
             if (proposal.getProjectId() != null) {
                 Project project = projectRepo.findById(proposal.getProjectId()).orElse(null);
                 if (project != null) {
@@ -101,7 +112,7 @@ public class ProposalService {
             }
             eventType = "PROPOSAL_APPROVED";
         } else if ("disapprove".equals(action)) {
-            proposal.setStatus("disapproved");
+            proposal.setStatus("DISAPPROVE");
             eventType = "PROPOSAL_DISAPPROVED";
         } else if ("update".equals(action)) {
             // No status change for update in this context, but maybe a notification?
@@ -120,13 +131,13 @@ public class ProposalService {
             OutboxEvent ev = new OutboxEvent();
             ev.setEventType(eventType);
             ev.setPayloadJson(String.format(
-                "{\"proposalId\":%d,\"studentId\":%d,\"studentEmail\":\"%s\",\"studentName\":\"%s\",\"professorId\":%d,\"professorEmail\":\"%s\",\"professorName\":\"%s\"}",
-                saved.getId(), proposal.getStudentId(),
-                student != null ? student.getEmail() : "",
-                student != null ? student.getFullName() : "",
-                proposal.getProfessorId(),
-                professor != null ? professor.getEmail() : "",
-                professor != null ? professor.getFullName() : ""
+                    "{\"proposalId\":%d,\"studentId\":%d,\"studentEmail\":\"%s\",\"studentName\":\"%s\",\"professorId\":%d,\"professorEmail\":\"%s\",\"professorName\":\"%s\"}",
+                    saved.getId(), proposal.getStudentId(),
+                    student != null ? student.getEmail() : "",
+                    student != null ? student.getFullName() : "",
+                    proposal.getProfessorId(),
+                    professor != null ? professor.getEmail() : "",
+                    professor != null ? professor.getFullName() : ""
             ));
             ev.setStatus(EventStatus.PENDING);
             ev.setCreatedAt(Instant.now());
@@ -141,12 +152,24 @@ public class ProposalService {
         return proposalRepo.findByStudentId(studentId);
     }
 
+    public List<Proposal>
+            findByProfessor(Long professorId) {
+        return proposalRepo.findByProfessorId(professorId);
+    }
+     public List<Proposal>
+            findByProjectId(Long projectId) {
+        return proposalRepo.findByProjectId(projectId);
+    }
+
     public Proposal findById(Long id) {
         return proposalRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("Proposal not found"));
     }
 
     public void deleteProposal(Long id) {
         proposalRepo.deleteById(id);
+    }
+    public void deleteAllProposalsByProjectId(long project_id){
+       proposalRepo.closeAllItemsByProductId(project_id);
     }
 
     @Transactional

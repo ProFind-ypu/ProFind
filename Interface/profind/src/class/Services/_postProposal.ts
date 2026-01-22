@@ -14,7 +14,6 @@ export async function postProposal(proposal: Proposal, user: User) {
     message: proposal.message,
     formData: JSON.parse(proposal.formData),
   };
-  console.log(proposal);
   const response = await axios.post("/api/proposals", data, {
     headers: {
       Authorization: "Bearer " + user.token,

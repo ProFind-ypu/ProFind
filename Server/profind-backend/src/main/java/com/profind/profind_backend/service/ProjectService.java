@@ -1,6 +1,7 @@
 package com.profind.profind_backend.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.annotation.CacheEvict;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.profind.profind_backend.domain.Project;
 import com.profind.profind_backend.domain.ProjectStatus;
-import com.profind.profind_backend.domain.Proposal;
 import com.profind.profind_backend.repository.ProjectRepository;
 import com.profind.profind_backend.repository.ProposalRepository;
 import com.profind.profind_backend.web.dto.ProjectDto;
@@ -41,23 +41,6 @@ public class ProjectService {
         return repo.findById(id).map(this::toDto).orElse(null);
     }
 
-    // @Cacheable(value = "projects", key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + (#search ?: '')")
-    // public Page<ProjectDto> search(String search, Pageable pageable) {
-    //     // simple implementation: search by title containing text.
-    //     // For production use Specification or external search (Elastic).
-    //     Page<Project> page;
-    //     if (search == null || search.isBlank()) {
-    //         page = repo.findAll(pageable);
-    //     } else {
-    //         page = repo.findAll((root, query, cb) -> 
-    //             cb.like(cb.lower(root.get("title")), "%" + search.toLowerCase() + "%")
-    //         , pageable);
-    //     }
-    //     return page.map(this::toDto);
-    // }
-
-    // @Cacheable(value = "projects", key = "")
-    
    public List<ProjectDto> getAllProjects() {
     return repo.findAll().stream()
                .map(this::toDto)
@@ -65,7 +48,7 @@ public class ProjectService {
 }
 
     @CacheEvict(value = "projects", allEntries = true)
-    public ProjectDto update(Long id, ProjectDto dto) {
+    public ProjectDto update(Long id, ProjectDto dto,Optional<ProjectStatus> status) {
         Project p = repo.findById(id).orElseThrow();
         p.setTitle(dto.title);
         p.setShortDescription(dto.shortDescription);
@@ -73,7 +56,9 @@ public class ProjectService {
         p.setRequirements(dto.requirements);
         p.setTags(dto.tags);
         p.setUpdatedAt(java.time.Instant.now());
-
+        if(status.isPresent()){
+            p.setStatus(status.get());
+        }
         Project saved = repo.save(p);
         return toDto(saved);
     }

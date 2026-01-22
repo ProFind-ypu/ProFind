@@ -1,12 +1,13 @@
 package com.profind.profind_backend.security;
 
-import com.profind.profind_backend.domain.User;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import com.profind.profind_backend.domain.User;
 
 public class UserPrincipal implements UserDetails {
     private final Long id;
@@ -49,7 +50,7 @@ public class UserPrincipal implements UserDetails {
     public String getUsername() {
         return email;
     }
-
+    //TODO fill the following functions from database
     @Override
     public boolean isAccountNonExpired() {
         return true;

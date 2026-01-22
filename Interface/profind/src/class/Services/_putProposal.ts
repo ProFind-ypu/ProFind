@@ -3,7 +3,6 @@
 import axios, { AxiosError } from "axios";
 import type { Proposal } from "../Proposal";
 import type { User } from "../User";
-import { Navigate } from "react-router-dom";
 
 const API_BASE_URL = "/api/proposals"; // Adjust if needed
 
@@ -24,9 +23,7 @@ export const approveProposal = async (
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    if (response.status == 200) {
-      Navigate({ to: "/dashboard" });
-    }
+
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -36,6 +33,7 @@ export const approveProposal = async (
       }
       throw new Error(`Network error: ${axiosError.message}`);
     }
+    console.log(error);
     throw new Error("Unknown error occurred");
   }
 };
@@ -44,9 +42,9 @@ export const updateProposal = async (
   proposalId: number,
   user: User,
   proposal: Proposal,
-): Promise<any> => {
+): Promise<boolean> => {
   try {
-    const response = await axios.put(
+    await axios.put(
       `${API_BASE_URL}`,
       {
         action: "update",
@@ -55,7 +53,7 @@ export const updateProposal = async (
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return response.data;
+    return true;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<ErrorResponse>;
@@ -71,9 +69,9 @@ export const updateProposal = async (
 export const disapproveProposal = async (
   proposalId: number,
   user: User,
-): Promise<any> => {
+): Promise<boolean> => {
   try {
-    const response = await axios.put(
+    await axios.put(
       `${API_BASE_URL}`,
       {
         action: "disapprove",
@@ -81,7 +79,7 @@ export const disapproveProposal = async (
       },
       { headers: { Authorization: `Bearer ${user.token}` } },
     );
-    return response.data;
+    return true;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<ErrorResponse>;

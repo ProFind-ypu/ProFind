@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.profind.profind_backend.domain.ProjectStatus;
 import com.profind.profind_backend.domain.Proposal;
 import com.profind.profind_backend.security.UserPrincipal;
 import com.profind.profind_backend.service.ProposalService;
@@ -51,8 +50,13 @@ public class ProposalController {
                 formData = body.get("formData").toString();
             }
         }
-
-        Proposal p = proposalService.createProposal(principal.getId(), professorId, projectId, message, formData);
+        String role;
+        if (principal.getAuthorities().stream().anyMatch(a -> "ROLE_PROFESSOR".equals(a.getAuthority()))) {
+            role = "PROFESSOR";
+        } else {
+            role = "STUDENT";
+        }
+        Proposal p = proposalService.createProposal(principal.getId(),role, professorId, projectId, message, formData);
         return ResponseEntity.ok(p);
     }
 
@@ -87,7 +91,12 @@ public class ProposalController {
         if (principal == null) {
             return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         }
-        return ResponseEntity.ok(proposalService.findByStudent(principal.getId()));
+        if (principal.getAuthorities().stream().anyMatch(a -> "ROLE_PROFESSOR".equals(a.getAuthority()))) {
+
+            return ResponseEntity.ok(proposalService.findByProfessor(principal.getId()));
+        } else {
+            return ResponseEntity.ok(proposalService.findByStudent(principal.getId()));
+        }
     }
 
     @GetMapping("/{id}")

@@ -19,7 +19,6 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchMyProposals = async () => {
       const res = await getMyProposals(user!.token!);
-      console.log(res);
       setProposals(res);
     };
     fetchMyProposals();
@@ -31,9 +30,9 @@ export default function Dashboard() {
         return "bg-gray-500";
       case "PENDING":
         return "bg-yellow-500";
-      case "revised":
-        return "bg-purple-500";
-      case "approved":
+      case "DISAPPROVE":
+        return "bg-red-500";
+      case "APPROVE":
         return "bg-green-500";
     }
   };
@@ -110,7 +109,13 @@ export default function Dashboard() {
                         `By: ${proposal.studentId}`}
                     </p>
                     <p className="text-xs text-gray-400 mt-2">
-                      {proposal.createdAt}
+                      {new Date(
+                        proposal.createdAt.toString(),
+                      ).toLocaleDateString("en-GB", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </p>
                   </div>
                 </Link>
@@ -125,7 +130,7 @@ export default function Dashboard() {
           </h3>
           <div className="flex  flex-col space-y-4">
             {proposals
-              .filter((p) => p.status == "approved")
+              .filter((p) => p.status == "APPROVE")
               .map((proposal) => (
                 <Link
                   to={`/ApplicationForm?id=${proposal.id}&projectId=${proposal.projectId}${user?.roles == "PROFESSOR" ? "&review=true" : ""}`}
@@ -147,7 +152,56 @@ export default function Dashboard() {
                         `By: ${proposal.studentId}`}
                     </p>
                     <p className="text-xs text-gray-400 mt-2">
-                      {proposal.createdAt}
+                      {new Date(
+                        proposal.createdAt.toString(),
+                      ).toLocaleDateString("en-GB", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </section>
+        <section id="Container">
+          <h3 className="text-lg font-medium mb-4 ">
+            {user?.roles === "STUDENT"
+              ? "Rejected Proposals"
+              : "Rejected Proposals "}
+          </h3>
+          <div className="flex  flex-col space-y-4">
+            {proposals
+              .filter((p) => p.status == "DISAPPROVE")
+              .map((proposal) => (
+                <Link
+                  to={`/ApplicationForm?id=${proposal.id}&projectId=${proposal.projectId}${user?.roles == "PROFESSOR" ? "&review=true" : ""}`}
+                >
+                  <div
+                    id="subContainer"
+                    key={proposal.id}
+                    className="p-4 bg-gray-700 rounded hover:bg-gray-600 transition cursor-pointer"
+                  >
+                    <div className="flex justify-between">
+                      <h4 className="font-medium">{proposal.title}</h4>
+                      <span
+                        className={`inline-block w-3 h-3 rounded-full ${getStatusColor(proposal.status)}`}
+                        title={proposal.status}
+                      ></span>
+                    </div>
+                    <p className="text-sm text-gray-300 mt-1">
+                      {user?.roles === "professor" &&
+                        `By: ${proposal.studentId}`}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-2">
+                      {new Date(
+                        proposal.createdAt.toString(),
+                      ).toLocaleDateString("en-GB", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </p>
                   </div>
                 </Link>

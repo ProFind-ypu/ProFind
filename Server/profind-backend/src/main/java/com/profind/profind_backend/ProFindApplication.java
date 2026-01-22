@@ -1,20 +1,20 @@
 package com.profind.profind_backend;
 
 
+import java.time.Duration;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import org.springframework.context.annotation.Bean;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import java.time.Duration;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @SpringBootApplication
 @EnableCaching
@@ -42,7 +42,7 @@ public class ProFindApplication {
      * Redis-backed CacheManager for @Cacheable support.
      * Adjust TTL and prefix as needed.
      */
-/*
+
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
@@ -54,5 +54,5 @@ public class ProFindApplication {
                 .cacheDefaults(defaultConfig)
                 .build();
     }
-*/
+
 }

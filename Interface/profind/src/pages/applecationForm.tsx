@@ -12,7 +12,7 @@ import CallOutWarning from "../components/complex/CallOutWarning";
 import FormPargraph from "../components/complex/FormComponent/FormPargraph";
 import { useEffect, useRef, useState } from "react";
 import ChackBoxGroup from "../components/complex/FormComponent/ChackboxGroup";
-import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getSingelProposal } from "../class/Services/_getProposalsFromServer";
 import type { Proposal } from "../class/Proposal";
 import { ProposalTemplate } from "../class/ProposalTemplate";
@@ -67,7 +67,7 @@ export default function ApplicationForm() {
     console.log("reviewMOde");
   }
   if (user == null) {
-    Navigate({ to: "/login" });
+    nav("/login", { replace: true });
   }
   newForm = new ProposalTemplate();
   useEffect(() => {
@@ -376,16 +376,17 @@ export default function ApplicationForm() {
             <button
               id="Formbutton"
               className="bg-green-600"
-              onClick={() => {
-                approveProposal(proposal!.id!, user!);
-              }}
+              onClick={async () =>
+                (await approveProposal(proposal!.id!, user!)) &&
+                nav("/dashboard", { replace: true })
+              }
             >
               Approve
             </button>
             <button
               id="Formbutton"
               className="bg-amber-600"
-              onClick={() => {
+              onClick={async () => {
                 let finalProposal: Proposal;
                 if (proposal) {
                   // Existing proposal - update it
@@ -412,7 +413,12 @@ export default function ApplicationForm() {
                     updatedAt: new Date().toISOString(),
                   };
                 }
-                updateProposal(proposal!.id!, user!, finalProposal);
+                if (
+                  (await updateProposal(proposal!.id!, user!, finalProposal)) ==
+                  true
+                ) {
+                  nav("/dashboard", { replace: true });
+                }
               }}
             >
               Update
@@ -420,7 +426,10 @@ export default function ApplicationForm() {
             <button
               id="Formbutton"
               className="bg-red-700"
-              onClick={() => disapproveProposal(proposal!.id!, user!)}
+              onClick={async () =>
+                (await disapproveProposal(proposal!.id!, user!)) &&
+                nav("/dashboard", { replace: true })
+              }
             >
               Disapprove
             </button>
@@ -474,8 +483,9 @@ export default function ApplicationForm() {
         };
       }
       postProposal(finalProposal, user!);
-      if (user?.roles.toUpperCase() == "PROFESSOR") nav("/myprojects");
-      else nav("/dashboard");
+      if (user?.roles.toUpperCase() == "PROFESSOR")
+        nav("/myprojects", { replace: true });
+      else nav("/dashboard", { replace: true });
     }
   }
   function ToggleView(event: React.ChangeEvent<HTMLInputElement>) {

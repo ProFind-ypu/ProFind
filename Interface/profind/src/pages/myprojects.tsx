@@ -62,6 +62,7 @@ export default function MyProjects() {
           <ProjectPreviewCard
             professorName={user!.fullname!}
             project_info={item}
+            removeIcon={true}
             key={item.id}
           />
         ))}

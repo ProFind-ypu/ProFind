@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Where;
 import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
@@ -19,6 +20,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "project")
+@Where(clause = "status != 'CLOSED'")
 public class Project {
 
     @Id

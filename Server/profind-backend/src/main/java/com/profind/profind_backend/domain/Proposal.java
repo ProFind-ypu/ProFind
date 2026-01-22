@@ -29,8 +29,8 @@ public class Proposal {
     @Column(name = "project_id")
     private Long projectId;
 
-    @Column(nullable = false, length = 50)
-    private String status = "PENDING";
+    @Column(name="status",nullable = false, length = 50)
+    private String status ;
 
     @Column(name = "title",nullable = false, length = 50)
     private String title ;
